@@ -1,0 +1,86 @@
+.character {
+	margin-bottom: 2em;
+	border: 1px solid #eee;
+	box-shadow: 4px 4px 8px 0px rgba(0,0,0,0.15);
+	background: white;
+}
+
+.character .init {
+	box-sizing: border-box;
+	float: left;
+	margin: 0;
+	border-top-right-radius: 0;
+	border-bottom-right-radius: 0;
+	padding: 0;
+	min-height: 8em;
+	font-size: 14px;
+	line-height: 8em;
+	font-weight: bold;
+	vertical-align: middle;
+}
+.character.hasGoneThisRound,
+.character.incapped {
+	box-shadow: 2px 2px 3px 0px rgba(0,0,0,0.10);
+}
+.character.hasGoneThisRound .init {
+	color: #999;
+}
+.character.isUp {
+	box-shadow: 9px 7px 16px 0px rgba(0,0,0,0.25);
+}
+.character.isUp .init {
+}
+
+.character.incapped .init ,
+.character.incapped .topRow > .name {
+	color: #c99;
+	text-decoration: line-through;
+}
+
+.character .portrait {
+	float: left;
+	min-height: 114px;
+	min-width: 114px;
+	margin-right: 1em;
+	background-size: cover;
+	background-position: center center;
+}
+
+.character .topRow {
+	min-height: 3em;
+	line-height: 3em;
+	vertical-align: middle;
+}
+.character .topRow .name, .character .topRow .status {
+	display: inline;
+	vertical-align: middle !important;
+}
+
+.character .name {
+	margin-right: 0.6em;
+	font-size: 1.8em;
+	font-weight: bold;
+}
+
+.character .stat {
+	display: inline-block;
+	min-width: 5em;
+	min-height: 5em;
+	text-align: center;
+}
+.character .stat .value {
+	font-size: 2em;
+}
+.character .stat .what {
+	font-size: 1em;
+	color: #999;
+	font-style: italic;
+}
+
+.character .stat.bumpAfter {
+	margin-right: 4em;
+}
+
+.character .stat.bad .value { color: #cb1; }
+.character .stat.veryBad .value { color: #950; }
+.character .stat.superBad .value { color: #f00; }
