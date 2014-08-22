@@ -73,10 +73,6 @@ var getCharacterActionState = function(c, game) {
 	return "";
 };
 var Character = React.createClass({
-	getInitialState: function() {
-		return { isGoing: false }
-	},
-
 	handleStartTurn: function() {
 		this.props.game.characterWhoIsUp = this.props.char;
 		this.props.char.beginTurn();
@@ -91,14 +87,18 @@ var Character = React.createClass({
 		var chr = this.props.char;
 		var game = this.props.game;
 
-		var portraitStyle = {
-			backgroundImage: 'url(' + chr.imgUrl + ')'
-		};
 		var numHealthLevels = chr.healthLevels.length;
 		var actionState = getCharacterActionState(chr, this.props.game);
+		var styles = { top: this.props.top || undefined };
+
+		var portraitStyles = {
+			backgroundImage: 'url(' + chr.imgUrl + ')'
+		};
+
+		// Initiative UI ///////////////////////////////////////////////////////
+
 		var thisCharShouldSeeButton = (chr === game.characterWhoIsUp) ||
 			(!game.characterWhoIsUp && chr.initiative === game.tick && !actionState);
-
 		var initiativeControl = thisCharShouldSeeButton
 			? (<InitButton
 				value={chr.initiative}
@@ -111,9 +111,9 @@ var Character = React.createClass({
 				/>);
 
 		return (
-			<div className ={"character " + actionState} >
+			<div className={"character " + actionState} style={styles}>
 				{initiativeControl}
-				<div className="portrait" style={portraitStyle}></div>
+				<div className="portrait" style={portraitStyles}></div>
 				<div className="topRow">
 					<div className="name">{chr.name}</div>
 					<p className="status">
@@ -147,7 +147,11 @@ var Character = React.createClass({
 		);
 	}
 });
+Character.calcHeightMultiples = function(i) {
+	return (i * 10) + 'em';
+};
 window.ex3ui.Character = Character;
+
 
 
 var CharacterList = React.createClass({
@@ -157,7 +161,6 @@ var CharacterList = React.createClass({
 	},
 	handleEndTurn: function() {
 		if ('function' === typeof this.props.onEndTurn) this.props.onEndTurn();
-
 	},
 
 	render: function() {
@@ -165,20 +168,33 @@ var CharacterList = React.createClass({
 		var handleStartTurn = this.handleStartTurn;
 		var handleEndTurn = this.handleEndTurn;
 
+		var styles = {};
+		styles.height = Character.calcHeightMultiples(game.characters.length || 0);
+
+		var charToIndex = {};
+		game.getCharactersInitSorted().forEach(function(c,i) {
+			charToIndex[c.name] = i;
+		});
+
+		var characterUis = game.characters.map( function(c){
+			return (
+				<Character
+					key={c.name}
+					top={Character.calcHeightMultiples(charToIndex[c.name])}
+					char={c}
+					game={game}
+					onStartTurn={handleStartTurn}
+					onEndTurn={handleEndTurn}
+					/>
+			);
+		} );
+
 		return (
-			<div className="CharacterList" ref="characterList">
-				{ this.props.game.characters.map(function(c) { return (
-					<Character
-						key={c.name}
-						char={c}
-						game={game}
-						onStartTurn={handleStartTurn}
-						onEndTurn={handleEndTurn}
-						/>
-				); }) }
+			<div className="CharacterList" ref="list" style={styles}>
+				{characterUis}
 			</div>
 		);
-	},
+	}
 });
 window.ex3ui.CharacterList = CharacterList;
 
@@ -199,6 +215,6 @@ var GameUi = React.createClass({
 					/>
 			</div>
 		);
-	},
+	}
 });
 window.ex3ui.GameUi = GameUi;

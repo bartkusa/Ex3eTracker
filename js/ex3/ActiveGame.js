@@ -57,8 +57,8 @@ define([
 			lang.mixin(this, params);
 		}
 
-		, sortChars: function() {
-			this.characters.sort(
+		, getCharactersInitSorted: function() {
+			return this.characters.slice(0).sort(
 				//logComps(
 					byIncappedLast_WentFirst_ThenInit
 				//)
@@ -79,7 +79,6 @@ define([
 			}
 
 			this.tick = Math.max.apply(Math, charactersYetToGo.map(function(c) { return c.initiative }));
-			this.sortChars();
 		}
 	});
 });

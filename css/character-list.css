@@ -1,14 +1,28 @@
+.CharacterList { position: relative; }
+
 .character {
+	position: absolute;
+	top: 0em;
+	width: 100%;
+	z-index: 100;
 	margin-bottom: 2em;
 	border: 1px solid #eee;
+	border-top-left-radius: 6px;
+	border-bottom-left-radius: 6px;
 	box-shadow: 4px 4px 8px 0px rgba(0,0,0,0.15);
 	background: white;
+
+	transition:
+		top 0.3s cubic-bezier(0.230, 1.000, 0.320, 1.000),
+		opacity 0.3s ease;
 }
 .character.hasGoneThisRound,
 .character.incapped {
+	z-index: 99;
 	box-shadow: 2px 2px 3px 0px rgba(0,0,0,0.10);
 }
 .character.isUp {
+	z-index: 101;
 	box-shadow: 9px 7px 16px 0px rgba(0,0,0,0.25);
 }
 
