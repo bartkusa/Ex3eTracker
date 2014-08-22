@@ -118,12 +118,12 @@ require([
 
 	window.gameModel = game;
 	window.gameUi = React.renderComponent(
-		ex3ui.CharacterList({
+		ex3ui.GameUi({
 			game: game
 		}),
 		document.getElementById("test")
 	);
 
 	gameModel.nextUp();
-	gameUi.setProps({game: gameModel})
+	gameUi.setProps({game: game});
 });
