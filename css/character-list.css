@@ -1,4 +1,10 @@
-.CharacterList { position: relative; }
+body { background: #e0e0e0; }
+
+.CharacterList {
+	position: relative;
+	perspective: 1000px;
+	perspective-origin: 50% 40%;
+}
 
 .character {
 	position: absolute;
@@ -6,26 +12,32 @@
 	width: 100%;
 	z-index: 100;
 	margin-bottom: 2em;
-	border: 1px solid #eee;
-	border-top-left-radius: 6px;
-	border-bottom-left-radius: 6px;
-	box-shadow: 5px 5px 10px 0px rgba(0,0,0,0.18);
+	border: 0px solid #eee;
+	border-top-left-radius: 8px;
+	border-bottom-left-radius: 8px;
+	box-shadow: 5px 5px 10px 0px rgba(0,0,0,0.17);
 	background: white;
 
 	transition:
 		top 0.3s cubic-bezier(0.230, 1.000, 0.320, 1.000),
 		opacity 0.3s ease,
-		box-shadow 0.3s ease;
+		box-shadow 0.3s ease,
+		transform 0.3s ease;
+
+	transform-origin: center center;
+	transform: translate3d(0, 0, -2px);
 }
 .character.hasGoneThisRound,
 .character.incapped {
 	z-index: 99;
-	box-shadow: 2px 2px 3px 0px rgba(0,0,0,0.12);
+	box-shadow: 2px 2px 3px 0px rgba(0,0,0,0.10);
+	transform: translate3d(0, 0, -5px);
 }
 .character.isUp,
 .character.mayGo {
 	z-index: 101;
 	box-shadow: 9px 7px 16px 0px rgba(0,0,0,0.24);
+	transform: translate3d(0, 0, 0px);
 }
 
 .character .init {
@@ -44,7 +56,16 @@
 .character.hasGoneThisRound .init {
 	color: #999;
 }
-.character.isUp .init {
+.character button.init {
+	border-color: transparent;
+}
+.character button.init.btn-success:focus {
+  outline: none;
+  border-color: #4cae4c;
+}
+.character button.init.btn-danger:focus {
+  outline: none;
+  border-color: #d43f3a;
 }
 .character.incapped .init ,
 .character.incapped .topRow > .name {
