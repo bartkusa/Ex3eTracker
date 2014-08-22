@@ -70,6 +70,7 @@ var getCharacterActionState = function(c, game) {
 	if (c.isIncapacitated()) return "incapped";
 	if (c.hasGoneThisRound) return "hasGoneThisRound";
 	if (c === game.characterWhoIsUp) return "isUp";
+	if (c.initiative === game.tick) return "mayGo";
 	return "";
 };
 var Character = React.createClass({
@@ -79,6 +80,8 @@ var Character = React.createClass({
 		if ('function' === typeof this.props.onStartTurn) this.props.onStartTurn();
 	},
 	handleEndTurn: function() {
+		//var newInit = window.prompt("New initiative?", this.props.char.initiative);
+		//if ('number' === typeof +newInit) this.props.char.initiative = +newInit;
 		this.props.char.endTurn();
 		if ('function' === typeof this.props.onEndTurn) this.props.onEndTurn();
 	},
@@ -98,7 +101,7 @@ var Character = React.createClass({
 		// Initiative UI ///////////////////////////////////////////////////////
 
 		var thisCharShouldSeeButton = (chr === game.characterWhoIsUp) ||
-			(!game.characterWhoIsUp && chr.initiative === game.tick && !actionState);
+			(!game.characterWhoIsUp && actionState === "mayGo");
 		var initiativeControl = thisCharShouldSeeButton
 			? (<InitButton
 				value={chr.initiative}

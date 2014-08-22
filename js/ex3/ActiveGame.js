@@ -37,8 +37,12 @@ define([
 		return x.initiative - y.initiative;
 	};
 	var byInitDesc = reverse(byInitAsc);
+
 	var byIncappedLast_WentFirst_ThenInit = function(x, y) {
 		return byIncappedLast(x, y) || byWentAlreadyFirst(x, y) || byInitDesc(x, y);
+	};
+	var byIncappedLast_ThenInit = function(x, y) {
+		return byIncappedLast(x, y) || byInitDesc(x, y);
 	};
 
 	var isEligibleToGoThisRound = function(character) {
@@ -60,7 +64,8 @@ define([
 		, getCharactersInitSorted: function() {
 			return this.characters.slice(0).sort(
 				//logComps(
-					byIncappedLast_WentFirst_ThenInit
+					//byIncappedLast_WentFirst_ThenInit
+					byIncappedLast_ThenInit
 				//)
 			);
 		}
@@ -71,7 +76,8 @@ define([
 			var charactersYetToGo = this.characters.filter(isEligibleToGoThisRound);
 			if (!charactersYetToGo || charactersYetToGo.length <= 0) {
 				this.round++;
-				this.characters.map(function(c) { c.nextRound(this.round) });
+				this.characters.forEach(function(c) { c.initiative = Math.round(Math.random() * 20) });
+				this.characters.forEach(function(c) { c.nextRound(this.round) });
 				charactersYetToGo = this.characters.filter(isEligibleToGoThisRound);
 			}
 			if (!charactersYetToGo || charactersYetToGo.length <= 0) {

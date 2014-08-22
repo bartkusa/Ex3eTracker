@@ -9,21 +9,23 @@
 	border: 1px solid #eee;
 	border-top-left-radius: 6px;
 	border-bottom-left-radius: 6px;
-	box-shadow: 4px 4px 8px 0px rgba(0,0,0,0.15);
+	box-shadow: 5px 5px 10px 0px rgba(0,0,0,0.18);
 	background: white;
 
 	transition:
 		top 0.3s cubic-bezier(0.230, 1.000, 0.320, 1.000),
-		opacity 0.3s ease;
+		opacity 0.3s ease,
+		box-shadow 0.3s ease;
 }
 .character.hasGoneThisRound,
 .character.incapped {
 	z-index: 99;
-	box-shadow: 2px 2px 3px 0px rgba(0,0,0,0.10);
+	box-shadow: 2px 2px 3px 0px rgba(0,0,0,0.12);
 }
-.character.isUp {
+.character.isUp,
+.character.mayGo {
 	z-index: 101;
-	box-shadow: 9px 7px 16px 0px rgba(0,0,0,0.25);
+	box-shadow: 9px 7px 16px 0px rgba(0,0,0,0.24);
 }
 
 .character .init {
