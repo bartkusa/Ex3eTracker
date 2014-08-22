@@ -151,38 +151,54 @@ window.ex3ui.Character = Character;
 
 
 var CharacterList = React.createClass({
+	handleStartTurn: function() {
+		this.setState({});
+		if ('function' === typeof this.props.onStartTurn) this.props.onStartTurn();
+	},
+	handleEndTurn: function() {
+		if ('function' === typeof this.props.onEndTurn) this.props.onEndTurn();
+
+	},
+
 	render: function() {
 		var game = this.props.game;
 		var handleStartTurn = this.handleStartTurn;
 		var handleEndTurn = this.handleEndTurn;
 
-		var renderEachFn = function(c) {
-			return (
-				<Character
-					char={c}
-					game={game}
-					onStartTurn={handleStartTurn}
-					onEndTurn={handleEndTurn}
-					/>
-			);
-		};
-
 		return (
-			<div>
-				<h1>Intense Battle (Round {this.props.game.round})</h1>
-				<div className="CharacterList">
-					{this.props.game.characters.map(renderEachFn)}
-				</div>
+			<div className="CharacterList" ref="characterList">
+				{ this.props.game.characters.map(function(c) { return (
+					<Character
+						key={c.name}
+						char={c}
+						game={game}
+						onStartTurn={handleStartTurn}
+						onEndTurn={handleEndTurn}
+						/>
+				); }) }
 			</div>
 		);
 	},
-
-	handleStartTurn: function() {
-		this.setState({});
-	},
-	handleEndTurn: function() {
-		this.props.game.nextUp();
-		this.setProps(this.props);
-	}
 });
 window.ex3ui.CharacterList = CharacterList;
+
+
+var GameUi = React.createClass({
+	handleEndTurn: function() {
+		this.props.game.nextUp();
+		this.setState({});
+	},
+
+	render: function() {
+		return (
+			<div className="ExaltedGame">
+				<h1>Intense Battle (Round {this.props.game.round})</h1>
+				<CharacterList
+					game={this.props.game}
+					onEndTurn={this.handleEndTurn}
+					/>
+			</div>
+		);
+	},
+});
+window.ex3ui.GameUi = GameUi;
