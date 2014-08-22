@@ -9,7 +9,7 @@ var Initiative = React.createClass({
 	render: function() {
 		return (
 			<div className="stat init">
-				<div className="value">{this.props.value || this.props.value === 0}</div>
+				<div className="value">{this.props.value}</div>
 			</div>
 		);
 	}
@@ -37,7 +37,7 @@ var InitButton = React.createClass({
 					className="init stat btn btn-lg btn-success"
 					onClick={this.props.onStartTurn}
 					>
-				<div className="value">{this.props.value || this.props.value === 0}</div>
+				<div className="value">{this.props.value}</div>
 			</button>
 		);
 	}
