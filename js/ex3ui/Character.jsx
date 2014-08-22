@@ -7,28 +7,42 @@ var nbsp = String.fromCharCode(160);
 
 var Initiative = React.createClass({
 	render: function() {
-		if (this.props.isGoing) return (
-			<button type="button" className="init stat btn btn-lg btn-danger" onClick={this.onButtonClick}>Done</button>
-		);
-
-		var valueNode = ( <div className="value">{this.props.value || this.props.value === 0}</div> );
-
-		if (this.props.isUp) return (
-			<button type="button" className="init stat btn btn-lg btn-success" onClick={this.onButtonClick}>{valueNode}</button>
-		);
-
 		return (
-			<div className="stat init">{valueNode}</div>
+			<div className="stat init">
+				<div className="value">{this.props.value || this.props.value === 0}</div>
+			</div>
 		);
-	},
-
-	onButtonClick: function() {
-		this.props.isGoing
-			? (('function' === typeof this.props.onEndTurn) && this.props.onEndTurn())
-			: (('function' === typeof this.props.onStartTurn) && this.props.onStartTurn());
 	}
 });
 window.ex3ui.Initiative = Initiative;
+
+
+var InitButton = React.createClass({
+	render: function() {
+		if (this.props.isGoing) {
+			return (
+				<button
+						type="button"
+						className="init stat btn btn-lg btn-danger"
+						onClick={this.props.onEndTurn}
+						>
+					Done
+				</button>
+			);
+		}
+
+		return (
+			<button
+					type="button"
+					className="init stat btn btn-lg btn-success"
+					onClick={this.props.onStartTurn}
+					>
+				<div className="value">{this.props.value || this.props.value === 0}</div>
+			</button>
+		);
+	}
+});
+window.ex3ui.InitButton = InitButton;
 
 
 var StatBlock = React.createClass({
@@ -52,10 +66,10 @@ var StatBlock = React.createClass({
 window.ex3ui.StatBlock = StatBlock;
 
 
-var getCharacterActionState = function(c, curTick) {
+var getCharacterActionState = function(c, game) {
 	if (c.isIncapacitated()) return "incapped";
 	if (c.hasGoneThisRound) return "hasGoneThisRound";
-	if (c.initiative == curTick) return "isUp";
+	if (c === game.characterWhoIsUp) return "isUp";
 	return "";
 };
 var Character = React.createClass({
@@ -64,34 +78,41 @@ var Character = React.createClass({
 	},
 
 	handleStartTurn: function() {
+		this.props.game.characterWhoIsUp = this.props.char;
 		this.props.char.beginTurn();
-		this.setState({ isGoing: true });
-		if ('function' === typeof this.props.onEndTurn) this.props.onEndTurn();
+		if ('function' === typeof this.props.onStartTurn) this.props.onStartTurn();
 	},
 	handleEndTurn: function() {
 		this.props.char.endTurn();
-		this.setState({ isGoing: false });
 		if ('function' === typeof this.props.onEndTurn) this.props.onEndTurn();
 	},
 
 	render: function() {
 		var chr = this.props.char;
+		var game = this.props.game;
 
 		var portraitStyle = {
 			backgroundImage: 'url(' + chr.imgUrl + ')'
 		};
 		var numHealthLevels = chr.healthLevels.length;
-		var actionState = getCharacterActionState(chr, this.props.curTick);
+		var actionState = getCharacterActionState(chr, this.props.game);
+		var thisCharShouldSeeButton = (chr === game.characterWhoIsUp) ||
+			(!game.characterWhoIsUp && chr.initiative === game.tick && !actionState);
+
+		var initiativeControl = thisCharShouldSeeButton
+			? (<InitButton
+				value={chr.initiative}
+				isGoing={chr === game.characterWhoIsUp}
+				onStartTurn={this.handleStartTurn}
+				onEndTurn={this.handleEndTurn}
+				/>)
+			: (<Initiative
+				value={chr.initiative}
+				/>);
 
 		return (
 			<div className ={"character " + actionState} >
-				<Initiative
-					value={chr.initiative}
-					isUp={actionState==="isUp"}
-					isGoing={this.state.isGoing}
-					onStartTurn={this.handleStartTurn}
-					onEndTurn={this.handleEndTurn}
-					/>
+				{initiativeControl}
 				<div className="portrait" style={portraitStyle}></div>
 				<div className="topRow">
 					<div className="name">{chr.name}</div>
@@ -131,13 +152,16 @@ window.ex3ui.Character = Character;
 
 var CharacterList = React.createClass({
 	render: function() {
-		var curTick = this.props.game.tick;
+		var game = this.props.game;
+		var handleStartTurn = this.handleStartTurn;
 		var handleEndTurn = this.handleEndTurn;
+
 		var renderEachFn = function(c) {
 			return (
 				<Character
 					char={c}
-					curTick={curTick}
+					game={game}
+					onStartTurn={handleStartTurn}
 					onEndTurn={handleEndTurn}
 					/>
 			);
@@ -153,6 +177,9 @@ var CharacterList = React.createClass({
 		);
 	},
 
+	handleStartTurn: function() {
+		this.setState({});
+	},
 	handleEndTurn: function() {
 		this.props.game.nextUp();
 		this.setProps(this.props);

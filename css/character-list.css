@@ -4,6 +4,13 @@
 	box-shadow: 4px 4px 8px 0px rgba(0,0,0,0.15);
 	background: white;
 }
+.character.hasGoneThisRound,
+.character.incapped {
+	box-shadow: 2px 2px 3px 0px rgba(0,0,0,0.10);
+}
+.character.isUp {
+	box-shadow: 9px 7px 16px 0px rgba(0,0,0,0.25);
+}
 
 .character .init {
 	box-sizing: border-box;
@@ -18,19 +25,11 @@
 	font-weight: bold;
 	vertical-align: middle;
 }
-.character.hasGoneThisRound,
-.character.incapped {
-	box-shadow: 2px 2px 3px 0px rgba(0,0,0,0.10);
-}
 .character.hasGoneThisRound .init {
 	color: #999;
 }
-.character.isUp {
-	box-shadow: 9px 7px 16px 0px rgba(0,0,0,0.25);
-}
 .character.isUp .init {
 }
-
 .character.incapped .init ,
 .character.incapped .topRow > .name {
 	color: #c99;

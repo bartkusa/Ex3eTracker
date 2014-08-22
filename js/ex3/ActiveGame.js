@@ -50,6 +50,7 @@ define([
 		  round: 1
 		, tick: undefined
 		, characters: undefined
+		, characterWhoIsUp: undefined
 
 		, constructor: function(params) {
 			this.characters = [];
@@ -65,6 +66,8 @@ define([
 		}
 
 		, nextUp: function() {
+			this.characterWhoIsUp = null;
+
 			var charactersYetToGo = this.characters.filter(isEligibleToGoThisRound);
 			if (!charactersYetToGo || charactersYetToGo.length <= 0) {
 				this.round++;
