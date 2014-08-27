@@ -7,9 +7,13 @@ var nbsp = String.fromCharCode(160);
 
 var Initiative = React.createClass({
 	render: function() {
+		var labelNode = this.props.isButtonShownBelow ? null : (
+			<div className="what">Init</div>
+		);
 		return (
 			<div className="stat init">
 				<div className="value">{this.props.value}</div>
+				{labelNode}
 			</div>
 		);
 	}
@@ -19,25 +23,32 @@ window.ex3ui.Initiative = Initiative;
 
 var InitButton = React.createClass({
 	render: function() {
-		if (this.props.isGoing) {
+		var buttonText = (this.props.isGoing) ? "Done" : "Go";
+
+		var cssClassList = ["goButton", "btn", "btn-lg"];
+		cssClassList.push(this.props.isGoing ? "btn-danger" : "btn-success");
+		var cssClasses = cssClassList.join(" ");
+
+		if (!this.props.enabled) {
 			return (
 				<button
 						type="button"
-						className="init stat btn btn-lg btn-danger"
-						onClick={this.props.onEndTurn}
-						>
-					Done
+						className={cssClasses}
+						disabled="disabled">
+					<span>{buttonText}</span>
 				</button>
 			);
 		}
 
+		var clickHandler = (this.props.isGoing) ? this.props.onEndTurn : this.props.onStartTurn;
+
 		return (
 			<button
 					type="button"
-					className="init stat btn btn-lg btn-success"
-					onClick={this.props.onStartTurn}
+					className={cssClasses}
+					onClick={clickHandler}
 					>
-				<div className="value">{this.props.value}</div>
+				<span>{buttonText}</span>
 			</button>
 		);
 	}
@@ -102,20 +113,19 @@ var Character = React.createClass({
 
 		var thisCharShouldSeeButton = (chr === game.characterWhoIsUp) ||
 			(!game.characterWhoIsUp && actionState === "mayGo");
-		var initiativeControl = thisCharShouldSeeButton
-			? (<InitButton
-				value={chr.initiative}
-				isGoing={chr === game.characterWhoIsUp}
-				onStartTurn={this.handleStartTurn}
-				onEndTurn={this.handleEndTurn}
-				/>)
-			: (<Initiative
-				value={chr.initiative}
-				/>);
 
 		return (
 			<div className={"character " + actionState} style={styles}>
-				{initiativeControl}
+				<div className="entireHeight rel">
+					<Initiative value={chr.initiative} isButtonShownBelow={thisCharShouldSeeButton} />
+					<InitButton
+						value={chr.initiative}
+						enabled={thisCharShouldSeeButton}
+						isGoing={chr === game.characterWhoIsUp}
+						onStartTurn={this.handleStartTurn}
+						onEndTurn={this.handleEndTurn}
+						/>
+				</div>
 				<div className="portrait" style={portraitStyles}></div>
 				<div className="topRow">
 					<div className="name">{chr.name}</div>
