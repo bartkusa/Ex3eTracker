@@ -636,32 +636,9 @@
 		================================================== -->
 		<!-- Placed at the end of the document so the pages load faster -->
 
-		<script>
-			var baseUrl = '/ex/js';
-			var dojoConfig = {
-				 async: true
-				,baseUrl: baseUrl
-				,packages: [
-					 { name: "ex3",    location: baseUrl + '/ex3' }
-					,{ name: "ex3ui",  location: baseUrl + '/ex3ui' }
-					,{ name: "helper", location: baseUrl + '/helper' }
-					//,{ name: "react", location: baseUrl + '/react-0.11.1' }
-					//,{ name: "jsx",   location: baseUrl + '/jsx-requirejs-plugin/jsx' }
-
-					//,{ name: "JSXTransformer", location: baseUrl + '/jsx-requirejs-plugin/JSXTransformer-0.11.1' }
-				]
-			};
-		</script>
-
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 		<script src="./js/bootstrap.min.js"></script>
-		<script src="./js/react-0.11.1/react.js"></script>
-		<script src="./js/react-0.11.1/JSXTransformer.js"></script>
-		<script src="./js/ex3ui/Character.jsx" type="text/jsx"></script>
-		<!-- script defer src="./js/docs.min.js"></script -->
 
-		<script src="http://ajax.googleapis.com/ajax/libs/dojo/1.10.0/dojo/dojo.js"
-            data-dojo-config="async: true"></script>
-		<script src="./js/page.js"></script>
+		<script src="./target/Main.js"></script>
 	</body>
 </html>
