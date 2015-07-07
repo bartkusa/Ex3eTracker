@@ -15,7 +15,7 @@ function updateUniqueId(characters = []) {
 
 class PersistentCharacter {
 	constructor(args = {}) {
-		this.id = getUniqueId();
+		this.id = args.id || getUniqueId(); // FIXME: A disaster waiting to happen
 		this.name = args.name || "";
 		this.setImgUrl(args.imgUrl);
 
