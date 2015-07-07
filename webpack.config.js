@@ -17,7 +17,7 @@ module.exports = {
 		loaders: [
 			{
 				test: /\.js.?$/,
-				loader: 'jsx-loader?harmony'  // loaders can take parameters as a querystring
+				loader: 'babel'  // loaders can take parameters as a querystring
            	}, {
 			// test: path.join(__dirname, 'es6'),
 			// loader: 'babel-loader'
