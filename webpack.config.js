@@ -10,7 +10,8 @@ module.exports = {
 
 	output: {
 		path: './target',
-		filename: '[name].js'
+		filename: '[name].js',
+		sourceMapFilename: '[name].map',
 	},
 
 	module: {
