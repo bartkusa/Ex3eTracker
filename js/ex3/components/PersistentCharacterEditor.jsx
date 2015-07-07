@@ -10,20 +10,58 @@ var PersistentCharacterEditor = module.exports = React.createClass({
 
 		return (
 			<div className="PersistentCharacterEditor">
+				<div className="portrait"
+					onDragEnter={allowDropIfHasUri}
+					onDragOver={allowDropIfHasUri}
+					onDrop={this._portraitOnDrop}
+					style={ {
+						width: 200,
+						height: 200,
+						backgroundImage: `url(${pc.imgUrl})`,
+						backgroundSize: "cover",
+						backgroundPositionX: "50%",
+						backgroundPositionY: "50%",
+					}}
+				/>
 				<input type="text"
-					onKeyDown={this._nameOnKeyDown}
 					value={pc.name}
+					onChange={this._nameOnChange}
 					/>
 				<button className="remove" onClick={this._removeOnClick}>Remove</button>
 			</div>
 		);
 	},
 
-	_nameOnKeyDown: function(evt) {
-		console.log(evt);
+	_nameOnChange: function(evt) {
+		charActions.setName({
+			who: this.props.persistentCharacter,
+			name: evt.target.value,
+		})
+	},
+
+	_portraitOnDrop: function(evt) {
+		evt.preventDefault();
+		if (!hasUri(evt)) return;
+		// TODO: Extract images from HTML?
+		// TODO: Extract data from files? http://www.htmlgoodies.com/html5/javascript/drag-files-into-the-browser-from-the-desktop-HTML5.html#fbid=fA8mNhDY0NY
+
+		charActions.setPortrait({
+			who: this.props.persistentCharacter,
+			url: evt.dataTransfer.getData("text/uri-list"),
+		});
 	},
 
 	_removeOnClick: function(evt) {
 		charActions.remove( this.props.persistentCharacter );
 	}
 });
+
+
+function allowDropIfHasUri(evt) {
+	let hadUri = hasUri(evt);
+	if (hadUri) evt.preventDefault();
+	return hadUri;
+};
+function hasUri(evt) {
+	return evt.dataTransfer.types.indexOf("text/uri-list") >= 0;
+};
