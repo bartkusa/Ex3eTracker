@@ -27,7 +27,7 @@ var PersistentCharacterEditor = module.exports = React.createClass({
 					value={pc.name}
 					onChange={this._nameOnChange}
 					/>
-				<button className="remove" onClick={this._removeOnClick}>Remove</button>
+				<button className="remove btn btn-xs btn-danger" onClick={this._removeOnClick}>Remove</button>
 			</div>
 		);
 	},
