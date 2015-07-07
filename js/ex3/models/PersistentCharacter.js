@@ -1,14 +1,22 @@
-var UNIQUE_ID = 1;
+"use strict";
+
+
+var NEXT_UNUSED_UNIQUE_ID = 1;
 function getUniqueId() {
-	return UNIQUE_ID++;
-}
+	return NEXT_UNUSED_UNIQUE_ID++;
+};
+function updateUniqueId(characters = []) {
+	NEXT_UNUSED_UNIQUE_ID = (characters.length === 0)
+			? 1
+			: Math.max(...characters.map((pc) => pc.id || 0)) + 1;
+	console.log("NEXT_UNUSED_UNIQUE_ID: ", NEXT_UNUSED_UNIQUE_ID);
+};
 
 
 class PersistentCharacter {
-
 	constructor(args = {}) {
 		this.id = getUniqueId();
-		this.name = args.name || "Jane Doe";
+		this.name = args.name || "";
 		this.setImgUrl(args.imgUrl);
 
 		this.healthLevels = args.healthLevels || [0, 0, -1, -1, -2, -2, -4];
@@ -30,5 +38,7 @@ class PersistentCharacter {
 	}
 };
 
+
+PersistentCharacter.updateUniqueId = updateUniqueId;
 
 module.exports = PersistentCharacter;
