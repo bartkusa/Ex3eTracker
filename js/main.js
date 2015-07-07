@@ -1,32 +1,18 @@
 "use strict";
 
-let reflux = require('reflux');
-let React = require('react/addons');
+const reflux = require('reflux');
+const React = require('react/addons');
 
-let persistentCharacterStore = require('ex3/stores/PersistentCharacters');
-let charActions = require('ex3/actions/CharActions');
+const persistentCharacterStore = require('ex3/stores/PersistentCharacters');
+const charActions = require('ex3/actions/CharActions');
 
-let PersistentCharacterModel = require('ex3/models/PersistentCharacter');
-let PersistentCharactersEditor = require('ex3/components/PersistentCharactersEditor');
+const PersistentCharacterModel = require('ex3/models/PersistentCharacter');
+const PersistentCharactersEditor = require('ex3/components/PersistentCharactersEditor');
 
 
-let spoofedPersistents = [{
-	name: "Adam",
-	willpower: 3,
-}, {
-	name: "Uma"
-}, {
-	name: "Sachen",
-	willpower: 7,
-}, {
-	name: "Kima",
-	essence: 1,
-	personalMotes: 13,
-	peripheralMotes: 29,
-}].map((pc) => new PersistentCharacterModel(pc));
-charActions.add(spoofedPersistents);
+charActions.load();
 
-let demoInstance = React.render(
+const demoInstance = React.render(
 	<PersistentCharactersEditor persistentCharacters={persistentCharacterStore.persistentCharacters} />,
 	document.getElementById("test")
 );
