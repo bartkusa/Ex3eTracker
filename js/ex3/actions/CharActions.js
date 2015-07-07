@@ -7,5 +7,8 @@ qwer = module.exports = reflux.createActions([
 	"activate",
 	"deactivate",
 	"save",
-	"load"
+	"load",
+
+	"setName",
+	"setPortrait",
 ]);

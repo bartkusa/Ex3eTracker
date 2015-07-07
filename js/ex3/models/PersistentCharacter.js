@@ -9,7 +9,7 @@ class PersistentCharacter {
 	constructor(args = {}) {
 		this.id = getUniqueId();
 		this.name = args.name || "Jane Doe";
-		this.imgUrl = args.imgUrl || null;
+		this.setImgUrl(args.imgUrl);
 
 		this.healthLevels = args.healthLevels || [0, 0, -1, -1, -2, -2, -4];
 		this.willpower = args.willpower || 5;
@@ -17,6 +17,10 @@ class PersistentCharacter {
 		this.essence = args.essence || 0;
 		this.personalMotes = args.personalMotes || null;
 		this.personalMotes = args.peripheralMotes || null;
+	}
+
+	setImgUrl(imgUrl) {
+		this.imgUrl = imgUrl || "/ex/img/charDefault.jpg";
 	}
 
 	isEssenceUser() {
