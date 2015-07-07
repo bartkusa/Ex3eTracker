@@ -48,7 +48,7 @@ module.exports = reflux.createStore({
 		if (pcData.version !== 1) throw new Error("Loading failed; version mismatch: " + pcData.version);
 
 		PersistentCharacterModel.updateUniqueId(pcData.chars);
-		this.persistentCharacters = pcData.chars || [];
+		this.persistentCharacters = (pcData.chars || []).map((pcDatum) => new PersistentCharacterModel(pcDatum));
 		this._trigger();
 	},
 
