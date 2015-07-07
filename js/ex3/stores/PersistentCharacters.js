@@ -7,7 +7,7 @@ const PersistentCharacterModel = require('ex3/models/PersistentCharacter');
 const LOCAL_STORAGE_KEY = "savedPersistentCharacters";
 
 
-let PersistentCharacters = module.exports = reflux.createStore({
+module.exports = reflux.createStore({
 	listenables: charActions,
 
 	init: function() {

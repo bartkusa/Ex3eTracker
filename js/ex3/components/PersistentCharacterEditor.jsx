@@ -1,10 +1,10 @@
 "use strict";
 
-var React = require('react/addons');
-var	charActions = require('ex3/actions/CharActions');
+const React = require('react/addons');
+const charActions = require('ex3/actions/CharActions');
 
 
-var PersistentCharacterEditor = module.exports = React.createClass({
+module.exports = React.createClass({
 	render: function() {
 		let pc = this.props.persistentCharacter;
 

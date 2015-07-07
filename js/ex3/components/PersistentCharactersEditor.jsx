@@ -6,7 +6,7 @@ const PersistentCharacter = require('ex3/models/PersistentCharacter');
 const charActions = require('ex3/actions/CharActions');
 
 
-const PersistentCharactersEditor = module.exports = React.createClass({
+module.exports = React.createClass({
 	render: function() {
 		return (
 			<div className="PersistentCharactersEditor clearfix">

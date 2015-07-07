@@ -1,12 +1,10 @@
 "use strict";
 
-const reflux = require('reflux');
 const React = require('react/addons');
 
 const persistentCharacterStore = require('ex3/stores/PersistentCharacters');
 const charActions = require('ex3/actions/CharActions');
 
-const PersistentCharacterModel = require('ex3/models/PersistentCharacter');
 const PersistentCharactersEditor = require('ex3/components/PersistentCharactersEditor');
 
 
