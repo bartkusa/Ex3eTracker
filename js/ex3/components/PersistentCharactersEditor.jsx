@@ -5,6 +5,8 @@ const PersistCharEditor = require('./PersistentCharacterEditor');
 const PersistentCharacter = require('ex3/models/PersistentCharacter');
 const charActions = require('ex3/actions/CharActions');
 
+require('./PersistentCharactersEditor.less');
+
 
 module.exports = React.createClass({
 	render: function() {
