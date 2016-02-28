@@ -1,9 +1,8 @@
 "use strict";
 
-import * as charUtils from './CharUtils';
-// import deepFreeze from 'deep-freeze';
-
 import * as battleActions from 'ex3/actions/BattleActions';
+import * as charUtils from './CharUtils';
+import { setState, replaceState } from './storeUtils';
 
 export const LOCAL_STORAGE_KEY = "savedPersistentCharacters";
 export const DEFAULT_IMAGE_URL = "/ex/img/charDefault.jpg";
@@ -14,16 +13,11 @@ export default {
 	listenables: battleActions,
 	persistentCharacterStore: null,
 
+	setState,
+	replaceState,
+
 	init: function() {
 		this.replaceState(null);
-	},
-
-	setState: function(partialNewState) {
-		this.replaceState( partialNewState ); // TODO: merge partialNew into this.state?
-	},
-
-	replaceState: function(totalNewState) {
-		this.trigger( this.state = totalNewState ); // assign AND pass to trigger
 	},
 
 
