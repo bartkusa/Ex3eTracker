@@ -18,18 +18,18 @@ module.exports = {
 		loaders: [
 			{
 				test: /\.js.?$/,
-				loader: 'babel'  // loaders can take parameters as a querystring
-           	}, {
-			// test: path.join(__dirname, 'es6'),
-			// loader: 'babel-loader'
-			// }, {
-           		test: /\.less$/,
-           		loader: 'style-loader!css-loader!less-loader' // use ! to chain loaders
+				exclude: /(node_modules|bower_components)/,
+				loader: 'babel',
+				query: {
+					presets: ['es2015', 'react']
+				}
            	}, {
   				test: /\.css$/,
   				loader: 'style-loader!css-loader'
+           	}, {
+           		test: /\.less$/,
+           		loader: 'style-loader!css-loader!less-loader'
       		}
-      
 		]
 	},
 

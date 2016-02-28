@@ -1,8 +1,5 @@
-target/
-node_modules/
-
 #############
-## Windows detritus
+## OS detritus
 #############
 
 # Windows image file caches
@@ -17,3 +14,14 @@ $RECYCLE.BIN/
 
 # Mac crap
 .DS_Store
+
+
+#############
+## Real ignores
+#############
+
+target
+node_modules
+node_modules
+js/old shit/
+Ex3eTracker.sublime*
