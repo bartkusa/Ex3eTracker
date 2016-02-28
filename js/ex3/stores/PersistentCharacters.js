@@ -1,16 +1,14 @@
 "use strict";
 
-import { createStore } from 'reflux';
+import * as charActions from 'ex3/actions/CharActions';
 import * as charUtils from './CharUtils';
 // import deepFreeze from 'deep-freeze';
-
-import * as charActions from 'ex3/actions/CharActions';
 
 export const LOCAL_STORAGE_KEY = "savedPersistentCharacters";
 export const DEFAULT_IMAGE_URL = "/ex/img/charDefault.jpg";
 
 
-export default createStore({
+export default {
 
 	listenables: charActions,
 
@@ -115,4 +113,4 @@ export default createStore({
 
 		this.setState( this.state );
 	},
-});
+};

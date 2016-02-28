@@ -1,39 +1,50 @@
 "use strict";
 
-require('./main.less');
-require('./suppressBootstrapDemo.less');
+import { mix } from 'ex3/funcs/utils';
+
+import { createStore } from 'reflux';
+import { default as PersistentCharacterStore } from 'ex3/stores/PersistentCharacters';
+import BattleStore from 'ex3/stores/BattleStore';
 
 import React from 'react/react';
 import ReactDOM from 'react/lib/ReactDOM';
 import MainUi from 'ex3/components/MainUi';
 
-import persistentCharacterStore from 'ex3/stores/PersistentCharacters';
-import bonkers from 'ex3/stores/PersistentCharacters';
+require('./main.less');
+require('./suppressBootstrapDemo.less');
+
 
 
 // Init stores ---------------------------------------------------------------------------------------------------------
 
-persistentCharacterStore.onLoad(); // fire action instead?
+const pcStore = createStore( PersistentCharacterStore );
+const batStore = createStore( mix(
+		BattleStore,
+		{ persistentCharacterStore: pcStore }
+));
 
+pcStore.onLoad(); // fire action instead?
 
 // Init UI -------------------------------------------------------------------------------------------------------------
 
 const rootNode = document.getElementById("test");
 
-ReactDOM.render(
-	(<MainUi
-			persistentCharacters={ persistentCharacterStore.state.persistentCharacters }
-			/>),
-	rootNode
-);
-
-persistentCharacterStore.listen((storeState) => {
+function renderApp() {
 	ReactDOM.render(
 		(<MainUi
-				persistentCharacters={ persistentCharacterStore.state.persistentCharacters }
+				persistentCharacters={ pcStore.state.persistentCharacters }
+				battle={ batStore.state }
 				/>),
 		rootNode
-	);
+	)
+};
+renderApp();
+
+[
+	pcStore,
+	batStore,
+].forEach(store => {
+	store.listen(renderApp);
 });
 
 
