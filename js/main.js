@@ -1,23 +1,40 @@
 "use strict";
 
-const React = require('react/addons');
+require('./main.less');
+require('./suppressBootstrapDemo.less');
 
-const persistentCharacterStore = require('ex3/stores/PersistentCharacters');
-const charActions = require('ex3/actions/CharActions');
+import React from 'react/react';
+import ReactDOM from 'react/lib/ReactDOM';
+import MainUi from 'ex3/components/MainUi';
 
-const PersistentCharactersEditor = require('ex3/components/PersistentCharactersEditor');
+import persistentCharacterStore from 'ex3/stores/PersistentCharacters';
+import bonkers from 'ex3/stores/PersistentCharacters';
 
 
-charActions.load();
+// Init stores ---------------------------------------------------------------------------------------------------------
 
-const demoInstance = React.render(
-	<PersistentCharactersEditor persistentCharacters={persistentCharacterStore.persistentCharacters} />,
-	document.getElementById("test")
+persistentCharacterStore.onLoad(); // fire action instead?
+
+
+// Init UI -------------------------------------------------------------------------------------------------------------
+
+const rootNode = document.getElementById("test");
+
+ReactDOM.render(
+	(<MainUi
+			persistentCharacters={ persistentCharacterStore.state.persistentCharacters }
+			/>),
+	rootNode
 );
-persistentCharacterStore.listen((pcData) => {
-	demoInstance.setProps(pcData)
-});
 
+persistentCharacterStore.listen((storeState) => {
+	ReactDOM.render(
+		(<MainUi
+				persistentCharacters={ persistentCharacterStore.state.persistentCharacters }
+				/>),
+		rootNode
+	);
+});
 
 
 
@@ -28,3 +45,13 @@ persistentCharacterStore.listen((pcData) => {
 // Create a UI for adding characters
 
 // Create a UI for rendering the current list of ActiveCharacters
+
+
+
+/// christ im lost. what the fuck was i doing....
+// ok new game plan
+// 1. there are permanent characters
+// 2. give them a name, a face, and basic persistence load/save
+// 3. there are instance characters
+// 4. they have initiative. that's it. start with that. no persistence.
+// 5. allow user to change inititiative, count rounds, etc. init only. other stats after that.

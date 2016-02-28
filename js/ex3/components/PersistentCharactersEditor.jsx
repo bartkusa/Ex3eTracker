@@ -1,22 +1,24 @@
 "use strict";
 
-const React = require('react/addons');
-const PersistCharEditor = require('./PersistentCharacterEditor');
-const PersistentCharacter = require('ex3/models/PersistentCharacter');
-const charActions = require('ex3/actions/CharActions');
+import React from 'react/react';
+import PersistCharEditor from './PersistentCharacterEditor';
+import charActions from 'ex3/actions/CharActions';
 
 require('./PersistentCharactersEditor.less');
 
 
-module.exports = React.createClass({
+export default React.createClass({
 	render: function() {
 		return (
 			<div className="PersistentCharactersEditor clearfix">
 				<h1>Persistent Characters</h1>
 				<div className="actions">
-					<button className="addChar btn btn-success" onClick={this._addOnClick}>Add</button>&nbsp;
-					<button className="addChar btn btn-default" onClick={this._loadOnClick}>Load</button>
-					<button className="addChar btn btn-default" onClick={this._saveOnClick}>Save</button>
+					<button className="addChar btn btn-success" onClick={this._addOnClick}>Add</button>
+					&nbsp;
+					<button className="loadChars btn btn-default" onClick={this._loadOnClick}>Load</button>
+					<button className="saveChars btn btn-default" onClick={this._saveOnClick}>Save</button>
+					&nbsp;
+					<button className="beginBattle btn btn-default" onClick={this._beginBattleOnClick}>Join Battle</button>
 				</div>
 				{this._renderCharList()}
 			</div>
@@ -44,7 +46,7 @@ module.exports = React.createClass({
 	},
 
 	_addOnClick: function() {
-		charActions.add(new PersistentCharacter());
+		charActions.add({});
 	},
 
 	_loadOnClick: function() {
@@ -53,5 +55,5 @@ module.exports = React.createClass({
 
 	_saveOnClick: function() {
 		charActions.save();
-	}
+	},
 });

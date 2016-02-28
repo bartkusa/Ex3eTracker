@@ -1,12 +1,12 @@
 "use strict";
 
-const React = require('react/addons');
-const charActions = require('ex3/actions/CharActions');
+import React from 'react/react';
+import charActions from 'ex3/actions/CharActions';
 
 require('./PersistentCharacterEditor.less');
 
 
-module.exports = React.createClass({
+export default React.createClass({
 	render: function() {
 		let pc = this.props.persistentCharacter;
 
@@ -25,17 +25,22 @@ module.exports = React.createClass({
 						backgroundPositionY: "50%",
 					}}
 				/>
+
 				<div className="input-label">Name:</div>
 				<input type="text"
 					value={pc.name}
 					onChange={this._nameOnChange}
 					/>
+
 				<div className="input-label">Portrait URL:</div>
 				<input type="text"
 					value={pc.imgUrl}
 					onChange={this._portraitUrlOnChange}
 					/>
-				<button className="remove btn btn-xs btn-danger" onClick={this._removeOnClick}>Remove</button>
+
+				<div>
+					<button className="remove btn btn-xs btn-danger" onClick={this._removeOnClick}>Remove</button>
+				</div>
 			</div>
 		);
 	},
@@ -45,6 +50,8 @@ module.exports = React.createClass({
 			who: this.props.persistentCharacter,
 			name: evt.target.value,
 		});
+
+		this.forceUpdate();
 	},
 
 	_portraitImageOnDrop: function(evt) {
@@ -57,6 +64,8 @@ module.exports = React.createClass({
 			who: this.props.persistentCharacter,
 			url: evt.dataTransfer.getData("text/uri-list"),
 		});
+
+		this.forceUpdate();
 	},
 
 	_portraitUrlOnChange: function(evt) {
@@ -64,6 +73,8 @@ module.exports = React.createClass({
 			who: this.props.persistentCharacter,
 			url: evt.target.value,
 		});
+
+		this.forceUpdate();
 	},
 
 	_removeOnClick: function(evt) {

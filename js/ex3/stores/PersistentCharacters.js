@@ -1,31 +1,32 @@
 "use strict";
 
-const reflux = require('reflux');
-const charActions = require('ex3/actions/CharActions');
-const PersistentCharacterModel = require('ex3/models/PersistentCharacter');
+import { createStore } from 'reflux';
+import * as charUtils from './CharUtils';
+// import deepFreeze from 'deep-freeze';
 
-const LOCAL_STORAGE_KEY = "savedPersistentCharacters";
+import * as charActions from 'ex3/actions/CharActions';
+
+export const LOCAL_STORAGE_KEY = "savedPersistentCharacters";
+export const DEFAULT_IMAGE_URL = "/ex/img/charDefault.jpg";
 
 
-module.exports = reflux.createStore({
+export default createStore({
+
 	listenables: charActions,
 
 	init: function() {
-		this.persistentCharacters = [];
-		// TODO: Create id->char map?
-	},
-
-	_trigger: function() {
-		this.trigger({
-			persistentCharacters: this.persistentCharacters
+		this.replaceState({
+			nextId: 0,
+			persistentCharacters: [], // should this be a map of id->obj?
 		});
 	},
 
-	_getPcFrom: function(who) {
-		let pcs = this.persistentCharacters.filter((pc) => pc === who || pc.id === who);
-		if (pcs.length < 1) throw new Error("Unrecognized persistent char: ", who);
-		if (pcs.length > 1) throw new Error("Ambiguous persistent char: ", who, pcs);
-		return pcs[0];
+	setState: function(partialNewState) {
+		this.replaceState( partialNewState ); // TODO: merge partialNew into this.state?
+	},
+
+	replaceState: function(totalNewState) {
+		this.trigger( this.state = totalNewState ); // assign AND pass to trigger
 	},
 
 
@@ -34,9 +35,10 @@ module.exports = reflux.createStore({
 	onSave: function() {
 		const pcData = {
 			version: 1,
-			chars: this.persistentCharacters
+			persistentCharacters: this.state.persistentCharacters,
 		};
 		localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(pcData));
+		console.debug("Saved:", pcData);
 		alert("Your stuff is saved");
 	},
 
@@ -44,46 +46,73 @@ module.exports = reflux.createStore({
 		const pcJSON = localStorage.getItem(LOCAL_STORAGE_KEY);
 		if (!pcJSON) return;
 
+		console.debug("Loaded:", pcJSON);
 		const pcData = JSON.parse( pcJSON );
-		if (pcData.version !== 1) throw new Error("Loading failed; version mismatch: " + pcData.version);
+		if (pcData.version !== 1) {
+			throw new Error("Loading failed; version mismatch: " + pcData.version);
+		}
 
-		PersistentCharacterModel.updateUniqueId(pcData.chars);
-		this.persistentCharacters = (pcData.chars || []).map((pcDatum) => new PersistentCharacterModel(pcDatum));
-		this._trigger();
+		const persistentCharacters = pcData.persistentCharacters || [];
+		const nextId = (persistentCharacters && persistentCharacters.length > 0)
+				? Math.max( ...(persistentCharacters.map((pc) => pc.id)) ) + 1
+				: 0;
+		this.replaceState({
+			persistentCharacters,
+			nextId,
+		});
 	},
 
 
 	// Population functions ////////////////////////////////////////////////////////////////////////////////////////////
 
 	onAdd: function(input) {
-		this.persistentCharacters = this.persistentCharacters.concat(pluralize(input));
-		this._trigger();
+		// TODO validation
+		const newPCs = charUtils.pluralize(input);
+
+		// Assign new IDs
+		var nextId = this.state.nextId;
+		newPCs.forEach((newPC) => {
+			newPC.id = nextId++;
+			if (!newPC.imgUrl) newPC.imgUrl = DEFAULT_IMAGE_URL;
+		});
+
+		this.setState({
+			nextId: nextId,
+			persistentCharacters: [...this.state.persistentCharacters, ...newPCs],
+		});
 	},
 
 	onRemove: function(input) {
-		let goodbye = pluralize(input);
-		this.persistentCharacters = this.persistentCharacters.filter((c) => (goodbye.indexOf(c) < 0));
-		this._trigger();
+		const idsToPurge = charUtils.toIds(input);
+		const purgedPCs = this.state.persistentCharacters
+				.filter( (pc) => idsToPurge.indexOf(pc.id) < 0 );
+
+		this.setState({
+			nextId: this.state.nextId,
+			persistentCharacters: purgedPCs,
+		});
 	},
 
 
 	// Mutations ///////////////////////////////////////////////////////////////////////////////////////////////////////
+
 	onSetName: function(args) {
-		const pc = this._getPcFrom(args.who);
-		pc.name = args.name || "";
-		this._trigger();
+		this.state.persistentCharacters
+				.filter((pc) => charUtils.idsMatch(pc, args.who))
+				.forEach((pc) => {
+					pc.name = args.name || "";
+				}); // this is so stupid just do redux already
+
+		this.setState( this.state );
 	},
 
 	onSetPortrait: function(args) {
-		const pc = this._getPcFrom(args.who);
-		pc.setImgUrl(args.url);
-		this._trigger();
+		this.state.persistentCharacters
+				.filter((pc) => charUtils.idsMatch(pc, args.who))
+				.forEach((pc) => {
+					pc.imgUrl = args.url || DEFAULT_IMAGE_URL;
+				}); // this is so stupid just do redux already
+
+		this.setState( this.state );
 	},
 });
-
-
-function pluralize(x) {
-	if (x == null) return [];
-	if (Array.isArray(x)) return x;
-	return [x];
-};

@@ -63,6 +63,11 @@ body { background: #e0e0e0; }
 .character .init .value { 
 	font-weight: bold;
 }
+.character .init select.value option { color: #999; }
+.character .init select.value option.tens { color: black; }
+.character .init select.value option.crash { color: #c88; }
+.character .init select.value option.crash.tens { color: darkred; }
+.character .init select.value option.reset { color: #00e; }
 .character.hasGoneThisRound .init {
 	color: #999;
 }
@@ -127,6 +132,19 @@ body { background: #e0e0e0; }
 	margin-right: 0.6em;
 	font-size: 1.8em;
 	font-weight: bold;
+}
+
+.character .stat select.value {
+	direction: rtl;
+	border: 0;
+	cursor: pointer;
+}
+.character .stat select.value:active {
+	border: inherit;
+}
+.character .stat select.value option {
+	direction: ltr;
+	font-size: 75%;
 }
 
 .character .stat {

@@ -4,7 +4,7 @@ function reverse(comparator) {
 	}
 };
 
-function trueLast(x, y)
+function trueLast(x, y) {
 	return (x ? 1 : 0) - (y ? 1 : 0);
 };
 
