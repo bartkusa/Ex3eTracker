@@ -1,5 +1,15 @@
+import { mix } from 'ex3/funcs/utils';
+
+
 export function setState(partialNewState) {
-	this.replaceState( partialNewState ); // TODO: merge partialNew into this.state?
+	if (arguments.size <= 0) { // Somebody mutated something, and just wants to cause a rerender.
+		this.trigger(this.state);
+		return;
+		// Maybe this should be a separate function, and not overload setState(...)...
+	}
+
+	this.replaceState( mix(this.state, partialNewState) );
+	// This shallow-copy BS will probably explode one day. I *really* should be doing a Redux tree.
 };
 
 export function replaceState(totalNewState) {
