@@ -2,7 +2,9 @@
 
 import React from 'react/react';
 import PersistCharEditor from './PersistentCharacterEditor';
+
 import charActions from 'ex3/actions/CharActions';
+import { beginBattle } from 'ex3/actions/BattleActions';
 
 require('./PersistentCharactersEditor.less');
 
@@ -55,5 +57,9 @@ export default React.createClass({
 
 	_saveOnClick: function() {
 		charActions.save();
+	},
+
+	_beginBattleOnClick: function() {
+		beginBattle();
 	},
 });

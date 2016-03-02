@@ -30,13 +30,13 @@ export default {
 	onBeginBattle: function(action) {
 		// TODO: Should action.who be an array of characters, or an array of persistent characters' IDs?
 		const persistentChars = (action && action.who && asArray(action.who))
-				|| persistentCharactersStore.state.persistentCharacters // TODO: This is a stupid hack, should probably just delete
+				|| this.persistentCharacterStore.state.persistentCharacters // TODO: This is a stupid hack, should probably just delete
 				|| [];
 
 		this.replaceState({
 			round: 0,
 			tick: 0,
-			characters: persistentCharacters.map(makeCombatant),
+			characters: persistentChars.map(makeCombatant),
 		});
 	},
 
