@@ -31,6 +31,8 @@ export default React.createClass({
 	},
 
 	_renderButtons: function() {
+		if (!this.props.isInBattle) return;
+
 		if (this.props.turnStatus === TurnStatus.CAN_GO) {
 			return (
 				<button className="btn btn-sm btn-success" onClick={this._startTurnOnClick}>
