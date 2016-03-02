@@ -33,13 +33,13 @@ export default React.createClass({
 		if (!this.props.combatants || this.props.combatants.size <= 0) return null;
 
 		return (
-			<ul className="combatants semanticList">
+			<ol className="combatants semanticList">
 				{this.props.combatants.map((c) => (
 					<li key={c.id}>
 						<Combatant {...c} />
 					</li>
 				)) }
-			</ul>
+			</ol>
 		);
 	},
 });

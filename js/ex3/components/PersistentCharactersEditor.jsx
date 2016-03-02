@@ -9,6 +9,7 @@ import { beginBattle } from 'ex3/actions/BattleActions';
 import PersistentCharShape from 'ex3/shapes/PersistentCharacter';
 
 require('./PersistentCharactersEditor.less');
+require('style/semanticList.less');
 
 
 const HANDY_PORTRAIT_URLS = [
@@ -57,7 +58,7 @@ export default React.createClass({
 			<div className="ghostTown">You have no characters.</div>
 		);
 
-		return <ul className="chars">{pcList.map(this._renderChar)}</ul>;
+		return <ul className="chars semanticList">{pcList.map(this._renderChar)}</ul>;
 	},
 
 	_renderChar: function(persistChar, index) {
