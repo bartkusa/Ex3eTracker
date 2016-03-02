@@ -6,10 +6,17 @@ import PersistCharEditor from './PersistentCharacterEditor';
 import charActions from 'ex3/actions/CharActions';
 import { beginBattle } from 'ex3/actions/BattleActions';
 
+import PersistentCharShape from 'ex3/shapes/PersistentCharacter';
+
 require('./PersistentCharactersEditor.less');
 
 
 export default React.createClass({
+
+	propTypes: {
+		persistentCharacters: React.PropTypes.arrayOf(PersistentCharShape).isRequired,
+	},
+
 	render: function() {
 		return (
 			<div className="PersistentCharactersEditor clearfix">

@@ -3,10 +3,17 @@
 import React from 'react/react';
 import charActions from 'ex3/actions/CharActions';
 
+import PersistentCharShape from 'ex3/shapes/PersistentCharacter';
+
 require('./PersistentCharacterEditor.less');
 
 
 export default React.createClass({
+
+	propTypes: {
+		persistentCharacter: PersistentCharShape.isRequired,
+	},
+
 	render: function() {
 		let pc = this.props.persistentCharacter;
 
