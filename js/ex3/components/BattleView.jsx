@@ -8,7 +8,7 @@ import battleActions from 'ex3/actions/BattleActions';
 import battleShape from 'ex3/shapes/Battle';
 
 require('./BattleView.less');
-
+require('style/semanticList.less')
 
 export default React.createClass({
 
@@ -33,7 +33,7 @@ export default React.createClass({
 		if (!this.props.combatants || this.props.combatants.size <= 0) return null;
 
 		return (
-			<ul className="combatants">
+			<ul className="combatants semanticList">
 				{this.props.combatants.map((c) => (
 					<li key={c.id}>
 						<Combatant {...c} />
