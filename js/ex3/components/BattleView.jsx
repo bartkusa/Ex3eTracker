@@ -2,16 +2,17 @@
 
 import React from 'react/react';
 import BattleStats from './BattleView/BattleStats';
+import Combatant from './BattleView/Combatant';
 
 import battleActions from 'ex3/actions/BattleActions';
-import BattleShape from 'ex3/shapes/Battle';
+import battleShape from 'ex3/shapes/Battle';
 
 require('./BattleView.less');
 
 
 export default React.createClass({
 
-	propTypes: BattleShape.isRequired,
+	propTypes: battleShape.isRequired,
 
 	render: function() {
 		const p = this.props;
@@ -23,15 +24,22 @@ export default React.createClass({
 					<BattleStats {...p} />
 				</span>
 
-
 				{this._renderCharList()}
 			</div>
 		);
 	},
 
 	_renderCharList: function() {
-		return this.props.combatants.map( (c, i) => (
-			<div key={i}>{ JSON.stringify(c) }</div>
-		));
+		if (!this.props.combatants || this.props.combatants.size <= 0) return null;
+
+		return (
+			<ul className="combatants">
+				{this.props.combatants.map((c) => (
+					<li key={c.id}>
+						<Combatant {...c} />
+					</li>
+				)) }
+			</ul>
+		);
 	},
 });
