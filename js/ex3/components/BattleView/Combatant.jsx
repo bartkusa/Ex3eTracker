@@ -17,14 +17,30 @@ export default React.createClass({
 		const p = this.props;
 
 		return (
-			<div className="Combatant">
+			<div className={`Combatant ${this.props.isInBattle ? '' : 'notInBattle'}`}>
 				<Timing {...p} />
 				<div className="portrait" style={{ backgroundImage: `url(${p.imgUrl});` }} />
 				<div className="otherStuff">
 					<div className="name">{p.name}</div>
-					<button>Remove from battle</button>
+					{ this._renderExitButton() }
 				</div>
 			</div>
 		);
+	},
+
+	_renderExitButton: function() {
+		if (!this.props.isInBattle) return null;
+
+		return (
+			<button className="btn btn-xs btn-warning" onClick={this._exitOnClick}>
+				Exit from battle
+			</button>
+		);
+	},
+
+	_exitOnClick: function() {
+		battleActions.exitBattle({
+			who: this.props.id,
+		});
 	},
 });

@@ -21,6 +21,15 @@
 		width: @row-height;
 		background-size: cover;
 		background-position: 50% 50%; // TODO: Let user set a "focal point", put it in the store. B)
+
+		filter: grayscale(0);
+		-webkit-filter: grayscale(0);
+		transition: filter 1s ease-out;
+		-webkit-transition: -webkit-filter 1s ease-out;
+	}
+	&.notInBattle .portrait {
+		filter: grayscale(1);
+		-webkit-filter: grayscale(1);
 	}
 
 	.otherStuff {
