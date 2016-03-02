@@ -11,6 +11,13 @@ import PersistentCharShape from 'ex3/shapes/PersistentCharacter';
 require('./PersistentCharactersEditor.less');
 
 
+const HANDY_PORTRAIT_URLS = [
+	'/ex/img/charKhan.jpg',
+	'/ex/img/charMonk.jpg',
+	'/ex/img/charSamurai.jpg',
+	'/ex/img/charDesert.jpg',
+];
+
 export default React.createClass({
 
 	propTypes: {
@@ -20,6 +27,8 @@ export default React.createClass({
 	render: function() {
 		return (
 			<div className="PersistentCharactersEditor clearfix">
+				{ HANDY_PORTRAIT_URLS.map( (url) => <img className="handyDragAndDropPortrait" src={url} /> ) }
+
 				<h1>Persistent Characters</h1>
 				<div className="actions">
 					<button className="addChar btn btn-success" onClick={this._addOnClick}>Add</button>
