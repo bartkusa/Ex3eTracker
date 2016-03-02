@@ -17,7 +17,13 @@ export default React.createClass({
 
 		return (
 			<div className="Combatant">
-				{p.name}
+				<div className="init">
+					{p.initiative}
+				</div>
+				<div className="portrait" style={{ backgroundImage: `url(${p.imgUrl});` }} />
+				<div className="otherStuff">
+					<div className="name">{p.name}</div>
+				</div>
 			</div>
 		);
 	},

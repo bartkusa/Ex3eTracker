@@ -1,3 +1,38 @@
+@row-height: 120px;
+
 .Combatant {
-	
+	height: @row-height;
+	border-radius: 10px;
+	background-color: #eee;
+
+	& > * {
+		display: inline-block;
+		vertical-align: top;
+	}
+
+	.init {
+		width: 80px;
+		box-sizing: border-box;
+		text-align: center;
+		font-weight: bold;
+	}
+
+	.portrait {
+		box-sizing: border-box;
+		height: @row-height;
+		width: @row-height;
+		background-size: cover;
+		background-position: 50% 50%; // TODO: Let user set a "focal point", put it in the store. B)
+	}
+
+	.otherStuff {
+		box-sizing: border-box;
+		padding-left: 10px;
+
+		.name {
+			font-weight: bold;
+			font-size: larger;
+		}
+	}
 };
+
