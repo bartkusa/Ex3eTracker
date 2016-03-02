@@ -10,7 +10,7 @@ export default PropTypes.shape({
 	imgUrl: PropTypes.string,
 
 	isInBattle: PropTypes.bool.isRequired,
-	initiative: PropTypes.number,isRequired,
+	initiative: PropTypes.number.isRequired,
 	turnStatus: PropTypes.oneOf( TurnStatuses ),
 
 });
