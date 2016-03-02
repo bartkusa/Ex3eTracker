@@ -67,33 +67,26 @@ export default {
 
 	// Flow of time ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	onNextTick: function() {
-		// ???
-	},
-
-	onNextRound: function() {
-		// assert(everybody has gone)
-		// check end-of-round stuff
-		// set round++
-		// set ticks to highest init of all people/events
-		// check beginning-of-round stuff
-	},
-
-
-	// People doing their thing on their turn //////////////////////////////////////////////////////////////////////////
-
-	onSetInit: function(action) {
+	onStartTurn: function(action) {
 		this.state.combatants
-			.filter((ch) => ch.id === action.who) // TODO: fix these shitty semantics
-			.forEach((ch) => ch.initiative = action.initiative);
+			.filter((c) => c.id === action.who) // TODO: fix these shitty semantics
+			.forEach((c) => c.turnStatus = IS_GOING);
 
 		this.setState();
 	},
 
-	onSetTurn: function() {
+	onEndTurn: function(action) {
 		this.state.combatants
-			.filter((ch) => ch.id === action.who) // TODO: fix these shitty semantics
-			.forEach((ch) => ch.turnStatus = action.turnStatus);
+			.filter((c) => c.id === action.who) // TODO: fix these shitty semantics
+			.forEach((c) => c.turnStatus = HAS_GONE);
+
+		this.setState();
+	},
+
+	onResetTurn: function(action) {
+		this.state.combatants
+			.filter((c) => c.id === action.who) // TODO: fix these shitty semantics
+			.forEach((c) => c.turnStatus = CAN_GO);
 
 		this.setState();
 	},

@@ -7,9 +7,7 @@ module.exports = reflux.createActions([
 	"enterBattle",
 	"exitBattle",
 
-	"nextTick",
-	"nextRound",
-
-	"setInit",
-	"setTurn",
+	"startTurn",
+	"endTurn",
+	"resetTurn",
 ]);
