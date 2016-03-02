@@ -36,7 +36,7 @@ export default {
 		this.replaceState({
 			round: 0,
 			tick: 0,
-			characters: persistentChars.map(makeCombatant),
+			combatants: persistentChars.map(makeCombatant),
 		});
 	},
 
@@ -47,8 +47,8 @@ export default {
 	onEnterBattle: function(action) {
 		const newChallengers = (action && action.who && asArray(action.who)) || [];
 		this.setState({
-			characters: [
-				...this.state.characters,
+			combatants: [
+				...this.state.combatants,
 				...newChallengers.map(makeCombatant),
 			],
 		});
@@ -56,7 +56,7 @@ export default {
 
 	onExitBattle: function(action) {
 		const charIdsExitingBattle = toIdSet(action.who);
-		this.state.characters
+		this.state.combatants
 			.filter((ch) => charIdsExitingBattle[ch.id])
 			.forEach((ch) => ch.isInBattle = false)
 			;
@@ -83,7 +83,7 @@ export default {
 	// People doing their thing on their turn //////////////////////////////////////////////////////////////////////////
 
 	onSetInit: function(action) {
-		this.state.characters
+		this.state.combatants
 			.filter((ch) => ch.id === action.who) // TODO: fix these shitty semantics
 			.forEach((ch) => ch.initiative = action.initiative);
 
@@ -91,7 +91,7 @@ export default {
 	},
 
 	onSetTurn: function() {
-		this.state.characters
+		this.state.combatants
 			.filter((ch) => ch.id === action.who) // TODO: fix these shitty semantics
 			.forEach((ch) => ch.turnStatus = action.turnStatus);
 
@@ -103,14 +103,13 @@ export default {
 
 // Handling combatants /////////////////////////////////////////////////////////////////////////////////////////////
 
-function makeCombatant(persistentCharacter, ...otherTraits) {
+function makeCombatant(persistentCharacter) {
 	return mix(
 		persistentCharacter,
 		{
+			isInBattle: true,
 			initiative: DEFAULT_INIT,
 			turnStatus: CAN_GO,
-			isInBattle: true,
-		},
-		...otherTraits
+		}
 	);
 };
