@@ -19,7 +19,7 @@ export default React.createClass({
 		return (
 			<div className={`Combatant ${this.props.isInBattle ? '' : 'notInBattle'}`}>
 				<Timing {...p} />
-				<div className="portrait" style={{ backgroundImage: `url(${p.imgUrl});` }} />
+				<div className="portrait" style={{ backgroundImage: `url(${p.imgUrl})` }} />
 				<div className="otherStuff">
 					<div className="name">{p.name}</div>
 					{ this._renderExitButton() }
