@@ -3,6 +3,7 @@
 import React from 'react/react';
 import BattleStats from './BattleView/BattleStats';
 import Combatant from './BattleView/Combatant';
+import FlipMove from 'react-flip-move';
 
 import battleActions from 'ex3/actions/BattleActions';
 import battleShape from 'ex3/shapes/Battle';
@@ -33,13 +34,21 @@ export default React.createClass({
 		if (!this.props.combatants || this.props.combatants.size <= 0) return null;
 
 		return (
-			<ol className="combatants semanticList">
-				{this.props.combatants.map((c) => (
-					<li key={c.id}>
-						<Combatant {...c} />
-					</li>
-				)) }
-			</ol>
+			<div className="combatants semanticList">
+				<FlipMove
+						duration={300}
+						easing="cubic-bezier(0.25, 0.1, 0.25, 1)"
+						staggerDelayBy={20}
+						staggerDurationBy={15}
+						typeName="ol"
+						>
+					{this.props.combatants.map((c) => (
+						<li key={c.id}>
+							<Combatant {...c} />
+						</li>
+					)) }
+				</FlipMove>
+			</div>
 		);
 	},
 });
