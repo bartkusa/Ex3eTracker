@@ -16,6 +16,7 @@ export default React.createClass({
 
 	render: function() {
 		const p = this.props;
+		if (!p.isInBattle) return <div className="Timing"></div>;
 
 		return (
 			<div className="Timing">
@@ -97,5 +98,3 @@ export default React.createClass({
 		});
 	},
 });
-
-				
