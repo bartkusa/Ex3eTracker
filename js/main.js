@@ -23,6 +23,7 @@ const batStore = createStore( mix(
 		{ persistentCharacterStore: pcStore }
 ));
 
+pcStore.onAdd({}); // add a default character, if there's nothing in LOCAL_STORAGE
 pcStore.onLoad(); // fire action instead?
 
 // Init UI -------------------------------------------------------------------------------------------------------------
