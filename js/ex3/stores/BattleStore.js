@@ -1,9 +1,11 @@
 "use strict";
 
 import * as battleActions from 'ex3/actions/BattleActions';
+import { setState, replaceState } from './storeUtils';
+
 import { toIdSet, idsMatch } from './CharUtils';
 import { asArray, mix } from 'ex3/funcs/utils';
-import { setState, replaceState } from './storeUtils';
+import { byIncappedLast_WentFirst_InitDesc } from 'ex3/funcs/CombatantComparators';
 
 import { CAN_GO, IS_GOING, HAS_GONE } from 'ex3/TurnStatus';
 
@@ -38,6 +40,7 @@ export default {
 			tick: 0,
 			combatants: persistentChars.map(makeCombatant),
 		});
+		this.sort().trigger();
 	},
 
 	onEndBattle: function() {
@@ -52,6 +55,7 @@ export default {
 				...newChallengers.map(makeCombatant),
 			],
 		});
+		this.sort().trigger();
 	},
 
 	onExitBattle: function(action) {
@@ -61,7 +65,7 @@ export default {
 			.forEach((ch) => ch.isInBattle = false)
 			;
 
-		this.setState();
+		this.sort().setState();
 	},
 
 
@@ -72,7 +76,11 @@ export default {
 			.filter((c) => c.id === action.who)
 			.forEach((c) => c.initiative = +action.initiative);
 
-		this.setState();
+		this.setState(); // don't sort. leads to characters jumping around too much.
+	},
+
+	onSortCombatants: function() {
+		this.sort().setState();
 	},
 
 	onStartTurn: function(action) {
@@ -88,7 +96,7 @@ export default {
 			.filter((c) => c.id === action.who) // TODO: fix these shitty semantics
 			.forEach((c) => c.turnStatus = HAS_GONE);
 
-		this.setState();
+		this.sort().setState();
 	},
 
 	onResetTurn: function(action) {
@@ -96,9 +104,13 @@ export default {
 			.filter((c) => c.id === action.who) // TODO: fix these shitty semantics
 			.forEach((c) => c.turnStatus = CAN_GO);
 
-		this.setState();
+		this.sort().setState();
 	},
 
+	sort: function() {
+		this.state.combatants.sort( byIncappedLast_WentFirst_InitDesc );
+		return this;
+	},
 };
 
 
