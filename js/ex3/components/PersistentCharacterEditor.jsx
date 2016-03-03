@@ -96,5 +96,5 @@ function allowDropIfHasUri(evt) {
 	return hadUri;
 };
 function hasUri(evt) {
-	return evt.dataTransfer.types.indexOf("text/uri-list") >= 0;
+	return Array.from( evt.dataTransfer.types ).indexOf("text/uri-list") >= 0;
 };
