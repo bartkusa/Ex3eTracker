@@ -2,7 +2,18 @@
 	box-sizing: border-box;
 	text-align: center;
 
-	.init {
+	select.initiative {
+		border: 0;
 		font-weight: bold;
+		font-size: 150%;
+
+		> option { direction: rtl; }
+	}
+
+	.initiative + button {
+		margin-top: 10px;
+	}
+	button {
+		width: 100%;
 	}
 }

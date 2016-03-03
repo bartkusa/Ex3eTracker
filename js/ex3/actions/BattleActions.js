@@ -7,6 +7,8 @@ module.exports = reflux.createActions([
 	"enterBattle",
 	"exitBattle",
 
+	"setInit",
+
 	"startTurn",
 	"endTurn",
 	"resetTurn",

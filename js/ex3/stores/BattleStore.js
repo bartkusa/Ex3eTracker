@@ -67,6 +67,14 @@ export default {
 
 	// Flow of time ////////////////////////////////////////////////////////////////////////////////////////////////////
 
+	onSetInit: function(action) {
+		this.state.combatants
+			.filter((c) => c.id === action.who)
+			.forEach((c) => c.initiative = +action.initiative);
+
+		this.setState();
+	},
+
 	onStartTurn: function(action) {
 		this.state.combatants
 			.filter((c) => c.id === action.who) // TODO: fix these shitty semantics
