@@ -5,7 +5,7 @@ import * as charUtils from './CharUtils';
 import { setState, replaceState } from './storeUtils';
 
 export const LOCAL_STORAGE_KEY = "savedPersistentCharacters";
-export const DEFAULT_IMAGE_URL = "/ex/img/charDefault.jpg";
+export const DEFAULT_IMAGE_URL = "./img/charDefault.jpg"; // TODO: Define image root location
 
 
 export default {

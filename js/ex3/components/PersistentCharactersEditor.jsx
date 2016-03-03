@@ -13,10 +13,10 @@ require('style/semanticList.less');
 
 
 const HANDY_PORTRAIT_URLS = [
-	'/ex/img/charKhan.jpg',
-	'/ex/img/charMonk.jpg',
-	'/ex/img/charSamurai.jpg',
-	'/ex/img/charDesert.jpg',
+	'./img/charKhan.jpg',
+	'./img/charMonk.jpg',
+	'./img/charSamurai.jpg',
+	'./img/charDesert.jpg',
 ];
 
 export default React.createClass({
