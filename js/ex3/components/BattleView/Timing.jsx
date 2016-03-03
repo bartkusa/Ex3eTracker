@@ -52,8 +52,9 @@ export default React.createClass({
 		if (!this.props.isInBattle) return;
 
 		if (this.props.turnStatus === TurnStatus.CAN_GO) {
+			// TODO: If someone else has a higher initiative, use btn-default instead of btn-primary
 			return (
-				<button className="btn btn-sm btn-default" onClick={this._startTurnOnClick}>
+				<button className="btn btn-sm btn-primary" onClick={this._startTurnOnClick}>
 					Go
 				</button>
 			);
