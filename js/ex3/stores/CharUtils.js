@@ -15,8 +15,8 @@ export function toIdSet(things) {
 };
 
 export function idsMatch(cur, selector) {
-	if (!selector) return false;
-	return cur.id === (selector.id || selector);
+	if (!selector && selection !== 0) return false;
+	return cur.id === selector || cur.id === selector.id;
 };
 
 export function pluralize(x) { //Deprecated
