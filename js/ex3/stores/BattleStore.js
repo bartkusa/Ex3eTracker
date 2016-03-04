@@ -110,7 +110,15 @@ export default {
 			.filter((c) => c.id === action.who) // TODO: fix these shitty semantics
 			.forEach((c) => c.turnStatus = HAS_GONE);
 
-		this.sort().setState();
+		const whoHasntGoneYet = this.state.combatants
+			.filter((c) => c.isInBattle && c.turnStatus !== HAS_GONE);
+		const highestInitThatHasntGone = (whoHasntGoneYet.length > 0)
+				? Math.max( ...whoHasntGoneYet.map((c) => c.initiative) )
+				: this.state.tick;
+
+		this.sort().setState({
+			tick: Math.min(this.state.tick, highestInitThatHasntGone),
+		});
 	},
 
 	onResetTurn: function(action) {
