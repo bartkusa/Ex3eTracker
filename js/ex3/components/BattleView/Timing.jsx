@@ -43,7 +43,7 @@ export default React.createClass({
 
 		const optionValues = Array.from( {length: max-min+1}, (x,i) => max-i );
 		return optionValues.map((i) => (
-			<option value={i}>
+			<option value={i} key={i}>
 				{  (i < 0)  ?  (Math.abs(i)+'-')  :  i  }
 			</option>
 		));
