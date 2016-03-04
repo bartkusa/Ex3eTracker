@@ -18,19 +18,13 @@ export default React.createClass({
 
 	render: function() {
 		const p = this.props;
-		const nobodyCanGo = p.combatants.every((c) => !c.isInBattle || c.turnStatus === HAS_GONE);
-		const nextRoundButtonClass = nobodyCanGo ? 'btn-primary' : 'btn-default';
 
 		return (
 			<div className="BattleView clearfix">
 				<div className="bvHeader clearfix">
 					<h1>Battle View</h1>
 					<div className="topRight">
-						<button className={`btn btn-lg ${nextRoundButtonClass}`}
-								onClick={this._nextRoundOnClick}
-								>
-							Next Round
-						</button>
+						{ this._renderButtons() }
 						<BattleStats {...p} />
 					</div>
 				</div>
@@ -38,6 +32,36 @@ export default React.createClass({
 				{this._renderCharList()}
 			</div>
 		);
+	},
+
+	_renderButtons: function() {
+		const p = this.props;
+
+		const nobodyCanGo =  p.combatants.every((c) => !c.isInBattle || c.turnStatus === HAS_GONE);
+		const gameOver = nobodyCanGo && p.combatants.every((c) => !c.isInBattle);
+
+		const nextRoundButtonClass = (nobodyCanGo && !gameOver) ? 'btn-primary' : 'btn-default';
+		const endBattleButtonClass = gameOver ? 'btn-primary' : 'btn-warning';
+
+		if (gameOver) {
+
+		}
+
+		return [
+			<button className={`btn btn-lg ${endBattleButtonClass}`}
+					key="end"
+					onClick={this._endBattleOnClick}
+					>
+				End
+			</button>,
+			<button className={`btn btn-lg ${nextRoundButtonClass}`}
+					disabled={gameOver}
+					key="next"
+					onClick={this._nextRoundOnClick}
+					>
+				Next Round
+			</button>
+		];
 	},
 
 	_renderCharList: function() {
@@ -60,6 +84,10 @@ export default React.createClass({
 				</FlipMove>
 			</div>
 		);
+	},
+
+	_endBattleOnClick: function() {
+		battleActions.endBattle();
 	},
 
 	_nextRoundOnClick: function() {
