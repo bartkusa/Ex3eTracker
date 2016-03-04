@@ -6,12 +6,23 @@
 		clear: left;
 	}
 
-	.BattleStats {
+	.bvHeader + * {
+		margin-top: 1em;
+	}
+
+	.topRight {
 		float: right;
 		clear: right;
 
-		text-align: right;
-		font-weight: bold;
+		& > * {
+			display: inline-block;
+			vertical-align: middle;
+			margin-left: 1em;
+		}
+		.BattleStats {
+			text-align: right;
+			font-weight: bold;
+		}
 	}
 
 	.combatants > ol {

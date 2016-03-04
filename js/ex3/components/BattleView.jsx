@@ -7,6 +7,7 @@ import FlipMove from 'react-flip-move';
 
 import battleActions from 'ex3/actions/BattleActions';
 import battleShape from 'ex3/shapes/Battle';
+import { CAN_GO, IS_GOING, HAS_GONE } from 'ex3/TurnStatus';
 
 require('./BattleView.less');
 require('style/semanticList.less')
@@ -17,13 +18,22 @@ export default React.createClass({
 
 	render: function() {
 		const p = this.props;
+		const nobodyCanGo = p.combatants.every((c) => !c.isInBattle || c.turnStatus === HAS_GONE);
+		const nextRoundButtonClass = nobodyCanGo ? 'btn-primary' : 'btn-default';
 
 		return (
 			<div className="BattleView clearfix">
-				<span className="clearfix">
+				<div className="bvHeader clearfix">
 					<h1>Battle View</h1>
-					<BattleStats {...p} />
-				</span>
+					<div className="topRight">
+						<button className={`btn btn-lg ${nextRoundButtonClass}`}
+								onClick={this._nextRoundOnClick}
+								>
+							Next Round
+						</button>
+						<BattleStats {...p} />
+					</div>
+				</div>
 
 				{this._renderCharList()}
 			</div>
@@ -50,5 +60,9 @@ export default React.createClass({
 				</FlipMove>
 			</div>
 		);
+	},
+
+	_nextRoundOnClick: function() {
+		battleActions.nextRound();
 	},
 });

@@ -71,6 +71,20 @@ export default {
 
 	// Flow of time ////////////////////////////////////////////////////////////////////////////////////////////////////
 
+	onNextRound: function() {
+		const activeCombatants = this.state.combatants.filter((c) => c.isInBattle);
+		activeCombatants.forEach((c) => {
+			c.turnStatus = CAN_GO;
+		});
+
+		this.sort().setState({
+			round: this.state.round + 1,
+			tick: activeCombatants.length > 0
+					? Math.max( ...activeCombatants.map((ac) => ac.initiative) )
+					: 0,
+		});
+	},
+
 	onSetInit: function(action) {
 		this.state.combatants
 			.filter((c) => c.id === action.who)

@@ -63,10 +63,10 @@ export default React.createClass({
 
 		if (this.props.turnStatus === TurnStatus.IS_GOING) {
 			return [
-				<button className="btn btn-sm btn-success" onClick={this._endTurnOnClick}>
+				<button className="btn btn-sm btn-success" key="done" onClick={this._endTurnOnClick}>
 					Done
 				</button>,
-				<button className="btn btn-xs btn-danger" onClick={this._abortTurnOnClick}>
+				<button className="btn btn-xs btn-danger" key="abort" onClick={this._abortTurnOnClick}>
 					Abort
 				</button>
 			];
