@@ -23,39 +23,6 @@ export default {
 	},
 
 
-	// Persistence /////////////////////////////////////////////////////////////////////////////////////////////////////
-
-	onSave: function() {
-		const pcData = {
-			version: 1,
-			persistentCharacters: this.state.persistentCharacters,
-		};
-		localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(pcData));
-		console.debug("Saved:", pcData);
-		alert("Your stuff is saved");
-	},
-
-	onLoad: function() {
-		const pcJSON = localStorage.getItem(LOCAL_STORAGE_KEY);
-		if (!pcJSON) return;
-
-		console.debug("Loaded:", pcJSON);
-		const pcData = JSON.parse( pcJSON );
-		if (pcData.version !== 1) {
-			throw new Error("Loading failed; version mismatch: " + pcData.version);
-		}
-
-		const persistentCharacters = pcData.persistentCharacters || [];
-		const nextId = (persistentCharacters && persistentCharacters.length > 0)
-				? Math.max( ...(persistentCharacters.map((pc) => pc.id)) ) + 1
-				: 0;
-		this.replaceState({
-			persistentCharacters,
-			nextId,
-		});
-	},
-
-
 	// Population functions ////////////////////////////////////////////////////////////////////////////////////////////
 
 	onAdd: function(input) {
@@ -107,5 +74,38 @@ export default {
 				}); // this is so stupid just do redux already
 
 		this.setState();
+	},
+
+
+	// Persistence /////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	onSave: function() {
+		const pcData = {
+			version: 1,
+			persistentCharacters: this.state.persistentCharacters,
+		};
+		localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(pcData));
+		console.debug("Saved:", pcData);
+		alert("Your stuff is saved");
+	},
+
+	onLoad: function() {
+		const pcJSON = localStorage.getItem(LOCAL_STORAGE_KEY);
+		if (!pcJSON) return;
+
+		console.debug("Loaded:", pcJSON);
+		const pcData = JSON.parse( pcJSON );
+		if (pcData.version !== 1) {
+			throw new Error("Loading failed; version mismatch: " + pcData.version);
+		}
+
+		const persistentCharacters = pcData.persistentCharacters || [];
+		const nextId = (persistentCharacters && persistentCharacters.length > 0)
+				? Math.max( ...(persistentCharacters.map((pc) => pc.id)) ) + 1
+				: 0;
+		this.replaceState({
+			persistentCharacters,
+			nextId,
+		});
 	},
 };
