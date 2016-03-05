@@ -13,17 +13,20 @@ require('./Combatant.less');
 
 export default React.createClass({
 
-	propTypes: combatantShape.isRequired,
+	propTypes: {
+		combatant: combatantShape.isRequired,
+		tick: React.PropTypes.number,
+	},
 
 	render: function() {
-		const p = this.props;
+		const c = this.props.combatant;
 
 		return (
-			<div className={`Combatant ${this.props.isInBattle ? '' : 'notInBattle'}`}>
-				<Timing {...p} />
-				<Portrait imgUrl={p.imgUrl} />
+			<div className={`Combatant ${c.isInBattle ? '' : 'notInBattle'}`}>
+				<Timing combatant={c} tick={this.props.tick} />
+				<Portrait imgUrl={c.imgUrl} />
 				<div className="otherStuff">
-					<div className="name">{p.name}</div>
+					<div className="name">{c.name}</div>
 					{ this._renderExitButton() }
 				</div>
 			</div>
@@ -31,7 +34,7 @@ export default React.createClass({
 	},
 
 	_renderExitButton: function() {
-		if (!this.props.isInBattle) return null;
+		if (!this.props.combatant.isInBattle) return null;
 
 		return (
 			<button className="btn btn-xs btn-warning" onClick={this._exitOnClick}>
@@ -42,7 +45,7 @@ export default React.createClass({
 
 	_exitOnClick: function() {
 		battleActions.exitBattle({
-			who: this.props.id,
+			who: this.props.combatant.id,
 		});
 	},
 });

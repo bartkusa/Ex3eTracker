@@ -78,7 +78,7 @@ export default React.createClass({
 						>
 					{this.props.combatants.map((c) => (
 						<li key={c.id}>
-							<Combatant {...c} />
+							<Combatant combatant={c} tick={this.props.tick} />
 						</li>
 					)) }
 				</FlipMove>
