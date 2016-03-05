@@ -8,6 +8,7 @@ export default PropTypes.shape({
 
 	name: PropTypes.string,
 	imgUrl: PropTypes.string,
+	notes: PropTypes.string,
 
 	isInBattle: PropTypes.bool.isRequired,
 	initiative: PropTypes.number.isRequired,

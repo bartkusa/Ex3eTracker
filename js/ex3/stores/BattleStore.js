@@ -133,13 +133,25 @@ export default {
 		this.state.combatants.sort( byIncappedLast_WentFirst_InitDesc );
 		return this;
 	},
+
+
+	// Combatant mutation //////////////////////////////////////////////////////////////////////////////////////////////
+
+	onSetNotes: function(action) {
+		this.state.combatants
+			.filter((c) => c.id === action.who) // TODO: fix these shitty semantics
+			.forEach((c) => c.notes = action.notes);
+
+		this.setState();
+	},
+
 };
 
 
 // Handling combatants /////////////////////////////////////////////////////////////////////////////////////////////
 
 function makeCombatant(persistentCharacter) {
-	return mix(
+	return mix( // this shallow-copy shit is going to ruin me one day
 		persistentCharacter,
 		{
 			isInBattle: true,

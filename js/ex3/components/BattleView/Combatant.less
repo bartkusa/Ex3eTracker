@@ -1,4 +1,9 @@
-@row-height: 120px;
+@row-height: 128px;
+@portrait-height: @row-height;
+
+@timing-width: 80px;
+@portrait-width: @portrait-height;
+
 
 .Combatant {
 	height: @row-height;
@@ -11,13 +16,13 @@
 	}
 
 	.Timing {
-		width: 80px;
+		width: @timing-width;
 		padding: 10px;
 	}
 
 	.Portrait {
-		height: @row-height;
-		width: @row-height;
+		height: @portrait-height;
+		width: @portrait-width;
 
 		filter: grayscale(0);
 		-webkit-filter: grayscale(0);
@@ -31,12 +36,17 @@
 
 	.otherStuff {
 		box-sizing: border-box;
-		padding-top: 10px;
-		padding-left: 10px;
+		width: calc(~"100%" - (@timing-width + @portrait-width));
+		padding: 10px;
 
 		.name {
 			font-weight: bold;
 			font-size: larger;
+		}
+		.notes {
+			width: 100%;
+			border: 0;
+			resize: none;
 		}
 	}
 };

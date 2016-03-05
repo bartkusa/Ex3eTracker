@@ -26,8 +26,17 @@ export default React.createClass({
 				<Timing combatant={c} tick={this.props.tick} />
 				<Portrait imgUrl={c.imgUrl} />
 				<div className="otherStuff">
-					<div className="name">{c.name}</div>
-					{ this._renderExitButton() }
+					<div className="clearfix">
+						<span className="name">{c.name}</span>
+						{ this._renderExitButton() }
+					</div>
+					<textarea
+						className="notes"
+						onChange={this._notesOnChange}
+						placeholder="Ephemeral notes"
+						rows="4"
+						value={c.notes}
+						/>
 				</div>
 			</div>
 		);
@@ -37,9 +46,11 @@ export default React.createClass({
 		if (!this.props.combatant.isInBattle) return null;
 
 		return (
-			<button className="btn btn-xs btn-warning" onClick={this._exitOnClick}>
-				Exit from battle
-			</button>
+			<div style={{float: "right"}}>
+				<button className="btn btn-xs btn-warning" onClick={this._exitOnClick}>
+					Exit battle
+				</button>
+			</div>
 		);
 	},
 
@@ -47,5 +58,12 @@ export default React.createClass({
 		battleActions.exitBattle({
 			who: this.props.combatant.id,
 		});
+	},
+
+	_notesOnChange: function(e) {
+		battleActions.setNotes({
+			who: this.props.combatant.id,
+			notes: e.target.value,
+		})
 	},
 });

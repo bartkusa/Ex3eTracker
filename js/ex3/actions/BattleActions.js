@@ -1,6 +1,6 @@
 var reflux = require('reflux');
 
-module.exports = reflux.createActions([
+const BattleActions = module.exports = reflux.createActions([
 	"beginBattle",
 	"endBattle",
 
@@ -14,3 +14,12 @@ module.exports = reflux.createActions([
 	"resetTurn",
 	"endTurn",
 ]);
+
+
+[
+	// 'setName',			TODO: let GM change portraits/names in real time (eg, when you unmask Tuxedo Mask)
+	// 'setPortrait',
+	'setNotes'
+].forEach((a) => {
+	BattleActions[a] = reflux.createAction({sync: true});
+});
