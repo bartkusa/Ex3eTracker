@@ -81,7 +81,7 @@ export default {
 				.filter( (pc) => idsToPurge.indexOf(pc.id) < 0 );
 
 		this.setState({
-			nextId: this.state.nextId,
+			// nextId: this.state.nextId,
 			persistentCharacters: purgedPCs,
 		});
 	},
@@ -96,7 +96,7 @@ export default {
 					pc.name = args.name || "";
 				}); // this is so stupid just do redux already
 
-		this.setState( this.state );
+		this.setState();
 	},
 
 	onSetPortrait: function(args) {
@@ -106,6 +106,6 @@ export default {
 					pc.imgUrl = args.url || DEFAULT_IMAGE_URL;
 				}); // this is so stupid just do redux already
 
-		this.setState( this.state );
+		this.setState();
 	},
 };
