@@ -6,5 +6,6 @@ export default PropTypes.shape({
 
 	name: PropTypes.string,
 	imgUrl: PropTypes.string,
+	notes: PropTypes.string,
 
 });

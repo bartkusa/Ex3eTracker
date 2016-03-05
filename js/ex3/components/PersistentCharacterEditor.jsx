@@ -40,6 +40,13 @@ export default React.createClass({
 					onChange={this._portraitUrlOnChange}
 					/>
 
+				<div className="input-label">Notes:</div>
+				<textarea
+						onChange={this._notesOnChange}
+						placeholder="Notes"
+						value={pc.notes}
+						/>
+
 				<div>
 					<button className="remove btn btn-xs btn-danger" onClick={this._removeOnClick}>Remove</button>
 				</div>
@@ -52,8 +59,6 @@ export default React.createClass({
 			who: this.props.persistentCharacter,
 			name: evt.target.value,
 		});
-
-		// this.forceUpdate();
 	},
 
 	_portraitImageOnDrop: function(evt) {
@@ -66,8 +71,6 @@ export default React.createClass({
 			who: this.props.persistentCharacter,
 			url: evt.dataTransfer.getData("text/uri-list"),
 		});
-
-		this.forceUpdate();
 	},
 
 	_portraitUrlOnChange: function(evt) {
@@ -75,8 +78,13 @@ export default React.createClass({
 			who: this.props.persistentCharacter,
 			url: evt.target.value,
 		});
+	},
 
-		this.forceUpdate();
+	_notesOnChange: function(evt) {
+		charActions.setNotes({
+			who: this.props.persistentCharacter,
+			notes: evt.target.value,
+		})
 	},
 
 	_removeOnClick: function(evt) {

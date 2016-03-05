@@ -8,6 +8,10 @@ const CharActions = module.exports = reflux.createActions([
 	"load",
 ]);
 
-['setName', 'setPortrait'].forEach((a) => {
+[
+	'setName',
+	'setPortrait',
+	'setNotes'
+].forEach((a) => {
 	CharActions[a] = reflux.createAction({sync: true});
 });

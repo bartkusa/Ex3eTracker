@@ -39,6 +39,7 @@ export default {
 		this.setState({
 			nextId: nextId,
 			persistentCharacters: [...this.state.persistentCharacters, ...newPCs],
+			notes: null,
 		});
 	},
 
@@ -71,6 +72,16 @@ export default {
 				.filter((pc) => charUtils.idsMatch(pc, args.who))
 				.forEach((pc) => {
 					pc.imgUrl = args.url;
+				}); // this is so stupid just do redux already
+
+		this.setState();
+	},
+
+	onSetNotes: function(args) {
+		this.state.persistentCharacters
+				.filter((pc) => charUtils.idsMatch(pc, args.who))
+				.forEach((pc) => {
+					pc.notes = args.notes;
 				}); // this is so stupid just do redux already
 
 		this.setState();
