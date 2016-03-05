@@ -1,12 +1,13 @@
 var reflux = require('reflux');
 
-module.exports = reflux.createActions([
+const CharActions = module.exports = reflux.createActions([
 	"add",
 	"remove", // TODO: Change to delete?
 	"update",
 	"save",
 	"load",
-
-	"setName",
-	"setPortrait",
 ]);
+
+['setName', 'setPortrait'].forEach((a) => {
+	CharActions[a] = reflux.createAction({sync: true});
+});

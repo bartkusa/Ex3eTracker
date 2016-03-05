@@ -53,7 +53,7 @@ export default React.createClass({
 			name: evt.target.value,
 		});
 
-		this.forceUpdate();
+		// this.forceUpdate();
 	},
 
 	_portraitImageOnDrop: function(evt) {
