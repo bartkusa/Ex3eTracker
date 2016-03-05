@@ -2,9 +2,11 @@
 
 import React from 'react/react';
 import Timing from './Timing';
+import Portrait from 'ex3/components/Portrait';
 
 import battleActions from 'ex3/actions/BattleActions';
 import combatantShape from 'ex3/shapes/Combatant';
+import { DEFAULT_IMAGE_URL } from 'ex3/stores/PersistentCharacters';
 
 require('./Combatant.less');
 
@@ -19,7 +21,7 @@ export default React.createClass({
 		return (
 			<div className={`Combatant ${this.props.isInBattle ? '' : 'notInBattle'}`}>
 				<Timing {...p} />
-				<div className="portrait" style={{ backgroundImage: `url(${p.imgUrl})` }} />
+				<Portrait imgUrl={p.imgUrl} />
 				<div className="otherStuff">
 					<div className="name">{p.name}</div>
 					{ this._renderExitButton() }

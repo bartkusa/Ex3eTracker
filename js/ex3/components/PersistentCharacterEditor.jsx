@@ -1,10 +1,12 @@
 "use strict";
 
 import React from 'react/react';
-import charActions from 'ex3/actions/CharActions';
-
+import Portrait from 'ex3/components/Portrait';
 import PersistentCharShape from 'ex3/shapes/PersistentCharacter';
 
+import charActions from 'ex3/actions/CharActions';
+
+import { DEFAULT_IMAGE_URL } from 'ex3/stores/PersistentCharacters';
 require('./PersistentCharacterEditor.less');
 
 
@@ -19,19 +21,12 @@ export default React.createClass({
 
 		return (
 			<div className="PersistentCharacterEditor clearfix">
-				<div className="portrait"
+				<Portrait
+					imgUrl={pc.imgUrl}
 					onDragEnter={allowDropIfHasUri}
 					onDragOver={allowDropIfHasUri}
 					onDrop={this._portraitImageOnDrop}
-					style={ {
-						width: 200,
-						height: 200,
-						backgroundImage: `url(${pc.imgUrl})`,
-						backgroundSize: "cover",
-						backgroundPositionX: "50%",
-						backgroundPositionY: "50%",
-					}}
-				/>
+					/>
 
 				<div className="input-label">Name:</div>
 				<input type="text"
