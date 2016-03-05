@@ -103,7 +103,7 @@ export default {
 		this.state.persistentCharacters
 				.filter((pc) => charUtils.idsMatch(pc, args.who))
 				.forEach((pc) => {
-					pc.imgUrl = args.url || DEFAULT_IMAGE_URL;
+					pc.imgUrl = args.url;
 				}); // this is so stupid just do redux already
 
 		this.setState();
