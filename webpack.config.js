@@ -17,19 +17,22 @@ module.exports = {
 	module: {
 		loaders: [
 			{
-				test: /\.js.?$/,
+				test: /\.js(x?)$/,
 				exclude: /(node_modules|bower_components)/,
 				loader: 'babel',
 				query: {
 					presets: ['es2015', 'react']
 				}
-           	}, {
+		   	}, {
+  				test: /\.json$/,
+  				loader: 'json-loader'
+		   	}, {
   				test: /\.css$/,
   				loader: 'style-loader!css-loader'
-           	}, {
-           		test: /\.less$/,
-           		loader: 'style-loader!css-loader!less-loader'
-      		}
+		   	}, {
+		   		test: /\.less$/,
+		   		loader: 'style-loader!css-loader!less-loader'
+	  		}
 		]
 	},
 

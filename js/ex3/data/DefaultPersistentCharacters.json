@@ -1,0 +1,35 @@
+{
+	"version": 1,
+	"persistentCharacters": [
+		{
+			"id": 0,
+			"imgUrl": "./img/sigDiamond.jpg",
+			"name": "Prince Diamond",
+			"notes": "Welcome to the Tracker!"
+		},
+		{
+			"id": 1,
+			"imgUrl": "./img/sigPSoul.jpg",
+			"name": "Perfect Soul",
+			"notes": "You can replace characters' portraits by dragging-and-dropping images from the web. Try it with the pics in the top-right corner!"
+		},
+		{
+			"id": 2,
+			"imgUrl": "./img/sigVolfer.jpg",
+			"name": "Volfer",
+			"notes":"Use the Notes fields to write down characters' health, attacks, defenses, etc."
+		},
+		{
+			"id": 3,
+			"imgUrl": "./img/sigNovia.jpg",
+			"name": "Novia Claro",
+			"notes": "Press [Save] at the top so your browser will remember everything for next time."
+		},
+		{
+			"id": 4,
+			"imgUrl": "./img/sigShen.jpg",
+			"name": "Iselsi Shen",
+			"notes": "Press [Join Battle] to track characters' initiative and turn status. Changes and notes you make in battle are temporary, and will be reset after the battle ends."
+		}
+	]
+}

@@ -4,6 +4,8 @@ import * as charActions from 'ex3/actions/CharActions';
 import * as charUtils from './CharUtils';
 import { setState, replaceState } from './storeUtils';
 
+const  DEFAULT_PERSISTENT_CHARACTERS = require('ex3/data/DefaultPersistentCharacters');
+
 export const LOCAL_STORAGE_KEY = "savedPersistentCharacters";
 export const DEFAULT_IMAGE_URL = "./img/charDefault.jpg"; // TODO: Define image root location
 
@@ -38,7 +40,7 @@ export default {
 
 		this.setState({
 			nextId: nextId,
-			persistentCharacters: [...this.state.persistentCharacters, ...newPCs],
+			persistentCharacters: [...newPCs, ...this.state.persistentCharacters],
 			notes: null,
 		});
 	},
@@ -93,7 +95,7 @@ export default {
 	onSave: function() {
 		const pcData = {
 			version: 1,
-			persistentCharacters: this.state.persistentCharacters,
+			persistentCharacters: [...this.state.persistentCharacters].sort((a, b) => a.id - b.id),
 		};
 		localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(pcData));
 		console.debug("Saved:", pcData);
@@ -108,6 +110,29 @@ export default {
 		const pcData = JSON.parse( pcJSON );
 		if (pcData.version !== 1) {
 			throw new Error("Loading failed; version mismatch: " + pcData.version);
+		}
+
+		const persistentCharacters = pcData.persistentCharacters || [];
+		const nextId = (persistentCharacters && persistentCharacters.length > 0)
+				? Math.max( ...(persistentCharacters.map((pc) => pc.id)) ) + 1
+				: 0;
+		this.replaceState({
+			persistentCharacters,
+			nextId,
+		});
+	},
+
+	loadDuringStartup: function() {
+		const pcJSON = localStorage.getItem(LOCAL_STORAGE_KEY);
+		if (pcJSON) {
+			console.debug("Loaded:", pcJSON);
+			var pcData = JSON.parse( pcJSON );
+			if (pcData.version !== 1) {
+				throw new Error("Loading failed; version mismatch: " + pcData.version);
+			}
+		} else {
+			console.log("Loading defaults");
+			pcData = DEFAULT_PERSISTENT_CHARACTERS;
 		}
 
 		const persistentCharacters = pcData.persistentCharacters || [];

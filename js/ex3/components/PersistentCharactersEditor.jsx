@@ -50,9 +50,7 @@ export default React.createClass({
 	},
 
 	_renderCharList: function() {
-		const pcList = this.props.persistentCharacters
-				.map((x, i) => x)
-				.reverse();
+		const pcList = this.props.persistentCharacters;
 
 		if (!pcList || pcList.length <= 0) return (
 			<div className="ghostTown">You have no characters.</div>
