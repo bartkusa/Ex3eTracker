@@ -1,11 +1,28 @@
-@size: 200px;
+@portraitSize: 192px;
 
 .PersistentCharacterEditor {
+	
+	> * {
+		display: block;
+		@media (min-width: 500px) { display: inline-block; }
+	}
 
 	.Portrait {
-		width: @size;
-		height: @size;
-		float: left;
-		margin-right: 1em;
+		width: @portraitSize;
+		height: @portraitSize;
+		@media (min-width: 500px) {
+			margin-right: 1em;
+		}
+	}
+
+	.fields {
+		width: 100%;
+		@media (min-width: 500px) { 
+			width: calc(~"100% - 1em" - @portraitSize)
+		}
+	}
+	.notes {
+		width: 100%;
+		border: 0;
 	}
 }

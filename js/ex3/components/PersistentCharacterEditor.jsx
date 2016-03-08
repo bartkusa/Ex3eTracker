@@ -27,28 +27,33 @@ export default React.createClass({
 					onDragOver={allowDropIfHasUri}
 					onDrop={this._portraitImageOnDrop}
 					/>
-
-				<div className="input-label">Name:</div>
-				<input type="text"
-					value={pc.name}
-					onChange={this._nameOnChange}
-					/>
-
-				<div className="input-label">Portrait URL:</div>
-				<input type="text"
-					value={pc.imgUrl}
-					onChange={this._portraitUrlOnChange}
-					/>
-
-				<div className="input-label">Notes:</div>
-				<textarea
-						onChange={this._notesOnChange}
-						placeholder="Notes"
-						value={pc.notes}
+				<div className="fields">
+					<div className="input-label">Name:</div>
+					<input type="text"
+						value={pc.name}
+						onChange={this._nameOnChange}
 						/>
 
-				<div>
+					{" "}
 					<button className="remove btn btn-xs btn-danger" onClick={this._removeOnClick}>Remove</button>
+
+					<div className="input-label">Portrait URL:</div>
+					<input type="text"
+						value={pc.imgUrl}
+						onChange={this._portraitUrlOnChange}
+						/>
+
+					<div className="input-label">Notes:</div>
+					<textarea
+							className="notes"
+							onChange={this._notesOnChange}
+							placeholder="Notes"
+							rows="4"
+							value={pc.notes}
+							/>
+
+					<div>
+					</div>
 				</div>
 			</div>
 		);
