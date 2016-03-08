@@ -41,6 +41,8 @@ export default React.createClass({
 					<input type="text"
 						value={pc.imgUrl}
 						onChange={this._portraitUrlOnChange}
+						onFocus={this._portraitUrlOnFocus}
+						ref="portraitUrl"
 						/>
 
 					<div className="input-label">Notes:</div>
@@ -83,6 +85,10 @@ export default React.createClass({
 			who: this.props.persistentCharacter,
 			url: evt.target.value,
 		});
+	},
+
+	_portraitUrlOnFocus: function(evt) {
+		this.refs.portraitUrl.setSelectionRange(0, this.props.persistentCharacter.imgUrl.length);
 	},
 
 	_notesOnChange: function(evt) {
