@@ -25,6 +25,7 @@ export default React.createClass({
 			<div className="Timing">
 				<select className="initiative"
 						onChange={this._initiativeOnChange}
+						onWheel={this._initiativeOnWheel}
 						required="true"
 						value={c.initiative}
 						>
@@ -83,6 +84,16 @@ export default React.createClass({
 		battleActions.setInit({
 			who: this.props.combatant.id,
 			initiative: +e.target.value, // "+" can convert strings to numbers
+		})
+	},
+
+	_initiativeOnWheel: function(e) {
+		if ((e.deltaY === 0) || Math.abs(e.deltaY) < Math.abs(e.deltaX) || Math.abs(e.deltaY) < Math.abs(e.deltaZ)) return;
+
+		e.preventDefault();
+		battleActions.setInit({
+			who: this.props.combatant.id,
+			initiative: this.props.combatant.initiative + ((e.deltaY < 0) ? 1 : -1),
 		})
 	},
 
