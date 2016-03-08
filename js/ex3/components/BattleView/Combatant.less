@@ -1,7 +1,7 @@
-@row-height: 128px;
+@row-height: 160px;
 @portrait-height: @row-height;
 
-@timing-width: 80px;
+@timing-width: 100px;
 @portrait-width: @portrait-height;
 
 
@@ -10,6 +10,32 @@
 	border-radius: 10px;
 	background-color: #eee;
 
+	transition:
+		box-shadow 0.3s ease,
+		transform 0.3s ease;
+	transform-origin: center center;
+
+	&.zHi {
+		transform: translate3d(0, 0, 0px);		
+		box-shadow: 9px 7px 16px 0px rgba(0,0,0,0.24);
+		z-index: 101;
+	}
+	&.zMed {
+		transform: translate3d(0, 0, -2px);
+		box-shadow: 5px 5px 10px 0px rgba(0,0,0,0.17);
+		z-index: 100;		
+	}
+	&.zLow {
+		transform: translate3d(0, 0, -5px);
+		box-shadow: 2px 2px 3px 0px rgba(0,0,0,0.10);
+		z-index: 99;
+	}
+	&.zFlat {
+		transform: translate3d(0, 0, -5px);
+		box-shadow: 1px 1px 1px 0px rgba(0,0,0,0.10);
+		z-index: 99;
+	}
+
 	& > * {
 		display: inline-block;
 		vertical-align: top;
@@ -17,7 +43,7 @@
 
 	.Timing {
 		width: @timing-width;
-		padding: 10px;
+		padding: 15px;
 	}
 
 	.Portrait {

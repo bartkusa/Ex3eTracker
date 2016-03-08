@@ -4,6 +4,7 @@ import React from 'react/react';
 import Timing from './Timing';
 import Portrait from 'ex3/components/Portrait';
 
+import { CAN_GO, IS_GOING, HAS_GONE } from 'ex3/TurnStatus';
 import battleActions from 'ex3/actions/BattleActions';
 import combatantShape from 'ex3/shapes/Combatant';
 import { DEFAULT_IMAGE_URL } from 'ex3/stores/PersistentCharacters';
@@ -15,6 +16,7 @@ export default React.createClass({
 
 	propTypes: {
 		combatant: combatantShape.isRequired,
+		isAnybodyGoing: React.PropTypes.bool,
 		tick: React.PropTypes.number,
 	},
 
@@ -22,7 +24,7 @@ export default React.createClass({
 		const c = this.props.combatant;
 
 		return (
-			<div className={`Combatant ${c.isInBattle ? '' : 'notInBattle'}`}>
+			<div className={`Combatant ${c.isInBattle ? '' : 'notInBattle'} ${this._getZClassName()}`}>
 				<Timing combatant={c} tick={this.props.tick} />
 				<Portrait imgUrl={c.imgUrl} />
 				<div className="otherStuff">
@@ -40,6 +42,16 @@ export default React.createClass({
 				</div>
 			</div>
 		);
+	},
+
+	_getZClassName: function() {
+		const c = this.props.combatant;
+
+		if (!c.isInBattle) return 'zFlat';
+		if (c.turnStatus === HAS_GONE) return 'zLow';
+		if (c.turnStatus === IS_GOING) return 'zHi';
+		if (!this.props.isAnybodyGoing && c.initiative >= this.props.tick) return 'zHi';
+		return 'zMed';
 	},
 
 	_renderExitButton: function() {

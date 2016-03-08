@@ -66,6 +66,7 @@ export default React.createClass({
 
 	_renderCharList: function() {
 		if (!this.props.combatants || this.props.combatants.size <= 0) return null;
+		const isAnybodyGoing = this.props.combatants.some((c) => c.turnStatus === IS_GOING);
 
 		return (
 			<div className="combatants semanticList">
@@ -78,7 +79,11 @@ export default React.createClass({
 						>
 					{this.props.combatants.map((c) => (
 						<li key={c.id}>
-							<Combatant combatant={c} tick={this.props.tick} />
+							<Combatant
+									combatant={c}
+									isAnybodyGoing={isAnybodyGoing}
+									tick={this.props.tick}
+									/>
 						</li>
 					)) }
 				</FlipMove>
