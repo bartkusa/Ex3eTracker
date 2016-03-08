@@ -1,10 +1,13 @@
 @portraitSize: 192px;
 
 .PersistentCharacterEditor {
-	
+
 	> * {
 		display: block;
-		@media (min-width: 500px) { display: inline-block; }
+		@media (min-width: 500px) {
+			display: inline-block;
+			vertical-align: top;
+		}
 	}
 
 	.Portrait {
@@ -17,7 +20,7 @@
 
 	.fields {
 		width: 100%;
-		@media (min-width: 500px) { 
+		@media (min-width: 500px) {
 			width: calc(~"100% - 1em" - @portraitSize)
 		}
 	}
