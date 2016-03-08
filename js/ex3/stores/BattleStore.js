@@ -62,8 +62,10 @@ export default {
 		const charIdsExitingBattle = toIdSet(action.who);
 		this.state.combatants
 			.filter((ch) => charIdsExitingBattle[ch.id])
-			.forEach((ch) => ch.isInBattle = false)
-			;
+			.forEach((ch) => {
+				ch.isInBattle = false;
+				ch.turnStatus = HAS_GONE
+			});
 
 		this.sort().setState();
 	},
