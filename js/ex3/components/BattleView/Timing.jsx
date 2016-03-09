@@ -1,5 +1,7 @@
 "use strict";
 
+import throttle from 'lodash/function';
+
 import React from 'react/react';
 
 import battleActions from 'ex3/actions/BattleActions';
@@ -8,6 +10,8 @@ import * as TurnStatus from 'ex3/TurnStatus';
 import { DEFAULT_INIT } from 'ex3/stores/BattleStore';
 
 require('./Timing.less');
+
+const MAX_MOUSEWHEELS_PER_SECOND = 6;
 
 
 export default React.createClass({
@@ -115,3 +119,9 @@ export default React.createClass({
 		});
 	},
 });
+
+
+const throttledSetInit = throttle(
+	(action) => battleActions.setInit(action),
+	(1000 / MAX_MOUSEWHEELS_PER_SECOND),
+	{leading: true} );
