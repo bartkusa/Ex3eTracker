@@ -1,6 +1,6 @@
 "use strict";
 
-import { throttle } from 'lodash/function';
+import throttle from 'lodash/throttle';
 
 import React from 'react/react';
 
@@ -13,26 +13,31 @@ import { DEFAULT_INIT } from 'ex3/stores/BattleStore';
 require('./Timing.less');
 
 const MAX_MOUSEWHEELS_PER_SECOND = 6;
+const DOUBLE_TOUCH_MSEC = 666;
 
 
 export default React.createClass({
+
+	_doubleTouchTimeout: null,
 
 	propTypes: {
 		combatant: combatantShape.isRequired,
 		tick: React.PropTypes.number,
 	},
 
+	componentWillUnmount: function() {},
+
 	render: function() {
 		const c = this.props.combatant;
 		if (!c.isInBattle) return <div className="Timing"></div>;
 
 		return (
-			<div className="Timing">
+			<div className="Timing" 
+						onTouchStart={this._initiativeOnTouchStart}
+						onWheel={this._initiativeOnWheel}
+						>
 				<select className="initiative"
 						onChange={this._initiativeOnChange}
-						onTouchStart={this._initiativeOnTouchStart}
-						onTouchEnd={this._initiativeOnTouchEnd}
-						onWheel={this._initiativeOnWheel}
 						required="true"
 						value={c.initiative}
 						>
@@ -95,11 +100,21 @@ export default React.createClass({
 	},
 
 	_initiativeOnTouchStart: function(e) {
-		knobActions.start();
+		if (!this._doubleTouchTimeout) { // first touch
+			console.log("First touch");
+			this._doubleTouchTimeout = setTimeout( this._clearTimeout, DOUBLE_TOUCH_MSEC );
+		} else {                         // second touch
+			this._clearTimeout();
+			console.log("Start knob");
+			knobActions.start();
+		}
 	},
 
-	_initiativeOnTouchEnd: function(e) {
-		knobActions.end();
+	_clearTimeout: function() {
+		if (!this._doubleTouchTimeout) return;
+		console.log("Clearing timeout");
+		clearTimeout( this._doubleTouchTimeout );
+		this._doubleTouchTimeout = null;
 	},
 
 	_initiativeOnWheel: function(e) {
