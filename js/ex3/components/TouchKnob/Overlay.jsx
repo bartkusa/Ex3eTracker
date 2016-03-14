@@ -8,10 +8,20 @@ export default React.createClass({
 
 	render: function() {
 		return (
-			<div className="Overlay" onTouchEnd={knobActions.end}>
+			<div className="Overlay"
+					onTouchMove={this._onTouchMove}
+					onTouchEnd={knobActions.commit}
+					>
 				{this.props.children}
 			</div>
 		);
+	},
+
+	_onTouchMove: function(e) {
+		e.preventDefault();
+		knobActions.update({
+			touch: e.touches[0],
+		});
 	},
 
 });

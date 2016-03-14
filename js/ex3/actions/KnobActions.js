@@ -2,5 +2,13 @@ var reflux = require('reflux');
 
 const KnobActions = module.exports = reflux.createActions([
 	"start",
-	"end",
+	"abort",
+	"update",
+	"commit",
 ]);
+
+[
+	"update",
+].forEach((a) => {
+	KnobActions[a] = reflux.createAction({sync: true});
+});

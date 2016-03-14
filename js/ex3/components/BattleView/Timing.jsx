@@ -13,7 +13,7 @@ import { DEFAULT_INIT } from 'ex3/stores/BattleStore';
 require('./Timing.less');
 
 const MAX_MOUSEWHEELS_PER_SECOND = 6;
-const DOUBLE_TOUCH_MSEC = 666;
+const DOUBLE_TOUCH_MSEC = 350;
 
 
 export default React.createClass({
@@ -101,18 +101,24 @@ export default React.createClass({
 
 	_initiativeOnTouchStart: function(e) {
 		if (!this._doubleTouchTimeout) { // first touch
-			console.log("First touch");
 			this._doubleTouchTimeout = setTimeout( this._clearTimeout, DOUBLE_TOUCH_MSEC );
 		} else {                         // second touch
 			this._clearTimeout();
-			console.log("Start knob");
-			knobActions.start();
+			knobActions.start({
+				touch: e.touches[0],
+				value: this.props.combatant.initiative,
+				callback: ((value) => {
+					battleActions.setInit({
+						who: this.props.combatant.id,
+						initiative: value,
+					})
+				}),
+			});
 		}
 	},
 
 	_clearTimeout: function() {
 		if (!this._doubleTouchTimeout) return;
-		console.log("Clearing timeout");
 		clearTimeout( this._doubleTouchTimeout );
 		this._doubleTouchTimeout = null;
 	},
