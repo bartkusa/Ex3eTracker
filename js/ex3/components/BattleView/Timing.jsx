@@ -1,10 +1,11 @@
 "use strict";
 
-import throttle from 'lodash/function';
+import { throttle } from 'lodash/function';
 
 import React from 'react/react';
 
 import battleActions from 'ex3/actions/BattleActions';
+import knobActions from 'ex3/actions/KnobActions';
 import combatantShape from 'ex3/shapes/Combatant';
 import * as TurnStatus from 'ex3/TurnStatus';
 import { DEFAULT_INIT } from 'ex3/stores/BattleStore';
@@ -29,6 +30,8 @@ export default React.createClass({
 			<div className="Timing">
 				<select className="initiative"
 						onChange={this._initiativeOnChange}
+						onTouchStart={this._initiativeOnTouchStart}
+						onTouchEnd={this._initiativeOnTouchEnd}
 						onWheel={this._initiativeOnWheel}
 						required="true"
 						value={c.initiative}
@@ -89,6 +92,14 @@ export default React.createClass({
 			who: this.props.combatant.id,
 			initiative: +e.target.value, // "+" can convert strings to numbers
 		})
+	},
+
+	_initiativeOnTouchStart: function(e) {
+		knobActions.start();
+	},
+
+	_initiativeOnTouchEnd: function(e) {
+		knobActions.end();
 	},
 
 	_initiativeOnWheel: function(e) {
