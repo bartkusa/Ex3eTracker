@@ -4,6 +4,7 @@ import { mix } from 'ex3/funcs/utils';
 
 import { createStore } from 'reflux';
 import { default as PersistentCharacterStore } from 'ex3/stores/PersistentCharacters';
+import KnobStore from 'ex3/stores/KnobStore';
 import BattleStore from 'ex3/stores/BattleStore';
 
 import React from 'react/react';
@@ -22,6 +23,7 @@ const batStore = createStore( mix(
 		BattleStore,
 		{ persistentCharacterStore: pcStore }
 ));
+const knobStore = createStore( KnobStore );
 
 pcStore.loadDuringStartup();
 
@@ -35,6 +37,7 @@ function renderApp() {
 		(<MainUi
 				persistentCharacters={ pcStore.state.persistentCharacters }
 				battle={ batStore.state }
+				knob={ knobStore.state }
 				/>),
 		rootNode
 	)
@@ -44,6 +47,7 @@ renderApp();
 [
 	pcStore,
 	batStore,
+	knobStore,
 ].forEach(store => {
 	store.listen(renderApp);
 });

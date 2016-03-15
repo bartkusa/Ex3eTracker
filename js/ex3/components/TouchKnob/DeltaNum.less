@@ -1,0 +1,30 @@
+@deltaSize: 8vmin;
+
+.DeltaNum {
+	min-width: @deltaSize;
+	min-height: @deltaSize;
+
+	position: fixed;
+	left: calc(~"50%" - @deltaSize/2);
+	top: calc(~"50%" - @deltaSize/2);
+
+	font-size: @deltaSize/2;
+	line-height: @deltaSize;
+	text-align: center;
+	vertical-align: middle;
+
+	&.up {
+		color: #3f3 !important;
+		opacity: 0.3;
+	}
+	&.down {
+		color: #f99 !important;
+		opacity: 0.3;
+	}
+	&.cur {
+		font-weight: bold;
+		background: white;
+		border-radius: @deltaSize/2;
+		color: black;
+	}
+}
