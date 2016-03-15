@@ -8,6 +8,7 @@ const BattleActions = module.exports = reflux.createActions([
 
 	"enterBattle",
 	"exitBattle",
+	"removeEntirely",
 
 	"setInit",
 	"startTurn",

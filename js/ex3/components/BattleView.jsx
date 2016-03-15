@@ -41,18 +41,14 @@ export default React.createClass({
 		const gameOver = nobodyCanGo && p.combatants.every((c) => !c.isInBattle);
 
 		const nextRoundButtonClass = (nobodyCanGo && !gameOver) ? 'btn-primary' : 'btn-default';
-		const endBattleButtonClass = gameOver ? 'btn-primary' : 'btn-warning';
-
-		if (gameOver) {
-
-		}
+		const endBattleButtonClass = gameOver ? 'btn-primary' : 'btn-danger';
 
 		return [
 			<button className={`btn btn-lg ${endBattleButtonClass}`}
 					key="end"
 					onClick={this._endBattleOnClick}
 					>
-				End
+				End Battle
 			</button>,
 			<button className={`btn btn-lg ${nextRoundButtonClass}`}
 					disabled={gameOver}
@@ -68,6 +64,31 @@ export default React.createClass({
 		if (!this.props.combatants || this.props.combatants.size <= 0) return null;
 		const isAnybodyGoing = this.props.combatants.some((c) => c.turnStatus === IS_GOING);
 
+		const makeLiWrappedComponent = (c) => (
+			<li key={c.id}>
+				<Combatant
+						combatant={c}
+						isAnybodyGoing={isAnybodyGoing}
+						round={this.props.round}
+						tick={this.props.tick}
+						/>
+			</li>
+		);
+		const contents = [
+			...this.props.combatants.filter((c) =>  c.isInBattle).map(makeLiWrappedComponent),
+			(
+				<li key="nextButton" className="clearfix">
+					<span style={{
+						float: "right",
+						clear: "both",
+					}}>
+						{ this._renderNextRoundButton() }
+					</span>
+				</li>
+			),
+			...this.props.combatants.filter((c) => !c.isInBattle).map(makeLiWrappedComponent),
+		];
+
 		return (
 			<div className="combatants semanticList">
 				<FlipMove
@@ -77,17 +98,27 @@ export default React.createClass({
 						staggerDurationBy={15}
 						typeName="ol"
 						>
-					{this.props.combatants.map((c) => (
-						<li key={c.id}>
-							<Combatant
-									combatant={c}
-									isAnybodyGoing={isAnybodyGoing}
-									tick={this.props.tick}
-									/>
-						</li>
-					)) }
+					{contents}
 				</FlipMove>
 			</div>
+		);
+	},
+
+	_renderNextRoundButton: function() {
+		const p = this.props;
+
+		const nobodyCanGo =  p.combatants.every((c) => !c.isInBattle || c.turnStatus === HAS_GONE);
+		const gameOver = nobodyCanGo && p.combatants.every((c) => !c.isInBattle);
+
+		const nextRoundButtonClass = (nobodyCanGo && !gameOver) ? 'btn-primary' : 'btn-default';
+
+		return (
+			<button className={`btn btn-lg ${nextRoundButtonClass}`}
+					disabled={gameOver}
+					onClick={this._nextRoundOnClick}
+					>
+				Next Round
+			</button>
 		);
 	},
 

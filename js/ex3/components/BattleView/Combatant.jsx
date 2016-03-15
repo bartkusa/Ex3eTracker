@@ -17,6 +17,7 @@ export default React.createClass({
 	propTypes: {
 		combatant: combatantShape.isRequired,
 		isAnybodyGoing: React.PropTypes.bool,
+		round: React.PropTypes.number,
 		tick: React.PropTypes.number,
 	},
 
@@ -30,7 +31,7 @@ export default React.createClass({
 				<div className="otherStuff">
 					<div className="clearfix">
 						<span className="name">{c.name}</span>
-						{ this._renderExitButton() }
+						{ this._renderExitOrRemoveButton() }
 					</div>
 					<textarea
 						className="notes"
@@ -54,13 +55,23 @@ export default React.createClass({
 		return 'zMed';
 	},
 
-	_renderExitButton: function() {
+	_renderExitOrRemoveButton: function() {
 		if (!this.props.combatant.isInBattle) return null;
+
+		if (this.props.round > 0) {
+			return (
+				<div style={{float: "right"}}>
+					<button className="btn btn-xs btn-warning" onClick={this._exitOnClick}>
+						Exit battle
+					</button>
+				</div>
+			);
+		}
 
 		return (
 			<div style={{float: "right"}}>
-				<button className="btn btn-xs btn-warning" onClick={this._exitOnClick}>
-					Exit battle
+				<button className="btn btn-xs btn-warning" onClick={this._removeOnClick}>
+					Remove
 				</button>
 			</div>
 		);
@@ -68,6 +79,12 @@ export default React.createClass({
 
 	_exitOnClick: function() {
 		battleActions.exitBattle({
+			who: this.props.combatant.id,
+		});
+	},
+
+	_removeOnClick: function() {
+		battleActions.removeEntirely({
 			who: this.props.combatant.id,
 		});
 	},

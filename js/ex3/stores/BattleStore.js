@@ -70,6 +70,13 @@ export default {
 		this.sort().setState();
 	},
 
+	onRemoveEntirely: function(action) {
+		const charIdsExitingBattle = toIdSet(action.who);
+		this.state.combatants = this.state.combatants.filter((ch) => !charIdsExitingBattle[ch.id]);
+
+		this.sort().setState();
+	},
+
 
 	// Flow of time ////////////////////////////////////////////////////////////////////////////////////////////////////
 
