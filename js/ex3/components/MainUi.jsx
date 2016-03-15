@@ -2,11 +2,13 @@
 
 import React from 'react/react';
 import BattleView from 'ex3/components/BattleView';
-import Overlay from 'ex3/components/TouchKnob/Overlay';
+import Knob from 'ex3/components/TouchKnob/Knob';
 import PersistentCharactersEditor from 'ex3/components/PersistentCharactersEditor';
 
 import BattleShape from 'ex3/shapes/Battle';
 import PersistentCharShape from 'ex3/shapes/PersistentCharacter';
+
+require ('style/blur.less');
 
 
 export default React.createClass({
@@ -21,13 +23,16 @@ export default React.createClass({
 		return (
 			<div className="MainUi">
 				{ this._renderKnob() }
-				{ (this.props.battle) ? this._renderBattleView() : this._renderPCEditor() }
+				<div className={this.props.knob.isOn ? 'blur' : ''}>
+					{ (this.props.battle) ? this._renderBattleView() : this._renderPCEditor() }
+				</div>
 			</div>
 		);
 	},
 
 	_renderKnob: function() {
-		if (this.props.knob && this.props.knob.isOn) return <Overlay key="knobOverlay" />;
+		if (!this.props.knob || !this.props.knob.isOn) return;
+		return <Knob key="knob" {...this.props.knob} />;
 	},
 
 	_renderBattleView: function() {

@@ -41,27 +41,32 @@ export default {
 
 	onUpdate: function(action) {
 		if (!this.state.isOn) return;
+		const touchCoords = getTouchCoords(action.touch);
 
-		const newSector = getSector(this.state.viewportCenter, getTouchCoords(action.touch));
+		if (isOverAbortSector(this.state.viewportCenter, touchCoords)) {
+			this.setState({
+				isOverAbortSector: true,
+			});
+			return;
+		}
+
+		const newSector = getSector(this.state.viewportCenter, touchCoords);
 		if (newSector === this.state.sector) return;
 
 		const valDiff = getValueDiff(newSector, this.state.sector);
 
-		console.log({
-			oldSector: this.state.sector,
-			newSector,
-			oldVal: this.state.value,
-			newVal: this.state.value + valDiff,
-		});
 		this.setState({
 			sector: newSector,
 			value: this.state.value + valDiff,
+			isOverAbortSector: false,
 		});
 	},
 
 	onCommit: function() {
 		if (!this.state.isOn) return;
-		if (this.state.callback) this.state.callback(this.state.value);
+		if (this.state.callback && !this.state.isOverAbortSector) {
+			this.state.callback(this.state.value);
+		}
 		this.replaceState({ isOn: false });
 	},
 
@@ -90,4 +95,17 @@ function getValueDiff(newSector, oldSector) {
 	if (valueDiff >   NUM_SECTORS / 2) valueDiff -=NUM_SECTORS;
 	if (valueDiff <= -NUM_SECTORS / 2) valueDiff += NUM_SECTORS;
 	return valueDiff;
+};
+
+function isOverAbortSector(screenCenter, point) {
+	const {x, y} = getCoordsDiff(screenCenter, point);
+	console.log(x, y);
+	return Math.abs(y) < 50 && Math.abs(x) < 75;
+};
+function getCoordsDiff(refPoint, point) {
+	console.log(refPoint, point);
+	return {
+		x: point.x - refPoint.x,
+		y: refPoint.y - point.y,
+	};
 };

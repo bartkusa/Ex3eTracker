@@ -34,6 +34,13 @@ export default React.createClass({
 		return (
 			<div className="Timing" 
 						onTouchStart={this._initiativeOnTouchStart}
+						onTouchMove={(e) => {
+							e.preventDefault();
+							knobActions.update({
+								touch: e.touches[0],
+							});
+						}}
+						onTouchEnd={knobActions.commit}
 						onWheel={this._initiativeOnWheel}
 						>
 				<select className="initiative"
@@ -100,10 +107,10 @@ export default React.createClass({
 	},
 
 	_initiativeOnTouchStart: function(e) {
-		if (!this._doubleTouchTimeout) { // first touch
-			this._doubleTouchTimeout = setTimeout( this._clearTimeout, DOUBLE_TOUCH_MSEC );
-		} else {                         // second touch
-			this._clearTimeout();
+		// if (!this._doubleTouchTimeout) { // first touch
+		// 	this._doubleTouchTimeout = setTimeout( this._clearTimeout, DOUBLE_TOUCH_MSEC );
+		// } else {                         // second touch
+		// 	this._clearTimeout();
 			knobActions.start({
 				touch: e.touches[0],
 				value: this.props.combatant.initiative,
@@ -114,7 +121,7 @@ export default React.createClass({
 					})
 				}),
 			});
-		}
+		// }
 	},
 
 	_clearTimeout: function() {

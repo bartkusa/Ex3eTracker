@@ -8,20 +8,12 @@ export default React.createClass({
 
 	render: function() {
 		return (
-			<div className="Overlay"
-					onTouchMove={this._onTouchMove}
-					onTouchEnd={knobActions.commit}
+			<div {...this.props}
+					className={`Overlay ${this.props.className || ""}`}
 					>
 				{this.props.children}
 			</div>
 		);
-	},
-
-	_onTouchMove: function(e) {
-		e.preventDefault();
-		knobActions.update({
-			touch: e.touches[0],
-		});
 	},
 
 });
