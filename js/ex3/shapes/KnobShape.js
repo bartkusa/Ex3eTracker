@@ -2,13 +2,19 @@ import { PropTypes } from 'react/react';
 
 
 export default PropTypes.shape({
+
 	isOn: PropTypes.bool,
-	value: PropTypes.number,
 	callback: PropTypes.func,
+
+	originalValue: PropTypes.number,
+	value: PropTypes.number,
+
 	sector: PropTypes.number,
+	sectors: PropTypes.number,
+
 	isOverAbortSector: PropTypes.bool,
 	viewportCenter: PropTypes.shape({
-		x: PropTypes.number.isRequired,
-		y: PropTypes.number.isRequired,
+		x: PropTypes.number,
+		y: PropTypes.number,
 	}),
 });

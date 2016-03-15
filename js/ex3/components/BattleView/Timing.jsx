@@ -11,9 +11,12 @@ import * as TurnStatus from 'ex3/TurnStatus';
 import { DEFAULT_INIT } from 'ex3/stores/BattleStore';
 
 require('./Timing.less');
+require('style/noLongPress.less');
 
 const MAX_MOUSEWHEELS_PER_SECOND = 6;
 const TAP_MSEC = 350;
+
+const doGoofyTouchStuff = window.location.hash && window.location.hash.indexOf('spin') >= 0;
 
 
 export default React.createClass({
@@ -29,24 +32,25 @@ export default React.createClass({
 
 	render: function() {
 		const c = this.props.combatant;
-		if (!c.isInBattle) return <div className="Timing"></div>;
+		if (!c.isInBattle) return <div className="Timing noLongPress"></div>;
 
 		return (
-			<div className="Timing" 
-						onTouchStart={this._initiativeOnTouchStart}
+			<div className="Timing">
+				<div onTouchStart={this._initiativeOnTouchStart}
 						onTouchMove={this._initiativeOnTouchMove}
 						onTouchEnd={this._initiativeOnTouchEnd}
 						onWheel={this._initiativeOnWheel}
 						>
-				<select className="initiative"
-						onChange={this._initiativeOnChange}
-						required="true"
-						value={c.initiative}
-						>
-					{ this._renderInitiativeOptions() }
-				</select>
-				<div>
-					<i>Initiative</i>
+					<select className="initiative"
+							onChange={this._initiativeOnChange}
+							required="true"
+							value={c.initiative}
+							>
+						{ this._renderInitiativeOptions() }
+					</select>
+					<div>
+						<i>Initiative</i>
+					</div>
 				</div>
 
 				{ this._renderButtons() }
@@ -102,6 +106,9 @@ export default React.createClass({
 	},
 
 	_initiativeOnTouchStart: function(e) {
+		if (!doGoofyTouchStuff) return;
+
+		e.preventDefault();
 		knobActions.start({
 			touch: e.touches[0],
 			value: this.props.combatant.initiative,
@@ -118,11 +125,15 @@ export default React.createClass({
 	},
 
 	_initiativeOnTouchMove: function(e) {
+		if (!doGoofyTouchStuff) return;
+
 		e.preventDefault();
 		knobActions.update({ touch: e.touches[0] });
 	},
 
 	_initiativeOnTouchEnd: function(e) {
+		if (!doGoofyTouchStuff) return;
+
 		if (this._tapTimeout) {
 			this._clearTimeout();		// if touch ended before tap-time passed, just leave it up onscreen
 		} else {

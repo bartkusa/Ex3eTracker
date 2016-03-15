@@ -15,7 +15,7 @@ export default React.createClass({
 
 	propTypes: {
 		battle: BattleShape,
-		// knob: React.PropTypes.whatever,
+		knob: React.PropTypes.object,
 		persistentCharacters: React.PropTypes.arrayOf(PersistentCharShape).isRequired,
 	},
 

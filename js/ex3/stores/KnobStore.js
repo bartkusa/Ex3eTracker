@@ -28,10 +28,12 @@ export default {
 
 		this.replaceState({
 			isOn: true,
+			originalValue: (action.value || 0),
 			value: (action.value || 0),
 			callback: action.callback,
 			viewportCenter,
 			sector,
+			sectors: NUM_SECTORS,
 		});
 	},
 
@@ -99,11 +101,9 @@ function getValueDiff(newSector, oldSector) {
 
 function isOverAbortSector(screenCenter, point) {
 	const {x, y} = getCoordsDiff(screenCenter, point);
-	console.log(x, y);
 	return Math.abs(y) < 50 && Math.abs(x) < 75;
 };
 function getCoordsDiff(refPoint, point) {
-	console.log(refPoint, point);
 	return {
 		x: point.x - refPoint.x,
 		y: refPoint.y - point.y,
