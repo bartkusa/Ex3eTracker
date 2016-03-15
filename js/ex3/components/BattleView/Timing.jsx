@@ -13,12 +13,12 @@ import { DEFAULT_INIT } from 'ex3/stores/BattleStore';
 require('./Timing.less');
 
 const MAX_MOUSEWHEELS_PER_SECOND = 6;
-const DOUBLE_TOUCH_MSEC = 350;
+const TAP_MSEC = 350;
 
 
 export default React.createClass({
 
-	_doubleTouchTimeout: null,
+	_tapTimeout: null,
 
 	propTypes: {
 		combatant: combatantShape.isRequired,
@@ -34,13 +34,8 @@ export default React.createClass({
 		return (
 			<div className="Timing" 
 						onTouchStart={this._initiativeOnTouchStart}
-						onTouchMove={(e) => {
-							e.preventDefault();
-							knobActions.update({
-								touch: e.touches[0],
-							});
-						}}
-						onTouchEnd={knobActions.commit}
+						onTouchMove={this._initiativeOnTouchMove}
+						onTouchEnd={this._initiativeOnTouchEnd}
 						onWheel={this._initiativeOnWheel}
 						>
 				<select className="initiative"
@@ -107,27 +102,38 @@ export default React.createClass({
 	},
 
 	_initiativeOnTouchStart: function(e) {
-		// if (!this._doubleTouchTimeout) { // first touch
-		// 	this._doubleTouchTimeout = setTimeout( this._clearTimeout, DOUBLE_TOUCH_MSEC );
-		// } else {                         // second touch
-		// 	this._clearTimeout();
-			knobActions.start({
-				touch: e.touches[0],
-				value: this.props.combatant.initiative,
-				callback: ((value) => {
-					battleActions.setInit({
-						who: this.props.combatant.id,
-						initiative: value,
-					})
-				}),
-			});
-		// }
+		knobActions.start({
+			touch: e.touches[0],
+			value: this.props.combatant.initiative,
+			callback: ((value) => {
+				battleActions.setInit({
+					who: this.props.combatant.id,
+					initiative: value,
+				})
+			}),
+		});
+
+		this._clearTimeout();
+		this._tapTimeout = setTimeout( this._clearTimeout, TAP_MSEC );
+	},
+
+	_initiativeOnTouchMove: function(e) {
+		e.preventDefault();
+		knobActions.update({ touch: e.touches[0] });
+	},
+
+	_initiativeOnTouchEnd: function(e) {
+		if (this._tapTimeout) {
+			this._clearTimeout();		// if touch ended before tap-time passed, just leave it up onscreen
+		} else {
+			knobActions.commit();
+		}
 	},
 
 	_clearTimeout: function() {
-		if (!this._doubleTouchTimeout) return;
-		clearTimeout( this._doubleTouchTimeout );
-		this._doubleTouchTimeout = null;
+		if (!this._tapTimeout) return;
+		clearTimeout( this._tapTimeout );
+		this._tapTimeout = null;
 	},
 
 	_initiativeOnWheel: function(e) {
