@@ -16,7 +16,7 @@ require('style/noLongPress.less');
 const MAX_MOUSEWHEELS_PER_SECOND = 6;
 const TAP_MSEC = 350;
 
-const doGoofyTouchStuff = window.location.hash && window.location.hash.indexOf('spin') >= 0;
+const doGoofyTouchStuff = !(window.location.hash && window.location.hash.indexOf('nospin') >= 0);
 
 
 export default React.createClass({
