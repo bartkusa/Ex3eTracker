@@ -23,12 +23,13 @@ export default React.createClass({
 			<div className="PersistentCharactersEditor clearfix">
 				<h1>Character Roster</h1>
 				<div className="actions">
-					<button className="beginBattle btn btn-primary" onClick={this._beginBattleOnClick}>Join Battle</button>
-					{" "}
 					<button className="addChar btn btn-success" onClick={this._addOnClick}>Add New Character</button>
 					{" "}
 					<button className="loadChars btn btn-default" onClick={this._loadOnClick}>Load</button>
 					<button className="saveChars btn btn-default" onClick={this._saveOnClick}>Save</button>
+					{" "}
+					<button className="beginBattle btn btn-primary" onClick={this._beginBattleOnClick}>Join Battle</button>
+					
 				</div>
 				{this._renderCharList()}
 			</div>
