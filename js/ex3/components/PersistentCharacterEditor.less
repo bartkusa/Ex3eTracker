@@ -1,28 +1,49 @@
+@minSmallScreen: 550px;
 @portraitSize: 192px;
 
 .PersistentCharacterEditor {
+	@media (min-width: @minSmallScreen) {
+		display: flex;
+	}
 
 	> * {
 		display: block;
-		@media (min-width: 500px) {
+		@media (min-width: @minSmallScreen) {
 			display: inline-block;
 			vertical-align: top;
 		}
 	}
 
-	.Portrait {
-		width: @portraitSize;
-		height: @portraitSize;
-		@media (min-width: 500px) {
+	.portraitBox {
+		float: right;
+		clear: right;
+		margin-left: 1em;
+		text-align: center;
+
+		@media (min-width: @minSmallScreen) {
+			float: none;
+			clear: none;
+			margin-left: 0;
 			margin-right: 1em;
 		}
-	}
 
+		.Portrait {
+			width: @portraitSize;
+			height: @portraitSize;
+			max-width: 25vw;
+			max-height: 25vw;
+			margin-bottom: 5px;
+		}
+	}
 	.fields {
 		width: 100%;
-		@media (min-width: 500px) {
+		@media (min-width: @minSmallScreen) {
 			width: calc(~"100% - 1em" - @portraitSize)
 		}
+
+		.input-label { font-weight: bold; }
+		* + .input-label { margin-top: 1em; }
+		input[type=text] { width: 50% }
 	}
 	.notes {
 		width: 100%;

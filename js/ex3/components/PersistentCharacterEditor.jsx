@@ -22,23 +22,26 @@ export default React.createClass({
 
 		return (
 			<div className="PersistentCharacterEditor clearfix">
-				<Portrait
-					imgUrl={pc.imgUrl}
-					onDragEnter={allowDropIfHasUri}
-					onDragOver={allowDropIfHasUri}
-					onDrop={this._portraitImageOnDrop}
-					/>
+				<div className="portraitBox">
+					<Portrait
+						imgUrl={pc.imgUrl}
+						onDragEnter={allowDropIfHasUri}
+						onDragOver={allowDropIfHasUri}
+						onDrop={this._portraitImageOnDrop}
+						/>
+					<div>
+						<button className="remove btn btn-xs btn-danger" onClick={this._removeOnClick}>Delete</button>
+					</div>
+				</div>
+
 				<div className="fields">
-					<div className="input-label">Name:</div>
+					<div className="input-label">Character Name</div>
 					<input type="text"
 						value={pc.name}
 						onChange={this._nameOnChange}
 						/>
 
-					{" "}
-					<button className="remove btn btn-xs btn-danger" onClick={this._removeOnClick}>Delete</button>
-
-					<div className="input-label">Portrait URL:</div>
+					<div className="input-label">Portrait URL</div>
 					<input type="text"
 						value={pc.imgUrl}
 						onChange={this._portraitUrlOnChange}
@@ -46,11 +49,11 @@ export default React.createClass({
 						ref="portraitUrl"
 						/>
 
-					<div className="input-label">Notes:</div>
+					<div className="input-label" style={{clear: "right"}}>Notes</div>
 					<textarea
 							className="notes"
 							onChange={this._notesOnChange}
-							placeholder="Notes"
+							placeholder="Eg: health levels, defense, soak"
 							rows="4"
 							value={pc.notes}
 							/>
