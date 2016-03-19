@@ -5,13 +5,13 @@
 			"id": 0,
 			"imgUrl": "./img/sigDiamond.jpg",
 			"name": "Prince Diamond",
-			"notes": "Welcome to the Tracker!"
+			"notes": "Welcome to the Tracker!\nPress [Join Battle] to track characters' initiative and turn status."
 		},
 		{
 			"id": 1,
 			"imgUrl": "./img/sigPSoul.jpg",
 			"name": "Perfect Soul",
-			"notes": "You can replace characters' portraits by dragging-and-dropping images from the web.\nTry it with the pics in the top-right corner!\n(Unless you're on a touch device ;_;)"
+			"notes": "You can replace characters' portraits by dragging-and-dropping images from other web pages.\n(Only works with a mouse, sorry. ;_;)"
 		},
 		{
 			"id": 2,
@@ -23,13 +23,13 @@
 			"id": 3,
 			"imgUrl": "./img/sigNovia.jpg",
 			"name": "Novia Claro",
-			"notes": "Press [Save] at the top so your browser will remember everything for next time."
+			"notes": "Press [Save] at the top, and your browser will remember everything for next time."
 		},
 		{
 			"id": 4,
 			"imgUrl": "./img/sigShen.jpg",
 			"name": "Iselsi Shen",
-			"notes": "Press [Join Battle] to track characters' initiative and turn status. Changes and notes you make in battle are temporary, and will be reset after the battle ends."
+			"notes": ""
 		}
 	]
 }

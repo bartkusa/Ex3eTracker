@@ -12,13 +12,6 @@ require('./PersistentCharactersEditor.less');
 require('style/semanticList.less');
 
 
-const HANDY_PORTRAIT_URLS = [
-	'./img/charKhan.jpg',
-	'./img/charMonk.jpg',
-	'./img/charSamurai.jpg',
-	'./img/charDesert.jpg',
-];
-
 export default React.createClass({
 
 	propTypes: {
@@ -28,13 +21,6 @@ export default React.createClass({
 	render: function() {
 		return (
 			<div className="PersistentCharactersEditor clearfix">
-				{ HANDY_PORTRAIT_URLS.map((url, i) => (
-					<img className="handyDragAndDropPortrait"
-							key={i}
-							src={url}
-							/>
-				)) }
-
 				<h1>Persistent Characters</h1>
 				<div className="actions">
 					<button className="addChar btn btn-success" onClick={this._addOnClick}>Add</button>
