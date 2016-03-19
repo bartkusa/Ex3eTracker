@@ -17,13 +17,22 @@ export default React.createClass({
 	// propTypes: KnobShape,
 
 	render: function() {
+		const {originalValue, value, sector, sectors} = this.props;
+		const curDeltaNum = value - originalValue;
+		const curDeltaStr = (curDeltaNum >= -0 ? "+" : "") + curDeltaNum;
+
 		return (
 			<Overlay className="Knob noLongPress"
 					onTouchStart={this._onTouchStartOrMove}
 					onTouchMove={this._onTouchStartOrMove}
 					onTouchEnd={knobActions.commit}
 					>
-				<div className="curValue">{this.props.value}</div>
+				<div className="curState">
+					<span className="newValue">{ value }</span>
+					{" "}&nbsp;{" "}
+					<span className="delta">({ curDeltaStr })</span>
+					
+				</div>
 				<div className={`abort ${this.props.isOverAbortSector ? "hover" : ""}`}
 						onClick={ knobActions.abort }
 						>

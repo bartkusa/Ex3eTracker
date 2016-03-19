@@ -101,7 +101,7 @@ function getValueDiff(newSector, oldSector) {
 
 function isOverAbortSector(screenCenter, point) {
 	const {x, y} = getCoordsDiff(screenCenter, point);
-	return Math.abs(y) < 50 && Math.abs(x) < 75;
+	return Math.abs(y) < 38 && Math.abs(x) < 75;
 };
 function getCoordsDiff(refPoint, point) {
 	return {

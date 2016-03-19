@@ -1,20 +1,35 @@
 .Knob {
-	.curValue {
+	.curState {
 		text-align: center;
-		font-size: 15vh;
+		font-size: 10vh;
+		line-height: 100%;
 		font-weight: bold;
-		color: #ff0;
+		color: #aaa;
+
+		& > * {
+			vertical-align: middle;
+
+			&.delta {
+				color: #cc9;
+			}
+			&.newValue {
+				font-size: 15vh;
+				color: #ff0;
+			}
+		}
 	}
 
+	@abort-width: 150px;
+	@abort-height: 75px;
 	.abort {
-		width: 150px;
-		height: 100px;
+		width: @abort-width;
+		height: @abort-height;
 
 		position: fixed;
-		left: calc(~"50% - 75px");
-		top: calc(~"50% - 50px");
+		left: calc(~"50% - " @abort-width/2);
+		top: calc(~"50% - " @abort-height/2);
 		font-size: 30px;
-		line-height: 100px;
+		line-height: @abort-height;
 		text-align: center;
 		vertical-align: middle;
 
