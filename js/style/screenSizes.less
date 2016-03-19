@@ -1,0 +1,14 @@
+@minBigScreen: 550px;
+@maxSmallScreen: 549px;
+
+.screenBigOnly {
+	@media(max-width: @minBigScreen) {
+		display: none !important;
+	}
+}
+
+.screenSmallOnly {
+	@media(min-width:@maxSmallScreen) {
+		display: none !important;
+	}
+}

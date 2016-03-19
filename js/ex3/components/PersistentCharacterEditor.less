@@ -1,14 +1,14 @@
-@minSmallScreen: 550px;
+@minBigScreen: 550px;
 @portraitSize: 192px;
 
 .PersistentCharacterEditor {
-	@media (min-width: @minSmallScreen) {
+	@media (min-width: @minBigScreen) {
 		display: flex;
 	}
 
 	> * {
 		display: block;
-		@media (min-width: @minSmallScreen) {
+		@media (min-width: @minBigScreen) {
 			display: inline-block;
 			vertical-align: top;
 		}
@@ -20,7 +20,7 @@
 		margin-left: 1em;
 		text-align: center;
 
-		@media (min-width: @minSmallScreen) {
+		@media (min-width: @minBigScreen) {
 			float: none;
 			clear: none;
 			margin-left: 0;
@@ -37,7 +37,7 @@
 	}
 	.fields {
 		width: 100%;
-		@media (min-width: @minSmallScreen) {
+		@media (min-width: @minBigScreen) {
 			width: calc(~"100% - 1em" - @portraitSize)
 		}
 

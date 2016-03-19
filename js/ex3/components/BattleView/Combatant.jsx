@@ -10,6 +10,7 @@ import combatantShape from 'ex3/shapes/Combatant';
 import { DEFAULT_IMAGE_URL } from 'ex3/stores/PersistentCharacters';
 
 require('./Combatant.less');
+require('style/screenSizes.less');
 
 
 export default React.createClass({
@@ -61,8 +62,11 @@ export default React.createClass({
 		if (this.props.round > 0) {
 			return (
 				<div style={{float: "right"}}>
-					<button className="btn btn-xs btn-warning" onClick={this._exitOnClick}>
+					<button className="btn btn-xs btn-warning screenBigOnly" onClick={this._exitOnClick}>
 						Exit battle
+					</button>
+					<button className="btn btn-xs btn-warning screenSmallOnly" onClick={this._exitOnClick}>
+						Exit
 					</button>
 				</div>
 			);
@@ -70,8 +74,11 @@ export default React.createClass({
 
 		return (
 			<div style={{float: "right"}}>
-				<button className="btn btn-xs btn-warning" onClick={this._removeOnClick}>
+				<button className="btn btn-xs btn-warning screenBigOnly" onClick={this._removeOnClick}>
 					Remove
+				</button>
+				<button className="btn btn-xs btn-warning screenSmallOnly" onClick={this._removeOnClick}>
+					X
 				</button>
 			</div>
 		);
