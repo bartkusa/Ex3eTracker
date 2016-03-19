@@ -22,7 +22,7 @@ export default React.createClass({
 		return (
 			<div className="BattleView clearfix">
 				<div className="bvHeader clearfix">
-					<h1>Battle View</h1>
+					<h1>Battle</h1>
 					<div className="topRight">
 						{ this._renderButtons() }
 						<BattleStats {...p} />

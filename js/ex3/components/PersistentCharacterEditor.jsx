@@ -36,7 +36,7 @@ export default React.createClass({
 						/>
 
 					{" "}
-					<button className="remove btn btn-xs btn-danger" onClick={this._removeOnClick}>Remove</button>
+					<button className="remove btn btn-xs btn-danger" onClick={this._removeOnClick}>Delete</button>
 
 					<div className="input-label">Portrait URL:</div>
 					<input type="text"
