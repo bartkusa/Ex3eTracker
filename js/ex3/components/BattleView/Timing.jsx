@@ -162,7 +162,11 @@ export default React.createClass({
 	},
 
 	_startTurnOnClick: function() {
-		battleActions.startTurn({
+		// There's no reason to support "aborted turns" until there's some undo functionality built in.
+		// battleActions.startTurn({
+		// 	who: this.props.combatant.id,
+		// });
+		battleActions.endTurn({
 			who: this.props.combatant.id,
 		});
 	},
