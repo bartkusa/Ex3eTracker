@@ -5,6 +5,7 @@ import Portrait from 'ex3/components/Portrait';
 import PersistentCharShape from 'ex3/shapes/PersistentCharacter';
 
 import charActions from 'ex3/actions/CharActions';
+import gaEvent from 'ex3/funcs/ga';
 
 import { DEFAULT_IMAGE_URL } from 'ex3/stores/PersistentCharacters';
 require('./PersistentCharacterEditor.less');
@@ -74,10 +75,12 @@ export default React.createClass({
 		// TODO: Extract images from HTML?
 		// TODO: Extract data from files? http://www.htmlgoodies.com/html5/javascript/drag-files-into-the-browser-from-the-desktop-HTML5.html#fbid=fA8mNhDY0NY
 
+		const url = evt.dataTransfer.getData("text/uri-list");
 		charActions.setPortrait({
 			who: this.props.persistentCharacter,
-			url: evt.dataTransfer.getData("text/uri-list"),
+			url,
 		});
+		gaEvent('persistent-characters', 'set-portrait-dragdrop', url)
 	},
 
 	_portraitUrlOnChange: function(evt) {

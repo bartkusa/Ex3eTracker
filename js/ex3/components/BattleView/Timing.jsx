@@ -1,6 +1,7 @@
 "use strict";
 
 import throttle from 'lodash/throttle';
+import gaEvent from 'ex3/funcs/ga';
 
 import React from 'react/react';
 
@@ -136,8 +137,10 @@ export default React.createClass({
 
 		if (this._tapTimeout) {
 			this._clearTimeout();		// if touch ended before tap-time passed, just leave it up onscreen
+			gaEvent('battle', 'set-initiative-touchtap');
 		} else {
 			knobActions.commit();
+			gaEvent('battle', 'set-initiative-touchhold');
 		}
 	},
 
@@ -154,7 +157,8 @@ export default React.createClass({
 		battleActions.setInit({
 			who: this.props.combatant.id,
 			initiative: this.props.combatant.initiative + ((e.deltaY < 0) ? 1 : -1),
-		})
+		});
+		gaEvent('battle', 'set-initiative-mousewheel');
 	},
 
 	_startTurnOnClick: function() {

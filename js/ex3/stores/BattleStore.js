@@ -2,6 +2,7 @@
 
 import * as battleActions from 'ex3/actions/BattleActions';
 import { setState, replaceState } from './storeUtils';
+import gaEvent from 'ex3/funcs/ga';
 
 import { toIdSet, idsMatch } from './CharUtils';
 import { asArray, mix } from 'ex3/funcs/utils';
@@ -41,10 +42,13 @@ export default {
 			combatants: persistentChars.map(makeCombatant),
 		});
 		this.sort().trigger();
+
+		gaEvent('persistent-characters', 'join-battle', undefined, persistentChars.length);
 	},
 
 	onEndBattle: function() {
 		this.replaceState(null);
+		gaEvent('battle', 'end');
 	},
 
 	onEnterBattle: function(action) {
@@ -68,6 +72,7 @@ export default {
 			});
 
 		this.sort().setState();
+		gaEvent('battle', 'combatant-exit');
 	},
 
 	onRemoveEntirely: function(action) {
@@ -75,6 +80,7 @@ export default {
 		this.state.combatants = this.state.combatants.filter((ch) => !charIdsExitingBattle[ch.id]);
 
 		this.sort().setState();
+		gaEvent('battle', 'combatant-remove');
 	},
 
 
@@ -92,6 +98,7 @@ export default {
 					? Math.max( ...activeCombatants.map((ac) => ac.initiative) )
 					: 0,
 		});
+		gaEvent('battle', 'next-round', undefined, this.state.round);
 	},
 
 	onSetInit: function(action) {
@@ -100,6 +107,8 @@ export default {
 			.forEach((c) => c.initiative = +action.initiative);
 
 		this.setState(); // don't sort. leads to characters jumping around too much.
+
+		gaEvent('battle', 'combatant-set-init', undefined, action.initiative);
 	},
 
 	onSortCombatants: function() {
@@ -112,6 +121,7 @@ export default {
 			.forEach((c) => c.turnStatus = IS_GOING);
 
 		this.setState();
+		gaEvent('battle', 'combatant-start-turn', undefined, action.initiative);
 	},
 
 	onEndTurn: function(action) {
@@ -128,6 +138,8 @@ export default {
 		this.sort().setState({
 			tick: Math.min(this.state.tick, highestInitThatHasntGone),
 		});
+
+		gaEvent('battle', 'combatant-end-turn', undefined, action.initiative);
 	},
 
 	onResetTurn: function(action) {
@@ -136,6 +148,8 @@ export default {
 			.forEach((c) => c.turnStatus = CAN_GO);
 
 		this.sort().setState();
+
+		gaEvent('battle', 'combatant-reset-turn', undefined, action.initiative);
 	},
 
 	sort: function() {

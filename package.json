@@ -1,5 +1,6 @@
 {
   "name": "exalted-3e-tracker",
+  "private": true,
   "version": "0.0.2",
   "description": "An initiative-tracker for the Exalted 3E roleplaying game.",
   "author": "Andrew Bartkus",
@@ -25,6 +26,7 @@
     "webpack": "^1.12.14"
   },
   "dependencies": {
+    "bluebird": "^3.3.4",
     "lodash": "^4.6.1",
     "react": "^0.14.7",
     "react-dom": "^0.14.7",

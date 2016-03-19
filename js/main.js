@@ -1,6 +1,7 @@
 "use strict";
 
 import { mix } from 'ex3/funcs/utils';
+import Promise from 'bluebird';
 
 import { createStore } from 'reflux';
 import { default as PersistentCharacterStore } from 'ex3/stores/PersistentCharacters';
@@ -11,9 +12,15 @@ import React from 'react/react';
 import ReactDOM from 'react/lib/ReactDOM';
 import MainUi from 'ex3/components/MainUi';
 
+
 require('./main.less');
 require('./suppressBootstrapDemo.less');
 
+
+Promise.config({
+    longStackTraces: true,
+    warnings: true
+});
 
 
 // Init stores ---------------------------------------------------------------------------------------------------------

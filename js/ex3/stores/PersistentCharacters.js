@@ -3,6 +3,7 @@
 import * as charActions from 'ex3/actions/CharActions';
 import * as charUtils from './CharUtils';
 import { setState, replaceState } from './storeUtils';
+import gaEvent from 'ex3/funcs/ga';
 
 const  DEFAULT_PERSISTENT_CHARACTERS = require('ex3/data/DefaultPersistentCharacters');
 
@@ -43,6 +44,8 @@ export default {
 			persistentCharacters: [...newPCs, ...this.state.persistentCharacters],
 			notes: null,
 		});
+
+		gaEvent('persistent-characters', 'add');
 	},
 
 	onRemove: function(input) {
@@ -54,6 +57,8 @@ export default {
 			// nextId: this.state.nextId,
 			persistentCharacters: purgedPCs,
 		});
+
+		gaEvent('persistent-characters', 'remove');
 	},
 
 
@@ -99,7 +104,9 @@ export default {
 		};
 		localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(pcData));
 		console.debug("Saved:", pcData);
-		alert("Your stuff is saved");
+		alert("Your characters are saved to this browser's local storage.");
+
+		gaEvent('persistent-characters', 'save', undefined, this.state.persistentCharacters.length);
 	},
 
 	onLoad: function() {
@@ -120,6 +127,8 @@ export default {
 			persistentCharacters,
 			nextId,
 		});
+
+		gaEvent('persistent-characters', 'load', undefined, persistentCharacters.length);
 	},
 
 	loadDuringStartup: function() {
@@ -133,6 +142,7 @@ export default {
 		} else {
 			console.log("Loading defaults");
 			pcData = DEFAULT_PERSISTENT_CHARACTERS;
+			gaEvent('persistent-characters', 'startup-defaults', {nonInteraction: true});
 		}
 
 		const persistentCharacters = pcData.persistentCharacters || [];
@@ -143,5 +153,10 @@ export default {
 			persistentCharacters,
 			nextId,
 		});
+
+
+		if (pcJSON) {
+			gaEvent('startup', 'startup-load', undefined, persistentCharacters.length, {nonInteraction: true});
+		}
 	},
 };
