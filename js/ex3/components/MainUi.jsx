@@ -17,6 +17,7 @@ export default React.createClass({
 		battle: BattleShape,
 		knob: React.PropTypes.object,
 		persistentCharacters: React.PropTypes.arrayOf(PersistentCharShape).isRequired,
+		areUnsavedChanges: React.PropTypes.bool,
 	},
 
 	render() {
@@ -42,8 +43,9 @@ export default React.createClass({
 	_renderPCEditor: function() {
 		return (
 			<PersistentCharactersEditor
-				key="persistentCharaters"
+				key="persistentCharacters"
 				persistentCharacters={this.props.persistentCharacters}
+				areUnsavedChanges={this.props.areUnsavedChanges}
 				/>
 		);
 	},

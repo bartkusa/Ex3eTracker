@@ -10,6 +10,8 @@ const  DEFAULT_PERSISTENT_CHARACTERS = require('ex3/data/DefaultPersistentCharac
 export const LOCAL_STORAGE_KEY = "savedPersistentCharacters";
 export const DEFAULT_IMAGE_URL = "./img/charDefault.jpg"; // TODO: Define image root location
 
+const UNSAVED_CHANGES_WARNING = "Your character roster has unsaved changes, which will be lost if you leave.";
+
 
 export default {
 
@@ -22,6 +24,13 @@ export default {
 		this.replaceState({
 			nextId: 0,
 			persistentCharacters: [], // should this be a map of id->obj?
+			areUnsavedChanges: false,
+		});
+
+		window.addEventListener("beforeunload", (e) => {
+			if (this.state.areUnsavedChanges) {
+				return (e || window.event).returnValue = UNSAVED_CHANGES_WARNING;
+			}
 		});
 	},
 
@@ -42,7 +51,7 @@ export default {
 		this.setState({
 			nextId: nextId,
 			persistentCharacters: [...newPCs, ...this.state.persistentCharacters],
-			notes: null,
+			areUnsavedChanges: true,
 		});
 
 		gaEvent('persistent-characters', 'pc-add');
@@ -56,6 +65,7 @@ export default {
 		this.setState({
 			// nextId: this.state.nextId,
 			persistentCharacters: purgedPCs,
+			areUnsavedChanges: true,
 		});
 
 		gaEvent('persistent-characters', 'pc-remove');
@@ -71,7 +81,7 @@ export default {
 					pc.name = args.name || "";
 				}); // this is so stupid just do redux already
 
-		this.setState();
+		this.setState({ areUnsavedChanges: true });
 	},
 
 	onSetPortrait: function(args) {
@@ -81,7 +91,7 @@ export default {
 					pc.imgUrl = args.url;
 				}); // this is so stupid just do redux already
 
-		this.setState();
+		this.setState({ areUnsavedChanges: true });
 	},
 
 	onSetNotes: function(args) {
@@ -91,7 +101,7 @@ export default {
 					pc.notes = args.notes;
 				}); // this is so stupid just do redux already
 
-		this.setState();
+		this.setState({ areUnsavedChanges: true });
 	},
 
 
@@ -106,12 +116,17 @@ export default {
 		console.debug("Saved:", pcData);
 		alert("Your characters are saved to this browser's local storage.");
 
+		this.setState({ areUnsavedChanges: false });
+
 		gaEvent('persistent-characters', 'pcs-save', undefined, this.state.persistentCharacters.length);
 	},
 
 	onLoad: function() {
 		const pcJSON = localStorage.getItem(LOCAL_STORAGE_KEY);
-		if (!pcJSON) return;
+		if (!pcJSON) {
+			this.setState({ areUnsavedChanges: false });
+			return;
+		}
 
 		console.debug("Loaded:", pcJSON);
 		const pcData = JSON.parse( pcJSON );
@@ -126,6 +141,7 @@ export default {
 		this.replaceState({
 			persistentCharacters,
 			nextId,
+			areUnsavedChanges: false,
 		});
 
 		gaEvent('persistent-characters', 'pcs-load', undefined, persistentCharacters.length);
@@ -152,6 +168,7 @@ export default {
 		this.replaceState({
 			persistentCharacters,
 			nextId,
+			areUnsavedChanges: false,
 		});
 
 

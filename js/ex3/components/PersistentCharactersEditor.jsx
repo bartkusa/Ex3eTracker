@@ -16,6 +16,7 @@ export default React.createClass({
 
 	propTypes: {
 		persistentCharacters: React.PropTypes.arrayOf(PersistentCharShape).isRequired,
+		areUnsavedChanges: React.PropTypes.bool,
 	},
 
 	render: function() {
@@ -25,10 +26,25 @@ export default React.createClass({
 				<div className="actions">
 					<button className="addChar btn btn-success" onClick={this._addOnClick}>Add New Character</button>
 					{" "}
-					<button className="loadChars btn btn-default" onClick={this._loadOnClick}>Load</button>
-					<button className="saveChars btn btn-default" onClick={this._saveOnClick}>Save</button>
+					<button className="loadChars btn btn-default"
+							disabled={!this.props.areUnsavedChanges} // TODO: Don't enable if nothing is saved in LocalStorage
+							onClick={this._loadOnClick}
+							>
+						Load
+					</button>
+					<button className="saveChars btn btn-default"
+							disabled={!this.props.areUnsavedChanges}
+							onClick={this._saveOnClick}
+							>
+						Save
+					</button>
 					{" "}
-					<button className="beginBattle btn btn-primary" onClick={this._beginBattleOnClick}>Join Battle</button>
+					<button className="beginBattle btn btn-primary"
+							disabled={this.props.persistentCharacters.length <= 0}
+							onClick={this._beginBattleOnClick}
+							>
+						Join Battle
+					</button>
 					
 				</div>
 				{this._renderCharList()}

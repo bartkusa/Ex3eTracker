@@ -43,6 +43,7 @@ function renderApp() {
 	ReactDOM.render(
 		(<MainUi
 				persistentCharacters={ pcStore.state.persistentCharacters }
+				areUnsavedChanges={ pcStore.state.areUnsavedChanges }
 				battle={ batStore.state }
 				knob={ knobStore.state }
 				/>),
