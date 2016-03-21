@@ -43,7 +43,7 @@ export default {
 		});
 		this.sort().trigger();
 
-		gaEvent('persistent-characters', 'join-battle', undefined, persistentChars.length);
+		gaEvent('battle', 'join-battle', undefined, persistentChars.length);
 	},
 
 	onEndBattle: function() {
@@ -107,8 +107,6 @@ export default {
 			.forEach((c) => c.initiative = +action.initiative);
 
 		this.setState(); // don't sort. leads to characters jumping around too much.
-
-		gaEvent('battle', 'combatant-set-init', undefined, action.initiative);
 	},
 
 	onSortCombatants: function() {

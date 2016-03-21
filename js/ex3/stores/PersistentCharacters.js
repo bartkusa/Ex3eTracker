@@ -45,7 +45,7 @@ export default {
 			notes: null,
 		});
 
-		gaEvent('persistent-characters', 'add');
+		gaEvent('persistent-characters', 'pc-add');
 	},
 
 	onRemove: function(input) {
@@ -58,7 +58,7 @@ export default {
 			persistentCharacters: purgedPCs,
 		});
 
-		gaEvent('persistent-characters', 'remove');
+		gaEvent('persistent-characters', 'pc-remove');
 	},
 
 
@@ -106,7 +106,7 @@ export default {
 		console.debug("Saved:", pcData);
 		alert("Your characters are saved to this browser's local storage.");
 
-		gaEvent('persistent-characters', 'save', undefined, this.state.persistentCharacters.length);
+		gaEvent('persistent-characters', 'pcs-save', undefined, this.state.persistentCharacters.length);
 	},
 
 	onLoad: function() {
@@ -128,7 +128,7 @@ export default {
 			nextId,
 		});
 
-		gaEvent('persistent-characters', 'load', undefined, persistentCharacters.length);
+		gaEvent('persistent-characters', 'pcs-load', undefined, persistentCharacters.length);
 	},
 
 	loadDuringStartup: function() {
@@ -142,7 +142,7 @@ export default {
 		} else {
 			console.log("Loading defaults");
 			pcData = DEFAULT_PERSISTENT_CHARACTERS;
-			gaEvent('persistent-characters', 'startup-defaults', {nonInteraction: true});
+			gaEvent('startup', 'startup-defaults', {nonInteraction: true});
 		}
 
 		const persistentCharacters = pcData.persistentCharacters || [];

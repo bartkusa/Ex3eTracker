@@ -103,7 +103,8 @@ export default React.createClass({
 		battleActions.setInit({
 			who: this.props.combatant.id,
 			initiative: +e.target.value, // "+" can convert strings to numbers
-		})
+		});
+		gaEvent('battle', 'combatant-init', undefined, action.initiative);
 	},
 
 	_initiativeOnTouchStart: function(e) {
@@ -137,10 +138,10 @@ export default React.createClass({
 
 		if (this._tapTimeout) {
 			this._clearTimeout();		// if touch ended before tap-time passed, just leave it up onscreen
-			gaEvent('battle', 'set-initiative-touchtap');
+			gaEvent('battle', 'combatant-init-touchtap');
 		} else {
 			knobActions.commit();
-			gaEvent('battle', 'set-initiative-touchhold');
+			gaEvent('battle', 'combatant-init-touchhold');
 		}
 	},
 
@@ -158,7 +159,7 @@ export default React.createClass({
 			who: this.props.combatant.id,
 			initiative: this.props.combatant.initiative + ((e.deltaY < 0) ? 1 : -1),
 		});
-		gaEvent('battle', 'set-initiative-mousewheel');
+		gaEvent('battle', 'combatant-init-mousewheel');
 	},
 
 	_startTurnOnClick: function() {
