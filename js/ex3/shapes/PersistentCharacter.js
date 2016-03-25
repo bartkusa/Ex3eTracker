@@ -8,4 +8,7 @@ export default PropTypes.shape({
 	imgUrl: PropTypes.string,
 	notes: PropTypes.string,
 
+	personalEss: PropTypes.number,
+	peripheralEss: PropTypes.number,
+
 });
