@@ -44,7 +44,7 @@ export default React.createClass({
 						onWheel={this._initiativeOnWheel}
 						>
 					<IntegerSelect
-							className="initiative"
+							className="big"
 							min={ Math.min(c.initiative - INITIATIVE_RANGE, 0) }
 							max={ Math.max(c.initiative + INITIATIVE_RANGE, DEFAULT_INIT + 2) }
 							onChange={this._initiativeOnChange}

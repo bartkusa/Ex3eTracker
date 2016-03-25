@@ -5,6 +5,8 @@ import PureRenderMixin from 'react/lib/ReactComponentWithPureRenderMixin';
 import rangeRight from 'lodash/rangeRight';
 import throttle from 'lodash/throttle';
 
+require('./IntegerSelect.less');
+
 const MIN_MOUSEWHEEL_PERIOD = 1000 / 25;
 
 
@@ -50,6 +52,7 @@ export default createClass({
 	render: function() {
 		return (
 			<select {...this.props}
+					className={`IntegerSelect ${this.props.className || ""}`}
 					onChange={this._onChange}
 					onWheel={this._onWheel}
 					value={this.props.value}
