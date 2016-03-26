@@ -1,12 +1,12 @@
 "use strict";
 
 import gaEvent from 'ex3/funcs/ga';
+import makeKnobHandlers from 'ex3/funcs/knobHandlers';
 
 import React from 'react/react';
 import IntegerSelect from 'ex3/components/IntegerSelect';
 
 import battleActions from 'ex3/actions/BattleActions';
-import knobActions from 'ex3/actions/KnobActions';
 import combatantShape from 'ex3/shapes/Combatant';
 import * as TurnStatus from 'ex3/TurnStatus';
 import { DEFAULT_INIT } from 'ex3/stores/BattleStore';
@@ -15,8 +15,6 @@ require('./Timing.less');
 require('style/noLongPress.less');
 
 const INITIATIVE_RANGE = 15; // For initiative, render options from current+range to current-range, modulo weirdness.
-const KNOB_ENABLED = !(window.location.hash && window.location.hash.indexOf('nospin') >= 0);
-const TAP_MSEC = 350;
 
 
 export default React.createClass({
@@ -28,20 +26,18 @@ export default React.createClass({
 		tick: React.PropTypes.number,
 	},
 
-	componentWillUnmount: function() {
-		this._clearTimeout();
-	},
-
 	render: function() {
 		const c = this.props.combatant;
 		if (!c.isInBattle) return <div className="Timing noLongPress"></div>;
 
+		const knobHandlers = makeKnobHandlers(c.initiative, this._initiativeOnChange);
+
 		return (
 			<div className="Timing noLongPress">
-				<div onTouchStart={this._initiativeOnTouchStart}
-						onTouchMove={this._initiativeOnTouchMove}
-						onTouchEnd={this._initiativeOnTouchEnd}
-						onWheel={this._initiativeOnWheel}
+				<div onTouchStart={ knobHandlers.start }
+						onTouchMove={ knobHandlers.move }
+						onTouchEnd={ knobHandlers.end }
+						onWheel={ this._initiativeOnWheel }
 						>
 					<IntegerSelect
 							className="big"
@@ -120,49 +116,5 @@ export default React.createClass({
 			initiative: this.props.combatant.initiative + ((direction < 0) ? -1 : 1),
 		});
 		gaEvent('battle', 'combatant-init-mousewheel');
-	},
-
-	_initiativeOnTouchStart: function(e) {
-		if (!KNOB_ENABLED) return;
-
-		e.preventDefault();
-		knobActions.start({
-			touch: e.touches[0],
-			value: this.props.combatant.initiative,
-			callback: ((newValue) => {
-				battleActions.setInit({
-					who: this.props.combatant.id,
-					initiative: newValue,
-				});
-			}),
-		});
-
-		this._clearTimeout();
-		this._tapTimeout = setTimeout( this._clearTimeout, TAP_MSEC );
-	},
-
-	_initiativeOnTouchMove: function(e) {
-		if (!KNOB_ENABLED) return;
-
-		e.preventDefault();
-		knobActions.update({ touch: e.touches[0] });
-	},
-
-	_initiativeOnTouchEnd: function(e) {
-		if (!KNOB_ENABLED) return;
-
-		if (this._tapTimeout) {
-			this._clearTimeout();		// if touch ended before tap-time passed, just leave it up onscreen
-			gaEvent('battle', 'combatant-init-touchtap');
-		} else {
-			knobActions.commit();
-			gaEvent('battle', 'combatant-init-touchhold');
-		}
-	},
-
-	_clearTimeout: function() {
-		if (!this._tapTimeout) return;
-		clearTimeout( this._tapTimeout );
-		this._tapTimeout = null;
 	},
 });
