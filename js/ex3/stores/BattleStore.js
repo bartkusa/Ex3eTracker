@@ -13,7 +13,7 @@ import { CAN_GO, IS_GOING, HAS_GONE } from 'ex3/TurnStatus';
 export const LOCAL_STORAGE_KEY = "savedPersistentCharacters";
 export const DEFAULT_IMAGE_URL = "/ex/img/charDefault.jpg";
 export const DEFAULT_INIT = 3;
-
+export const ESSENCE_RESPIRED_PER_TURN = 5;
 
 export default {
 
@@ -116,7 +116,13 @@ export default {
 	onStartTurn: function(action) {
 		this.state.combatants
 			.filter((c) => c.id === action.who) // TODO: fix these shitty semantics
-			.forEach((c) => c.turnStatus = IS_GOING);
+			.forEach((c) => {
+				c.turnStatus = IS_GOING;
+
+				const {personalEss, peripheralEss} = calcAddedEssence(c, ESSENCE_RESPIRED_PER_TURN);
+				c.personalEss = personalEss;
+				c.peripheralEss = peripheralEss;
+			});
 
 		this.setState();
 		gaEvent('battle', 'combatant-start-turn', undefined, action.initiative);
@@ -158,6 +164,17 @@ export default {
 
 	// Combatant mutation //////////////////////////////////////////////////////////////////////////////////////////////
 
+	onSetEssence: function({who, personal, peripheral}) {
+		this.state.combatants
+				.filter((c) => charUtils.idsMatch(pc, who))
+				.forEach((c) => {
+					if (personal != null)   c.personalEss   = Math.max(0, Math.min(personal,   c.maxPersonalEss));
+					if (peripheral != null) c.peripheralEss = Math.max(0, Math.min(peripheral, c.maxPeripheralEss));
+				}); // this is so stupid just do redux already
+
+		this.setState();
+	},
+
 	onSetNotes: function(action) {
 		this.state.combatants
 			.filter((c) => c.id === action.who) // TODO: fix these shitty semantics
@@ -178,6 +195,21 @@ function makeCombatant(persistentCharacter) {
 			isInBattle: true,
 			initiative: DEFAULT_INIT,
 			turnStatus: CAN_GO,
+
+			maxPersonalEss: persistentCharacter.personalEss,
+			maxPeripheralEss: persistentCharacter.personalEss,
 		}
 	);
+};
+
+function calcAddedEssence({personalEss, peripheralEss, maxPersonalEss, maxPeripheralEss}, addedMotes) {
+	// Respire personal essence first, then peripheral.
+	const newPersonalEss = personalEss + addedMotes;
+	const unusedMotes = Math.max(newPersonalEss - maxPersonalEss, 0);
+	const newPeripheralEss = peripheralEss + unusedMotes;
+
+	return {
+		personalEss:   Math.max(0, Math.min(newPersonalEss,   maxPersonalEss)),
+		peripheralEss: Math.max(0, Math.min(newPeripheralEss, maxPeripheralEss)),
+	};
 };

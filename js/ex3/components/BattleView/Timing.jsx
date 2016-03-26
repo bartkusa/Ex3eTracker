@@ -80,6 +80,9 @@ export default React.createClass({
 	},
 
 	_endTurnOnClick: function() {
+		battleActions.startTurn({
+			who: this.props.combatant.id,
+		});
 		battleActions.endTurn({
 			who: this.props.combatant.id,
 		});

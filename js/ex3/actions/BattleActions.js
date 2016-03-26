@@ -14,6 +14,8 @@ const BattleActions = module.exports = reflux.createActions([
 	"startTurn",
 	"resetTurn",
 	"endTurn",
+
+	"setEssence",
 ]);
 
 
