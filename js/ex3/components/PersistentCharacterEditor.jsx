@@ -2,6 +2,7 @@
 
 import React from 'react/react';
 import Portrait from 'ex3/components/Portrait';
+import IntegerSelect from 'ex3/components/IntegerSelect';
 import PersistentCharShape from 'ex3/shapes/PersistentCharacter';
 
 import charActions from 'ex3/actions/CharActions';
@@ -9,6 +10,8 @@ import gaEvent from 'ex3/funcs/ga';
 
 import { DEFAULT_IMAGE_URL } from 'ex3/stores/PersistentCharacters';
 require('./PersistentCharacterEditor.less');
+
+const ESSENCE_RANGE = 20;
 
 
 export default React.createClass({
@@ -49,6 +52,30 @@ export default React.createClass({
 						ref="portraitUrl"
 						/>
 
+					<div className="input-label">Essence Reserves</div>
+					<div className="essenceBlock">
+						<i>Personal</i>{" "}
+						<IntegerSelect
+							className="big"
+							min={0}
+							max={pc.personalEss + ESSENCE_RANGE}
+							onChange={this._personalEssOnChange}
+							required={true}
+							value={pc.personalEss}
+							/>
+					</div>
+					<div className="essenceBlock">
+						<i>Personal</i>{" "}
+						<IntegerSelect
+							className="big"
+							min={0}
+							max={pc.peripheralEss + ESSENCE_RANGE}
+							onChange={this._peripheralEssOnChange}
+							required={true}
+							value={pc.peripheralEss}
+							/>
+					</div>
+
 					<div className="input-label" style={{clear: "right"}}>Notes</div>
 					<textarea
 							className="notes"
@@ -57,9 +84,6 @@ export default React.createClass({
 							rows="4"
 							value={pc.notes}
 							/>
-
-					<div>
-					</div>
 				</div>
 			</div>
 		);
@@ -83,7 +107,7 @@ export default React.createClass({
 			who: this.props.persistentCharacter,
 			url,
 		});
-		gaEvent('persistent-characters', 'set-portrait-dragdrop', url)
+		gaEvent('persistent-characters', 'set-portrait-dragdrop', url);
 	},
 
 	_portraitUrlOnChange: function(evt) {
@@ -95,6 +119,22 @@ export default React.createClass({
 
 	_portraitUrlOnFocus: function(evt) {
 		this.refs.portraitUrl.setSelectionRange(0, this.props.persistentCharacter.imgUrl.length);
+	},
+
+	_personalEssOnChange: function(newValue) {
+		charActions.setEssence({
+			who: this.props.persistentCharacter,
+			personal: newValue,
+		});
+		gaEvent('persistent-characters', 'set-personal-ess', null, newValue);
+	},
+
+	_peripheralEssOnChange: function(newValue) {
+		charActions.setEssence({
+			who: this.props.persistentCharacter,
+			peripheral: newValue,
+		});
+		gaEvent('persistent-characters', 'set-peripheral-ess', null, newValue);
 	},
 
 	_notesOnChange: function(evt) {
