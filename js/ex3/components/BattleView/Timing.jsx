@@ -30,13 +30,9 @@ export default React.createClass({
 		const c = this.props.combatant;
 		if (!c.isInBattle) return <div className="Timing noLongPress"></div>;
 
-		const knobHandlers = makeKnobHandlers(c.initiative, this._initiativeOnChange);
-
 		return (
 			<div className="Timing noLongPress">
-				<div onTouchStart={ knobHandlers.start }
-						onTouchMove={ knobHandlers.move }
-						onTouchEnd={ knobHandlers.end }
+				<div {...makeKnobHandlers(c.initiative, this._initiativeOnChange)}
 						onWheel={ this._initiativeOnWheel }
 						>
 					<IntegerSelect

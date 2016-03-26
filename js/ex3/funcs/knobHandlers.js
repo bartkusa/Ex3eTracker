@@ -6,7 +6,7 @@ const TAP_MSEC = 200;
 
 export default function(startValue, callback) {
 
-	const start = function(e) {
+	const onTouchStart = function(e) {
 		knobActions.start({
 			touch: e.touches[0],
 			value: startValue,
@@ -17,12 +17,12 @@ export default function(startValue, callback) {
 		startWaitingToSeeIfTouchTurnsIntoHold();
 	};
 
-	const move = function(e) {
+	const onTouchMove = function(e) {
 		knobActions.update({ touch: e.touches[0] });
 		e.preventDefault();
 	};
 
-	const end = function(e) {
+	const onTouchEnd = function(e) {
 		if (timeoutBeforeTapBecomesHold !== null) {
 			clearTapTimeout();
 			gaEvent('knob', 'touchtap');
@@ -32,7 +32,7 @@ export default function(startValue, callback) {
 		}
 	};
 
-	return { start, move, end };
+	return { onTouchStart, onTouchMove, onTouchEnd };
 };
 
 
