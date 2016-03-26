@@ -66,7 +66,7 @@ export default React.createClass({
 						Exit battle
 					</button>
 					<button className="btn btn-xs btn-warning screenSmallOnly" onClick={this._exitOnClick}>
-						Exit
+						X
 					</button>
 				</div>
 			);

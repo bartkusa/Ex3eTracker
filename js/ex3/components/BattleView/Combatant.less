@@ -44,6 +44,12 @@
 	.Timing {
 		width: @timing-width;
 		padding: 15px;
+		transition: width 0.3s ease-out, padding 0.3s ease-out;
+		-webkit-transition: width 0.3s ease-out, padding 0.3s ease-out;
+	}
+	&.notInBattle .Timing {
+		width: 0px;
+		padding: 0px;
 	}
 
 	.Portrait {
@@ -55,7 +61,7 @@
 		transition: filter 1s ease-out;
 		-webkit-transition: -webkit-filter 1s ease-out;
 	}
-	&.notInBattle .portrait {
+	&.notInBattle .Portrait {
 		filter: grayscale(1);
 		-webkit-filter: grayscale(1);
 	}
