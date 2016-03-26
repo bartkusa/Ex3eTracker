@@ -166,7 +166,7 @@ export default {
 
 	onSetEssence: function({who, personal, peripheral}) {
 		this.state.combatants
-				.filter((c) => charUtils.idsMatch(pc, who))
+				.filter((c) => c.id === who)
 				.forEach((c) => {
 					if (personal != null)   c.personalEss   = Math.max(0, Math.min(personal,   c.maxPersonalEss));
 					if (peripheral != null) c.peripheralEss = Math.max(0, Math.min(peripheral, c.maxPeripheralEss));
@@ -194,10 +194,10 @@ function makeCombatant(persistentCharacter) {
 		{
 			isInBattle: true,
 			initiative: DEFAULT_INIT,
-			turnStatus: CAN_GO,
+			turnStatus: HAS_GONE,
 
 			maxPersonalEss: persistentCharacter.personalEss,
-			maxPeripheralEss: persistentCharacter.personalEss,
+			maxPeripheralEss: persistentCharacter.peripheralEss,
 		}
 	);
 };
