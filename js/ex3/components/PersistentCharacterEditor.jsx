@@ -7,6 +7,7 @@ import PersistentCharShape from 'ex3/shapes/PersistentCharacter';
 
 import charActions from 'ex3/actions/CharActions';
 import gaEvent from 'ex3/funcs/ga';
+import makeKnobHandlers from 'ex3/funcs/knobHandlers';
 
 import { DEFAULT_IMAGE_URL } from 'ex3/stores/PersistentCharacters';
 require('./PersistentCharacterEditor.less');
@@ -53,7 +54,9 @@ export default React.createClass({
 						/>
 
 					<div className="input-label">Essence Reserves</div>
-					<div className="essenceBlock">
+					<div className="essenceBlock"
+							{...makeKnobHandlers(pc.personalEss, this._personalEssOnChange)}
+							>
 						<i>Personal</i>{" "}
 						<IntegerSelect
 							className="big"
@@ -64,7 +67,9 @@ export default React.createClass({
 							value={pc.personalEss}
 							/>
 					</div>
-					<div className="essenceBlock">
+					<div className="essenceBlock"
+							{...makeKnobHandlers(pc.peripheralEss, this._peripheralEssOnChange)}
+							>
 						<i>Personal</i>{" "}
 						<IntegerSelect
 							className="big"
@@ -126,7 +131,7 @@ export default React.createClass({
 			who: this.props.persistentCharacter,
 			personal: newValue,
 		});
-		gaEvent('persistent-characters', 'set-personal-ess', null, newValue);
+		gaEvent('persistent-characters', 'set-personal-essence', null, newValue);
 	},
 
 	_peripheralEssOnChange: function(newValue) {
@@ -134,7 +139,7 @@ export default React.createClass({
 			who: this.props.persistentCharacter,
 			peripheral: newValue,
 		});
-		gaEvent('persistent-characters', 'set-peripheral-ess', null, newValue);
+		gaEvent('persistent-characters', 'set-peripheral-essence', null, newValue);
 	},
 
 	_notesOnChange: function(evt) {
