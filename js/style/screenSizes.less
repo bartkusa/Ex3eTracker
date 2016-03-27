@@ -2,13 +2,13 @@
 @maxSmallScreen: 549px;
 
 .screenBigOnly {
-	@media(max-width: @minBigScreen) {
+	@media(max-width: @maxSmallScreen) {
 		display: none !important;
 	}
 }
 
 .screenSmallOnly {
-	@media(min-width:@maxSmallScreen) {
+	@media(min-width: @minBigScreen) {
 		display: none !important;
 	}
 }
