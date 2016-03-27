@@ -1,5 +1,3 @@
-"use strict";
-
 import gaEvent from 'ex3/funcs/ga';
 import makeKnobHandlers from 'ex3/funcs/knobHandlers';
 
@@ -19,8 +17,6 @@ const INITIATIVE_RANGE = 15; // For initiative, render options from current+rang
 
 
 export default React.createClass({
-
-	_tapTimeout: null,
 
 	propTypes: {
 		className: React.PropTypes.string,
