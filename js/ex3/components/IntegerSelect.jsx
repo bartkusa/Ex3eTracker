@@ -69,7 +69,8 @@ export default createClass({
 
 
 function renderOptions({min, max, value}) {
-	let optionValues = rangeRight(Math.min(min, value), Math.max(value, max));
+	let optionValues = rangeRight(Math.min(min, value), Math.max(value, max) + 1);
+	// rangeRight excludes the maximum, so you need the +1 to get it in the array
 	if (optionValues.length === 0) optionValues = [value];
 
 	return optionValues.map((i) => (
