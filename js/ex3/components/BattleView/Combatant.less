@@ -1,19 +1,39 @@
 @row-height: 150px;
-@portrait-height: @row-height;
 
-@timing-width: 100px;
-@portrait-width: @portrait-height;
+@portrait-big-height: @row-height;
+@portrait-big-width: @portrait-big-height;
+@portrait-small-height: 40px;
+@portrait-small-width: @portrait-small-height;
 
+@control-column-width: 70px;
+
+@border-radius: 15px;
+@basic-margin: 15px;
+
+
+.strip {
+	display: -webkit-flex;
+	display: flex;
+	justify-content: space-between;
+}
 
 .Combatant {
 	height: @row-height;
-	border-radius: 10px;
+	border-radius: @border-radius;
 	background-color: #eee;
 
+	&.strip > * {
+		margin-right: @basic-margin;
+	}
+
+
+	// I fly around and animate things. I'm crazy. ---------------------------------------------------------------------
+
+	transform-origin: center center;
 	transition:
 		box-shadow 0.3s ease,
 		transform 0.3s ease;
-	transform-origin: center center;
+	
 
 	&.zHi {
 		transform: translate3d(0, 0, 0px);		
@@ -36,26 +56,23 @@
 		z-index: 99;
 	}
 
-	& > * {
-		display: inline-block;
-		vertical-align: top;
-	}
 
-	.Timing {
-		width: @timing-width;
-		padding: 15px;
-		transition: width 0.3s ease-out, padding 0.3s ease-out;
-		-webkit-transition: width 0.3s ease-out, padding 0.3s ease-out;
-	}
-	&.notInBattle .Timing {
-		width: 0px;
-		padding: 0px;
-	}
+	// Portrait --------------------------------------------------------------------------------------------------------
 
 	.Portrait {
-		height: @portrait-height;
-		width: @portrait-width;
+		border-top-left-radius: @border-radius;
 
+		&.screenSmallOnly {
+			float: left;
+			width:  @portrait-small-width;
+			height: @portrait-small-height;
+			margin-right: @basic-margin / 2;
+		}
+		&.screenBigOnly {
+			height: @portrait-big-height;
+			width: @portrait-big-width;
+			border-bottom-left-radius: @border-radius;
+		}
 		filter: grayscale(0);
 		-webkit-filter: grayscale(0);
 		transition: filter 1s ease-out;
@@ -66,21 +83,52 @@
 		-webkit-filter: grayscale(1);
 	}
 
-	.otherStuff {
-		box-sizing: border-box;
-		width: calc(~"100%" - (@timing-width + @portrait-width));
-		padding: 10px;
+
+	// Name and notes --------------------------------------------------------------------------------------------------
+
+	.bigFatBox {
+		flex-grow: 1; // fill the available space. most everything else has fixed width.
+
+		@media(max-width: 549px) {
+			// spacing bullshit for small Portrait
+			> * { margin-left: @basic-margin; }
+			> .strip-name { margin-left: 0; }
+		}
+
+		.strip-name {
+			height: 40px;
+			justify-content: flex-start;
+			align-items: center;
+		}
 
 		.name {
 			font-weight: bold;
 			font-size: larger;
 		}
+
 		.notes {
 			margin-top: 10px;
 			width: 100%;
 			border: 0;
 			resize: none;
 		}
+
+		// TODO: Fix spacing between notes and strip-name
+	}
+
+
+	// All the numbers and stuff on the right --------------------------------------------------------------------------
+
+	.centeredInputBlock {
+		width: @control-column-width;
+		margin-top: @basic-margin;
+	}
+	.Timing {
+		transition: width 0.3s ease-out, margin 0.3s ease-out;
+		-webkit-transition: width 0.3s ease-out, margin 0.3s ease-out;
+	}
+	&.notInBattle .Timing {
+		width: 0px;
+		margin: 0px;
 	}
 };
-

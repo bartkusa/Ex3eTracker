@@ -1,13 +1,18 @@
 "use strict";
 
 import React from 'react/react';
+import Essence from './Essence';
 import Timing from './Timing';
 import Portrait from 'ex3/components/Portrait';
+import IntegerSelect from 'ex3/components/IntegerSelect';
 
 import { CAN_GO, IS_GOING, HAS_GONE } from 'ex3/TurnStatus';
 import battleActions from 'ex3/actions/BattleActions';
 import combatantShape from 'ex3/shapes/Combatant';
 import { DEFAULT_IMAGE_URL } from 'ex3/stores/PersistentCharacters';
+
+import gaEvent from 'ex3/funcs/ga';
+import makeKnobHandlers from 'ex3/funcs/knobHandlers';
 
 require('./Combatant.less');
 require('style/screenSizes.less');
@@ -26,22 +31,31 @@ export default React.createClass({
 		const c = this.props.combatant;
 
 		return (
-			<div className={`Combatant ${c.isInBattle ? '' : 'notInBattle'} ${this._getZClassName()}`}>
-				<Timing combatant={c} tick={this.props.tick} />
-				<Portrait imgUrl={c.imgUrl} />
-				<div className="otherStuff">
-					<div className="clearfix">
+			<div className={`Combatant strip ${c.isInBattle ? '' : 'notInBattle'} ${this._getZClassName()}`}>
+				{ /*this._renderExitOrRemoveButton()*/ }
+
+				<Portrait className="screenBigOnly" imgUrl={c.imgUrl} />
+
+				<div className="bigFatBox">
+					<div className="strip strip-name clearfix">
+						<Portrait className="screenSmallOnly" imgUrl={c.imgUrl} />
 						<span className="name">{c.name}</span>
-						{ this._renderExitOrRemoveButton() }
 					</div>
-					<textarea
-						className="notes"
-						onChange={this._notesOnChange}
-						placeholder="Ephemeral notes"
-						rows="4"
-						value={c.notes}
-						/>
+
+					<div className="shrinkwrapForNotes">
+						<textarea
+							className="notes"
+							onChange={this._notesOnChange}
+							placeholder="Ephemeral notes"
+							rows="4"
+							value={c.notes}
+							/>
+					</div>
 				</div>
+
+				<Essence combatant={c} />
+				<Timing combatant={c} tick={this.props.tick} />
+
 			</div>
 		);
 	},
