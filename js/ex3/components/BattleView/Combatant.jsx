@@ -32,7 +32,6 @@ export default React.createClass({
 
 		return (
 			<div className={`Combatant strip ${c.isInBattle ? '' : 'notInBattle'} ${this._getZClassName()}`}>
-				{ /*this._renderExitOrRemoveButton()*/ }
 
 				<Portrait className="screenBigOnly" imgUrl={c.imgUrl} />
 
@@ -40,6 +39,7 @@ export default React.createClass({
 					<div className="strip strip-name clearfix">
 						<Portrait className="screenSmallOnly" imgUrl={c.imgUrl} />
 						<span className="name">{c.name}</span>
+						{ this._renderExitOrRemoveButton() }
 					</div>
 
 					<div className="shrinkwrapForNotes">
@@ -75,7 +75,7 @@ export default React.createClass({
 
 		if (this.props.round > 0) {
 			return (
-				<div style={{float: "right"}}>
+				<div className="killButton">
 					<button className="btn btn-xs btn-warning screenBigOnly" onClick={this._exitOnClick}>
 						Exit battle
 					</button>
@@ -87,7 +87,7 @@ export default React.createClass({
 		}
 
 		return (
-			<div style={{float: "right"}}>
+			<div className="killButton">
 				<button className="btn btn-xs btn-warning screenBigOnly" onClick={this._removeOnClick}>
 					Remove
 				</button>
