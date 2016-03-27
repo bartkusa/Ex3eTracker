@@ -164,14 +164,11 @@ export default {
 		const pcJSON = localStorage.getItem(LOCAL_STORAGE_KEY);
 		if (pcJSON) {
 			console.debug("Loaded:", pcJSON);
-			var pcData = JSON.parse( pcJSON );
-			if (pcData.version !== CUR_CHARACTER_VERSION) {
-				throw new Error("Loading failed; version mismatch: " + pcData.version);
-			}
+			var pcData = upgradeData( JSON.parse( pcJSON ) );
 		} else {
 			console.log("Loading defaults");
 			pcData = DEFAULT_PERSISTENT_CHARACTERS;
-			gaEvent('startup', 'startup-defaults', {nonInteraction: true});
+			gaEvent('startup', 'startup-defaults', 'v' + CUR_CHARACTER_VERSION, {nonInteraction: true});
 		}
 
 		const persistentCharacters = pcData.persistentCharacters || [];
@@ -186,7 +183,29 @@ export default {
 
 
 		if (pcJSON) {
-			gaEvent('startup', 'startup-load', undefined, persistentCharacters.length, {nonInteraction: true});
+			gaEvent('startup', 'startup-load', 'v' + pcData.version, persistentCharacters.length, {nonInteraction: true});
 		}
 	},
+};
+
+
+function upgradeData(pcData) {
+	switch(pcData.version) {
+		case CUR_CHARACTER_VERSION:
+			return pcData;
+		case 1:
+			return convertFromV1toV2(pcData);
+		default:
+			gaEvent('startup', 'startup-version-error', 'v' + pcData.version);
+			throw new Error("Loading failed; version mismatch: " + pcData.version);
+	}
+};
+
+function convertFromV1toV2(pcData) {
+	pcData.persistentCharacters
+		.forEach(pc => {
+			pc.personalEss = pc.peripheralEss = 0;
+		});
+	pcData.version = CUR_CHARACTER_VERSION;
+	return pcData;
 };
