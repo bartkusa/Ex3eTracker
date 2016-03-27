@@ -7,7 +7,7 @@ import throttle from 'lodash/throttle';
 
 require('./IntegerSelect.less');
 
-const MIN_MOUSEWHEEL_PERIOD = 1000 / 25;
+const MIN_MOUSEWHEEL_PERIOD = 33; //msec?? this is not acting like I expected
 
 
 export default createClass({
@@ -50,11 +50,14 @@ export default createClass({
 	},
 
 	render: function() {
+		const disabled = this.props.disabled || this.props.max <= this.props.min;
+
 		return (
 			<select {...this.props}
 					className={`IntegerSelect ${this.props.className || ""}`}
+					disabled={disabled}
 					onChange={this._onChange}
-					onWheel={this._onWheel}
+					onWheel={!disabled && this._onWheel}
 					value={this.props.value}
 					>
 				{ renderOptions(this.props) }
@@ -66,7 +69,8 @@ export default createClass({
 
 
 function renderOptions({min, max, value}) {
-	const optionValues = rangeRight(Math.min(min, value), Math.max(value, max));
+	let optionValues = rangeRight(Math.min(min, value), Math.max(value, max));
+	if (optionValues.length === 0) optionValues = [value];
 
 	return optionValues.map((i) => (
 		<option value={i} key={i}>
