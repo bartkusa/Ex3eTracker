@@ -1,7 +1,7 @@
 {
   "name": "exalted-3e-tracker",
   "private": true,
-  "version": "0.0.4",
+  "version": "0.1.0",
   "description": "An initiative-tracker for the Exalted 3E roleplaying game.",
   "author": "Andrew Bartkus",
   "license": "private",

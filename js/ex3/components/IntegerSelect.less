@@ -1,0 +1,17 @@
+.IntegerSelect {
+	border: 0;
+	background: #fff;
+
+	> option { direction: rtl; }
+
+	&.big {
+		font-weight: bold;
+		font-size: 150%;
+	}
+
+	&[disabled] {
+		opacity: 0.3;
+		color: #777;
+		cursor: not-allowed;
+	}
+}

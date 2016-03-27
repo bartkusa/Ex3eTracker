@@ -16,3 +16,15 @@ body {
 .theme-showcase .navbar .container {
   width: auto;
 }
+
+.container-fluid {
+	padding-left: 20px;
+	padding-right: 30px;
+}
+
+@media(min-width: 550px) {
+	.container-fluid {
+		padding-left: 8%;
+		padding-right: 8%;
+	}
+}

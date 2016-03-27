@@ -1,35 +1,45 @@
 {
-	"version": 1,
+	"version": 2,
 	"persistentCharacters": [
 		{
 			"id": 0,
 			"imgUrl": "./img/sigDiamond.jpg",
 			"name": "Prince Diamond",
-			"notes": "Welcome to the Tracker!\nPress [Join Battle] to track characters' initiative and turn status."
+			"notes": "Welcome to the Tracker!\nPress [Join Battle] to track characters' initiative and turn status.",
+			"personalEss": 13,
+			"peripheralEss": 33
 		},
 		{
 			"id": 1,
 			"imgUrl": "./img/sigPSoul.jpg",
 			"name": "Perfect Soul",
-			"notes": "You can replace characters' portraits by dragging-and-dropping images from other web pages.\n(Only works with a mouse, sorry. ;_;)"
+			"notes": "You can replace characters' portraits by dragging-and-dropping images from other web pages.\n(Only works with a mouse, sorry. ;_;)",
+			"personalEss": 13,
+			"peripheralEss": 31
 		},
 		{
 			"id": 2,
 			"imgUrl": "./img/sigVolfer.jpg",
 			"name": "Volfer",
-			"notes":"Use the Notes fields to write down characters' health, attacks, defenses, etc."
+			"notes":"Use the Notes fields to write down characters' health, attacks, defenses, etc.",
+			"personalEss": 13,
+			"peripheralEss": 28
 		},
 		{
 			"id": 3,
 			"imgUrl": "./img/sigNovia.jpg",
 			"name": "Novia Claro",
-			"notes": "Press [Save] at the top, and your browser will remember everything for next time."
+			"notes": "Press [Save] at the top, and your browser will remember everything for next time.",
+			"personalEss": 13,
+			"peripheralEss": 29
 		},
 		{
 			"id": 4,
 			"imgUrl": "./img/sigShen.jpg",
 			"name": "Iselsi Shen",
-			"notes": ""
+			"notes": "",
+			"personalEss": 13,
+			"peripheralEss": 30
 		}
 	]
 }

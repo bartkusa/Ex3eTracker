@@ -11,7 +11,7 @@ export const LOCAL_STORAGE_KEY = "savedPersistentCharacters";
 export const DEFAULT_IMAGE_URL = "./img/charDefault.jpg"; // TODO: Define image root location
 
 const UNSAVED_CHANGES_WARNING = "Your character roster has unsaved changes, which will be lost if you leave.";
-
+const CUR_CHARACTER_VERSION = 2;
 
 export default {
 
@@ -46,6 +46,8 @@ export default {
 		newPCs.forEach((newPC) => {
 			newPC.id = nextId++;
 			if (!newPC.imgUrl) newPC.imgUrl = DEFAULT_IMAGE_URL;
+			if (newPC.personalEss == null) newPC.personalEss   = 13;  // Default values for solars
+			if (newPC.peripheral == null)  newPC.peripheralEss = 33;
 		});
 
 		this.setState({
@@ -104,12 +106,23 @@ export default {
 		this.setState({ areUnsavedChanges: true });
 	},
 
+	onSetEssence: function({who, personal, peripheral}) {
+		this.state.persistentCharacters
+				.filter((pc) => charUtils.idsMatch(pc, who))
+				.forEach((pc) => {
+					if (personal != null)   pc.personalEss   = Math.max(0, personal);
+					if (peripheral != null) pc.peripheralEss = Math.max(0, peripheral);
+				}); // this is so stupid just do redux already
+
+		this.setState({ areUnsavedChanges: true });
+	},
+
 
 	// Persistence /////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	onSave: function() {
 		const pcData = {
-			version: 1,
+			version: 2,
 			persistentCharacters: [...this.state.persistentCharacters].sort((a, b) => a.id - b.id),
 		};
 		localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(pcData));
@@ -130,7 +143,7 @@ export default {
 
 		console.debug("Loaded:", pcJSON);
 		const pcData = JSON.parse( pcJSON );
-		if (pcData.version !== 1) {
+		if (pcData.version !== CUR_CHARACTER_VERSION) {
 			throw new Error("Loading failed; version mismatch: " + pcData.version);
 		}
 
@@ -151,14 +164,11 @@ export default {
 		const pcJSON = localStorage.getItem(LOCAL_STORAGE_KEY);
 		if (pcJSON) {
 			console.debug("Loaded:", pcJSON);
-			var pcData = JSON.parse( pcJSON );
-			if (pcData.version !== 1) {
-				throw new Error("Loading failed; version mismatch: " + pcData.version);
-			}
+			var pcData = upgradeData( JSON.parse( pcJSON ) );
 		} else {
 			console.log("Loading defaults");
 			pcData = DEFAULT_PERSISTENT_CHARACTERS;
-			gaEvent('startup', 'startup-defaults', {nonInteraction: true});
+			gaEvent('startup', 'startup-defaults', 'v' + CUR_CHARACTER_VERSION, {nonInteraction: true});
 		}
 
 		const persistentCharacters = pcData.persistentCharacters || [];
@@ -173,7 +183,29 @@ export default {
 
 
 		if (pcJSON) {
-			gaEvent('startup', 'startup-load', undefined, persistentCharacters.length, {nonInteraction: true});
+			gaEvent('startup', 'startup-load', 'v' + pcData.version, persistentCharacters.length, {nonInteraction: true});
 		}
 	},
+};
+
+
+function upgradeData(pcData) {
+	switch(pcData.version) {
+		case CUR_CHARACTER_VERSION:
+			return pcData;
+		case 1:
+			return convertFromV1toV2(pcData);
+		default:
+			gaEvent('startup', 'startup-version-error', 'v' + pcData.version);
+			throw new Error("Loading failed; version mismatch: " + pcData.version);
+	}
+};
+
+function convertFromV1toV2(pcData) {
+	pcData.persistentCharacters
+		.forEach(pc => {
+			pc.personalEss = pc.peripheralEss = 0;
+		});
+	pcData.version = CUR_CHARACTER_VERSION;
+	return pcData;
 };

@@ -12,6 +12,7 @@ import { CAN_GO, IS_GOING, HAS_GONE } from 'ex3/TurnStatus';
 require('./BattleView.less');
 require('style/semanticList.less')
 
+
 export default React.createClass({
 
 	propTypes: battleShape.isRequired,
@@ -51,7 +52,7 @@ export default React.createClass({
 				End Battle
 			</button>,
 			<button className={`btn btn-lg ${nextRoundButtonClass}`}
-					disabled={gameOver}
+					disabled={gameOver || !nobodyCanGo}
 					key="next"
 					onClick={this._nextRoundOnClick}
 					>
@@ -114,7 +115,7 @@ export default React.createClass({
 
 		return (
 			<button className={`btn btn-lg ${nextRoundButtonClass}`}
-					disabled={gameOver}
+					disabled={gameOver || !nobodyCanGo}
 					onClick={this._nextRoundOnClick}
 					>
 				Next Round

@@ -10,6 +10,11 @@ export default PropTypes.shape({
 	imgUrl: PropTypes.string,
 	notes: PropTypes.string,
 
+	personalEss: PropTypes.number,
+	maxPersonalEss: PropTypes.number,
+	peripheralEss: PropTypes.number,
+	maxPeripheralEss: PropTypes.number,
+
 	isInBattle: PropTypes.bool.isRequired,
 	initiative: PropTypes.number.isRequired,
 	turnStatus: PropTypes.oneOf( TurnStatuses ),

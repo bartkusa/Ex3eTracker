@@ -6,6 +6,7 @@ const CharActions = module.exports = reflux.createActions([
 	"update",
 	"save",
 	"load",
+	"setEssence",
 ]);
 
 [
