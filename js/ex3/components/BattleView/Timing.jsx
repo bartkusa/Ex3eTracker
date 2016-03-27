@@ -12,6 +12,7 @@ import * as TurnStatus from 'ex3/TurnStatus';
 import { DEFAULT_INIT } from 'ex3/stores/BattleStore';
 
 require('./Timing.less');
+require('style/centeredInputBlock.less');
 require('style/noLongPress.less');
 
 const INITIATIVE_RANGE = 15; // For initiative, render options from current+range to current-range, modulo weirdness.
@@ -22,16 +23,19 @@ export default React.createClass({
 	_tapTimeout: null,
 
 	propTypes: {
+		className: React.PropTypes.string,
 		combatant: combatantShape.isRequired,
 		tick: React.PropTypes.number,
 	},
 
 	render: function() {
+		const classNames = `Timing centeredInputBlock noLongPress ${this.props.className || ''}`;
+
 		const c = this.props.combatant;
-		if (!c.isInBattle) return <div className="Timing noLongPress"></div>;
+		if (!c.isInBattle) return <div className={classNames}></div>;
 
 		return (
-			<div className="Timing noLongPress">
+			<div className={classNames}>
 				<div {...makeKnobHandlers(c.initiative, this._initiativeOnChange)}
 						onWheel={ this._initiativeOnWheel }
 						>
