@@ -101,8 +101,8 @@ export default {
 		this.state.persistentCharacters
 				.filter(pc => charUtils.idsMatch(pc, who))
 				.forEach(pc => {
-					if (imgPosX) pc.imgPosX = imgPosX;
-					if (imgPosY) pc.imgPosY = imgPosY;
+					if (imgPosX) pc.imgPosX = Math.max(0, Math.min(imgPosX, 100));
+					if (imgPosY) pc.imgPosY = Math.max(0, Math.min(imgPosY, 100));
 				});
 
 		this.setState({ areUnsavedChanges: true });
