@@ -8,6 +8,7 @@ import PersistentCharShape from 'ex3/shapes/PersistentCharacter';
 import charActions from 'ex3/actions/CharActions';
 import gaEvent from 'ex3/funcs/ga';
 import makeKnobHandlers from 'ex3/funcs/knobHandlers';
+import truncate from 'ex3/funcs/truncate';
 
 import { DEFAULT_IMAGE_URL } from 'ex3/stores/PersistentCharacters';
 require('./PersistentCharacterEditor.less');
@@ -30,6 +31,9 @@ export default React.createClass({
 				<div className="portraitBox">
 					<Portrait
 						imgUrl={pc.imgUrl}
+						imgPosX={pc.imgPosX}
+						imgPosY={pc.imgPosY}
+						onClick={this._portraitOnClick}
 						onDragEnter={allowDropIfHasUri}
 						onDragOver={allowDropIfHasUri}
 						onDrop={this._portraitImageOnDrop}
@@ -127,6 +131,19 @@ export default React.createClass({
 		});
 	},
 
+	_portraitOnClick: function(evt) {
+		const portraitNode = evt.target;
+
+		const xPx = evt.pageX - portraitNode.offsetLeft;
+		const yPx = evt.pageY - portraitNode.offsetTop;
+
+		charActions.setPortraitCenter({
+			who:  this.props.persistentCharacter,
+			imgPosX: truncate(100 * xPx / portraitNode.clientWidth),
+			imgPosY: truncate(100 * yPx / portraitNode.clientHeight),
+		});
+	},
+
 	_portraitImageOnDrop: function(evt) {
 		evt.preventDefault();
 		if (!hasUri(evt)) return;
@@ -146,7 +163,7 @@ export default React.createClass({
 			who: this.props.persistentCharacter,
 			url: evt.target.value,
 		});
-		gaEvent('persistent-characters', 'set-portrait-typing', url);
+		gaEvent('persistent-characters', 'set-portrait-typing');
 	},
 
 	_portraitUrlOnFocus: function(evt) {
@@ -163,7 +180,7 @@ export default React.createClass({
 				who: this.props.persistentCharacter,
 				url: portraitLoadEvent.target.result,
 			});
-			gaEvent('persistent-characters', 'set-portrait-upload', url);
+			gaEvent('persistent-characters', 'set-portrait-upload', null, portraitLoadEvent.target.result.length);
 		};
 		fileReader.readAsDataURL(portraitFile);
 	},

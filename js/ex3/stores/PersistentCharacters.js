@@ -13,6 +13,7 @@ export const DEFAULT_IMAGE_URL = "./img/charDefault.jpg"; // TODO: Define image 
 const UNSAVED_CHANGES_WARNING = "Your character roster has unsaved changes, which will be lost if you leave.";
 const CUR_CHARACTER_VERSION = 2;
 
+
 export default {
 
 	listenables: charActions,
@@ -92,6 +93,17 @@ export default {
 				.forEach((pc) => {
 					pc.imgUrl = args.url;
 				}); // this is so stupid just do redux already
+
+		this.setState({ areUnsavedChanges: true });
+	},
+
+	onSetPortraitCenter: function({who, imgPosX, imgPosY}) {
+		this.state.persistentCharacters
+				.filter(pc => charUtils.idsMatch(pc, who))
+				.forEach(pc => {
+					if (imgPosX) pc.imgPosX = imgPosX;
+					if (imgPosY) pc.imgPosY = imgPosY;
+				});
 
 		this.setState({ areUnsavedChanges: true });
 	},

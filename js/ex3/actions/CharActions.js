@@ -7,12 +7,13 @@ const CharActions = module.exports = reflux.createActions([
 	"save",
 	"load",
 	"setEssence",
+	"setPortraitCenter",
 ]);
 
 [
 	'setName',
 	'setPortrait',
-	'setNotes'
+	'setNotes',
 ].forEach((a) => {
 	CharActions[a] = reflux.createAction({sync: true});
 });
