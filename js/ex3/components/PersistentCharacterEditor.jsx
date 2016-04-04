@@ -52,6 +52,18 @@ export default React.createClass({
 						onFocus={this._portraitUrlOnFocus}
 						ref="portraitUrl"
 						/>
+					{" "}
+					<input className="hideFileInput"
+							name={`uploadPortrait${pc.id}`}
+							id={`uploadPortrait${pc.id}`}
+							onChange={ this._handleUploadPortrait }
+							type="file"
+							/>
+					<label className="portraitUploadLabel btn btn-xs btn-default"
+							htmlFor={`uploadPortrait${pc.id}`}
+							>
+						Upload a picture
+					</label>
 
 					<div className="input-label">Essence Reserves</div>
 					<div className="essenceBlock"
@@ -120,10 +132,26 @@ export default React.createClass({
 			who: this.props.persistentCharacter,
 			url: evt.target.value,
 		});
+		gaEvent('persistent-characters', 'set-portrait-typing', url);
 	},
 
 	_portraitUrlOnFocus: function(evt) {
 		this.refs.portraitUrl.setSelectionRange(0, this.props.persistentCharacter.imgUrl.length);
+	},
+
+	_handleUploadPortrait: function(evt) {
+		const portraitFile = (evt.target.files || [])[0];
+		if (!portraitFile) console.error("Couldn't load file.");
+
+		const fileReader = new FileReader();
+		fileReader.onload = (portraitLoadEvent) => {
+			charActions.setPortrait({
+				who: this.props.persistentCharacter,
+				url: portraitLoadEvent.target.result,
+			});
+			gaEvent('persistent-characters', 'set-portrait-upload', url);
+		};
+		fileReader.readAsDataURL(portraitFile);
 	},
 
 	_personalEssOnChange: function(newValue) {

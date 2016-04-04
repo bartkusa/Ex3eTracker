@@ -19,6 +19,7 @@
 		clear: right;
 		margin-left: 1em;
 		text-align: center;
+		//cursor: crosshair;
 
 		@media (min-width: @minBigScreen) {
 			float: none;
@@ -34,6 +35,15 @@
 			max-height: 25vw;
 			margin-bottom: 5px;
 		}
+	}
+	.hideFileInput {
+		// http://tympanus.net/codrops/2015/09/15/styling-customizing-file-inputs-smart-way/
+		width: 0.1px;
+		height: 0.1px;
+		opacity: 0;
+		overflow: hidden;
+		position: absolute;
+		z-index: -1;
 	}
 	.fields {
 		width: 100%;
