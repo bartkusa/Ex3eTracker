@@ -37,6 +37,12 @@ export default React.createClass({
 						onDragEnter={allowDropIfHasUri}
 						onDragOver={allowDropIfHasUri}
 						onDrop={this._portraitImageOnDrop}
+						onMouseDown={this._portraitOnMouseDown}
+						onMouseMove={this._portraitOnMouseMove}
+						onMouseUp={this._portraitOnMouseUp}
+						onTouchStart={this._portraitOnTouchStart}
+						onTouchMove={this._portraitOnTouchMove}
+						onTouchEnd={this._portraitOnTouchEnd}
 						/>
 					<div>
 						<button className="remove btn btn-xs btn-danger" onClick={this._removeOnClick}>Delete</button>
@@ -131,19 +137,6 @@ export default React.createClass({
 		});
 	},
 
-	_portraitOnClick: function(evt) {
-		const portraitNode = evt.target;
-
-		const xPx = evt.pageX - portraitNode.offsetLeft;
-		const yPx = evt.pageY - portraitNode.offsetTop;
-
-		charActions.setPortraitCenter({
-			who:  this.props.persistentCharacter,
-			imgPosX: truncate(100 * xPx / portraitNode.clientWidth),
-			imgPosY: truncate(100 * yPx / portraitNode.clientHeight),
-		});
-	},
-
 	_portraitImageOnDrop: function(evt) {
 		evt.preventDefault();
 		if (!hasUri(evt)) return;
@@ -156,6 +149,34 @@ export default React.createClass({
 			url,
 		});
 		gaEvent('persistent-characters', 'set-portrait-dragdrop', url);
+	},
+
+	_portraitOnMouseDown: function(evt) {
+		console.log("down");
+		this._firePortraitCenterAction(evt);
+		this._isSettingFocus = true;
+	},
+
+	_portraitOnMouseMove: function(evt) {
+		if (this._isSettingFocus) this._firePortraitCenterAction(evt);
+	},
+
+	_portraitOnMouseUp: function(evt) {
+		this._isSettingFocus = false;
+		gaEvent('persistent-characters', 'set-portrait-focus');
+	},
+
+	_portraitOnTouchStart: function(evt) {
+		evt.preventDefault();
+		this._portraitOnMouseDown(evt);
+	},
+
+	_portraitOnTouchMove: function(evt) {
+		if (this._isSettingFocus) this._portraitOnMouseMove(evt);
+	},
+
+	_portraitOnTouchEnd: function(evt) {
+		if (this._isSettingFocus) this._portraitOnMouseUp(evt);
 	},
 
 	_portraitUrlOnChange: function(evt) {
@@ -210,6 +231,23 @@ export default React.createClass({
 
 	_removeOnClick: function(evt) {
 		charActions.remove( this.props.persistentCharacter );
+	},
+
+	_firePortraitCenterAction: function(evt) {
+		const portraitNode = evt.target;
+
+		const {pageX, pageY} = (evt.targetTouches)
+			? evt.targetTouches[0]
+			: evt;
+
+		const xPx = pageX - portraitNode.offsetLeft;
+		const yPx = pageY - portraitNode.offsetTop;
+
+		charActions.setPortraitCenter({
+			who:  this.props.persistentCharacter,
+			imgPosX: truncate(100 * xPx / portraitNode.clientWidth),
+			imgPosY: truncate(100 * yPx / portraitNode.clientHeight),
+		});
 	},
 });
 
