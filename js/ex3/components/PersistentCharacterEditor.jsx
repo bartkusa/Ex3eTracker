@@ -13,6 +13,7 @@ import { DEFAULT_IMAGE_URL } from 'ex3/stores/PersistentCharacters';
 require('./PersistentCharacterEditor.less');
 
 const ESSENCE_RANGE = 20;
+const IS_FILE_READING_SUPPORTED = (typeof FileReader !== 'undefined');
 
 
 export default React.createClass({
@@ -52,18 +53,7 @@ export default React.createClass({
 						onFocus={this._portraitUrlOnFocus}
 						ref="portraitUrl"
 						/>
-					{" "}
-					<input className="hideFileInput"
-							name={`uploadPortrait${pc.id}`}
-							id={`uploadPortrait${pc.id}`}
-							onChange={ this._handleUploadPortrait }
-							type="file"
-							/>
-					<label className="portraitUploadLabel btn btn-xs btn-default"
-							htmlFor={`uploadPortrait${pc.id}`}
-							>
-						Upload a picture
-					</label>
+					{ this._renderPortraitUploadButton() }
 
 					<div className="input-label">Essence Reserves</div>
 					<div className="essenceBlock"
@@ -103,6 +93,30 @@ export default React.createClass({
 							/>
 				</div>
 			</div>
+		);
+	},
+
+	_renderPortraitUploadButton: function() {
+		if (!IS_FILE_READING_SUPPORTED) return <noscript />;
+
+		const pc = this.props.persistentCharacter;
+		const htmlId = `uploadPortrait${pc.id}`;
+
+		return (
+			<span>
+				{" "}
+				<input className="hideFileInput"
+						name={htmlId}
+						id={htmlId}
+						onChange={ this._handleUploadPortrait }
+						type="file"
+						/>
+				<label className="portraitUploadLabel btn btn-xs btn-default"
+						htmlFor={htmlId}
+						>
+					Upload a picture
+				</label>
+			</span>
 		);
 	},
 
